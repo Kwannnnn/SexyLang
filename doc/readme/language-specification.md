@@ -15,6 +15,8 @@ SexyLang is an esoteric programming language inspired by the fountain of life, t
 - Equals ( *==* )
 - Less than ( *<* )
 - Greater than ( *>* )
+- And ( *and* )
+- Or ( *or* )
 
 
 ## 2. Variable Types
@@ -66,7 +68,7 @@ SexyLang has the following statements
             Variable assignment
         </td>
         <td>
-            <pre><b>insert</b> SafeWord "shrek" <b>in</b> safeword<br><br><b>insert "shrek2" in safeword </pre>
+            <pre><b>insert</b> SafeWord "shrek" <b>in</b> safeword<br><br><b>insert</b> "shrek2" in safeword </pre>
         </td>
     </tr>
     <tr>
@@ -165,18 +167,18 @@ SexyLang has the following statements
 
 ### 4.1. Good weather examples
 
-#### **HelloSexy.sx** - a very basic program that prints the String *Hello Sexy!* on the console
+#### **HelloSexy.sexy** - a very basic program that prints the String *Hello Sexy!* on the console
 
 <pre>
-<b>bedActivity</b> intercourse () {
+<b>bedActivity</b> intercourse() {
     moanLoud "Hello Sexy!"
 }
 </pre>
 
-#### **ItsMoreComplicated.sx** - a program that stores a number and increments it based on a condition
+#### **ItsMoreComplicated.sexy** - a program that stores a number and increments it based on a condition
 
 <pre>
-<b>bedActivity</b> intercourse () {
+<b>bedActivity</b> intercourse() {
     <b>insert bodyCount</b> 0 <b>in</b> rounds
     <b>insert bulge soft in</b> isTired
     <b>if</b> (!isTired) {
@@ -186,8 +188,68 @@ SexyLang has the following statements
 }
 </pre>
 
-variable and if statement
-basic while loop
-asking user input
+#### **ItsWayMoreComplicated.sexy** - a program that prints out different Strings based on different conditions
 
+<pre>
+<b>bedActivity</b> intercourse() {
+    <b>insert bodyCount</b> 16 <b>in</b> p1Age
+    <b>insert bodyCount</b> 21 <b>in</b> p2Age
+    <b>insert bulge soft in</b> isConsensual
+    <b>if</b> (isConsensual) {
+        <b>if</b> (p1Age < 16 <b>or</b> p2Age < 16) {
+            moanLoud "Hey, that's illegal!"
+        } <b>else</b> {
+            moanLoud "Here we go!"
+        }
+    } <b> else </b> {
+        moanLoud "I respect your boring decision"
+    }
+}
+</pre>
+
+#### **Toy.sexy** - a program that continually runs in a loop until a certain condition is false
+<pre>
+<b>bedActivity</b> playToy() {
+    <b>insert length</b> 69.6 <b>in</b> toyBattery
+    <b>lube</b> (toyBattery >= 0) {
+        <b>moanLoud</b> "It's better than the real thing!"
+        <b>insert</b> toyBattery - 10 <b>in</b> toyBattery
+    }
+    <b>moanLoud</b> "The fun is over. No more battery!"
+}
+
+</pre>
 ### 4.2. Bad weather examples
+#### **.sexy** - a basic program that assigns a wrong value to a variable type and then tries to print it.
+
+<pre>
+<b>bedActivity</b> intercourse() {
+    <b>insert length</b> "long" <b>in</b> dLength
+    moanLoud dLength
+}
+</pre>
+
+#### **.sexy** - a program that has an if statement with empty condition
+
+<pre>
+<b>bedActivity</b> intercourse() {
+    <b>insert bulge soft in</b> isTired
+    <b>if</b> () {
+        <b>moanLoud</b> "Another round, baby!"
+    }
+}
+</pre>
+
+#### **.sexy** - a program that performs an infinite loop.
+
+<pre>
+<b>bedActivity</b> playToy() {
+    <b>insert length</b> 69.6 <b>in</b> toyBattery
+    <b>lube</b> (toyBattery >= 0) {
+        <b>moanLoud</b> "It's better than the real thing!"
+    }
+    <b>moanLoud</b> "The fun is over. No more battery!"
+}
+</pre>
+
+
