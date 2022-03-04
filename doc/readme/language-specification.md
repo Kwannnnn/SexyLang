@@ -178,7 +178,7 @@ SexyLang has the following statements
 #### **ItsMoreComplicated.sexy** - a program that stores a number and increments it based on a condition
 
 <pre>
-<b>bedActivity</b> intercourse() {
+<b>bedActivity</b> moreComplicated() {
     <b>insert bodyCount</b> 0 <b>in</b> rounds
     <b>insert bulge soft in</b> isTired
     <b>if</b> (!isTired) {
@@ -191,7 +191,7 @@ SexyLang has the following statements
 #### **ItsWayMoreComplicated.sexy** - a program that prints out different Strings based on different conditions
 
 <pre>
-<b>bedActivity</b> intercourse() {
+<b>bedActivity</b> wayMoreComplicated() {
     <b>insert bodyCount</b> 16 <b>in</b> p1Age
     <b>insert bodyCount</b> 21 <b>in</b> p2Age
     <b>insert bulge soft in</b> isConsensual
@@ -203,6 +203,22 @@ SexyLang has the following statements
         }
     } <b> else </b> {
         moanLoud "I respect your boring decision"
+    }
+}
+</pre>
+
+#### **Safeword.sexy** - a program that declares a function that accepts a parameter and returns a result
+
+<pre>
+<b>bedActivity</b> safeword() {
+    <b>insert Safeword</b> "shrek" <b>in</b> safeword
+    <b>insert bulge</b> checkSafeword(safeword) <b>in</b> safewordIsCorrect
+
+    <b>bedActivity bulge</b> checkSafeword(Safeword safeword) {
+        <b>if</b> (safeword != "shrek") {
+            <b>return false</b>
+        }
+        <b>return true</b>
     }
 }
 </pre>
@@ -220,19 +236,28 @@ SexyLang has the following statements
 
 </pre>
 ### 4.2. Bad weather examples
-#### **.sexy** - a basic program that assigns a wrong value to a variable type and then tries to print it.
+#### **WrongLength.sexy** - a basic program that assigns a wrong value to a variable type and then tries to print it.
 
 <pre>
-<b>bedActivity</b> intercourse() {
+<b>bedActivity</b> wrongLength() {
     <b>insert length</b> "long" <b>in</b> dLength
     moanLoud dLength
 }
 </pre>
 
-#### **.sexy** - a program that has an if statement with empty condition
+#### **NoLength.sexy** - a basic program that assigns a value to a variable that has not been declared.
 
 <pre>
-<b>bedActivity</b> intercourse() {
+<b>bedActivity</b> noLength() {
+    <b>insert</b> "long" <b>in</b> dLength
+    moanLoud dLength
+}
+</pre>
+
+#### **Empty.sexy** - a program that has an if statement with an empty condition
+
+<pre>
+<b>bedActivity</b> empty() {
     <b>insert bulge soft in</b> isTired
     <b>if</b> () {
         <b>moanLoud</b> "Another round, baby!"
@@ -240,15 +265,31 @@ SexyLang has the following statements
 }
 </pre>
 
-#### **.sexy** - a program that performs an infinite loop.
+#### **WrongToy.sexy** - a program that performs an infinite loop.
 
 <pre>
-<b>bedActivity</b> playToy() {
+<b>bedActivity</b> wrongToy() {
     <b>insert length</b> 69.6 <b>in</b> toyBattery
     <b>lube</b> (toyBattery >= 0) {
         <b>moanLoud</b> "It's better than the real thing!"
     }
     <b>moanLoud</b> "The fun is over. No more battery!"
+}
+</pre>
+
+#### **WrongSafeword.sexy** - a program that declares a function that accepts a parameter and returns a result. However, this time the parameter is of the wrong type.
+
+<pre>
+<b>bedActivity</b> wrongSafeword() {
+    <b>insert bulge</b> false <b>in</b> safeword
+    <b>insert bulge</b> checkSafeword(safeword) <b>in</b> safewordIsCorrect
+
+    <b>bedActivity bulge</b> checkSafeword(Safeword safeword) {
+        <b>if</b> (safeword != "shrek") {
+            <b>return false</b>
+        }
+        <b>return true</b>
+    }
 }
 </pre>
 
