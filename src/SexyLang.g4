@@ -1,28 +1,85 @@
 grammar SexyLang;
 
-program: statement*;
+program: (expression | statement)*;
 
-expr
+// EXPRESSIONS
+expression
     : literal
+    | arithmeticExpression
+    | logicExpression
+    | bedActivityCall
     ;
 
-literal
-    : bulgeLiteral
-    | bodyCountLiteral
-    | lengthLiteral
-    | safeWordLiteral
+arithmeticExpression
+    : bodyCountLiteral arithmeticOperator bodyCountLiteral
+    | lengthLiteral arithmeticOperator lengthLiteral
     ;
 
+logicExpression
+    : unaryLogicExpression
+    | comparable binaryLogicOperator comparable
+    ;
+
+comparable
+    : literal
+    | unaryLogicExpression
+    ;
+
+unaryLogicExpression
+    : NEG? bulgeLiteral
+    ;
+
+bedActivityCall
+    : IDENTIFIER L_PAREN params? R_PAREN;
+
+params
+    : (expression | IDENTIFIER) (COMMA (expression | IDENTIFIER))*
+    ;
+
+// STATEMENTS
 statement
     : varDeclaration
     | varAssignment
-    | printStmt
+    | moanStmt
+    | ifStmt
+    | lubeStmt
+    | bedActivityStmt
     ;
 
-varDeclaration: INSERT type literal IN IDENTIFIER;
-varAssignment: INSERT literal IN IDENTIFIER;
-printStmt: (MOAN | MOANLOUD) expr;
+block
+    : L_CURLY blockStatement? R_CURLY
+    ;
 
+blockStatement
+    : varDeclaration
+    | varAssignment
+    | moanStmt
+    | ifStmt
+    | lubeStmt
+    | ejaculateStmt
+    ;
+
+varDeclaration: INSERT type expression IN IDENTIFIER;
+varAssignment: INSERT expression IN IDENTIFIER;
+moanStmt: (MOAN | MOANLOUD) (expression | IDENTIFIER);
+ejaculateStmt: EJACULATE (expression | IDENTIFIER)?;
+ifStmt: IF L_PAREN condition R_PAREN block elseStmt?;
+elseStmt: ELSE (block | ifStmt);
+lubeStmt: LUBE condition block;
+bedActivityStmt: BEDACTIVITY IDENTIFIER type? L_PAREN paramsDeclaration? R_PAREN block;
+
+paramsDeclaration
+    : type IDENTIFIER
+    ;
+
+// LOGIC
+condition
+    : expression
+    | expression ((AND | OR) expression)*
+    ;
+
+// TYPES AND LITERALS
+// Types
 type
     : BULGE
     | BODYCOUNT
@@ -30,21 +87,12 @@ type
     | SAFEWORD
     ;
 
-keyword
-    : BULGE
-    | BODYCOUNT
-    | LENGTH
-    | SAFEWORD
-    | INSERT
-    | IN
-    | MOAN
-    | MOANLOUD
-    | BEDACTIVITY
-    | EJACULATE
-    | IF
-    | ELSEIF
-    | ELSE
-    | LUBE
+// Literals
+literal
+    : bulgeLiteral
+    | bodyCountLiteral
+    | lengthLiteral
+    | safeWordLiteral
     ;
 
 bulgeLiteral
@@ -70,7 +118,6 @@ MOANLOUD:       'moanLoud';
 BEDACTIVITY:    'bedActivity';
 EJACULATE:      'ejaculate';
 IF:             'if';
-ELSEIF:         'elseif';
 ELSE:           'else';
 LUBE:           'lube';
 // Other
@@ -80,18 +127,31 @@ SOFT:           'soft';
 // SEPARATORS
 L_PAREN:    '(';
 R_PAREN:    ')';
-L_BRACE:    '{';
-R_BRACE:    '}';
+L_CURLY:    '{';
+R_CURLY:    '}';
 COMMA:      ',';
 
 // OPERATORS
 // Arithmetic
+arithmeticOperator
+    : ADD
+    | SUB
+    | MULT
+    | DIV
+    ;
 ADD:        '+';
 SUB:        '-';
 MULT:       '*';
 DIV:        '/';
-NEG:        '!';
 // Logic
+binaryLogicOperator
+    : EQUAL
+    | GT
+    | LT
+    | GE
+    | LE
+    ;
+NEG:        '!';
 EQUAL:      '==';
 GT:         '>';
 LT:         '<';
