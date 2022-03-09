@@ -1,40 +1,26 @@
 grammar SexyLang;
 
-program: (expression | statement)*;
+program: (expression | statement)* EOF;
 
 // EXPRESSIONS
 expression
-    : literal
-    | arithmeticExpression
-    | logicExpression
-    | bedActivityCall
+    : NEG expression                                                    #NegationExpression
+    | left=expression op=(MUL | DIV) right=expression                   #MulDivExpression
+    | left=expression op=(ADD | SUB) right=expression                   #AddSubExpression
+    | left=expression op=(EQUAL | LE | GE | LT | GT) right=expression   #LogicExpression
+    | expression op=(AND | OR) expression                               #ChainedLogicExpression
+    | L_PAREN expression R_PAREN                                        #GroupExpression
+    | bedActivityCall                                                   #BedActivitCallExpression
+    | literal                                                           #LiteralExpression
+    | IDENTIFIER                                                        #IdentifierExpression
     ;
 
-arithmeticExpression
-    : bodyCountLiteral arithmeticOperator bodyCountLiteral
-    | lengthLiteral arithmeticOperator lengthLiteral
-    ;
+ bedActivityCall
+     : IDENTIFIER L_PAREN params? R_PAREN;
 
-logicExpression
-    : unaryLogicExpression
-    | comparable binaryLogicOperator comparable
-    ;
-
-comparable
-    : literal
-    | unaryLogicExpression
-    ;
-
-unaryLogicExpression
-    : NEG? bulgeLiteral
-    ;
-
-bedActivityCall
-    : IDENTIFIER L_PAREN params? R_PAREN;
-
-params
-    : (expression | IDENTIFIER) (COMMA (expression | IDENTIFIER))*
-    ;
+ params
+     : expression (COMMA expression)*
+     ;
 
 // STATEMENTS
 statement
@@ -46,10 +32,6 @@ statement
     | bedActivityStmt
     ;
 
-block
-    : L_CURLY blockStatement? R_CURLY
-    ;
-
 blockStatement
     : varDeclaration
     | varAssignment
@@ -59,23 +41,21 @@ blockStatement
     | ejaculateStmt
     ;
 
+block
+    : L_CURLY blockStatement? R_CURLY
+    ;
+
 varDeclaration: INSERT type expression IN IDENTIFIER;
 varAssignment: INSERT expression IN IDENTIFIER;
-moanStmt: (MOAN | MOANLOUD) (expression | IDENTIFIER);
-ejaculateStmt: EJACULATE (expression | IDENTIFIER)?;
-ifStmt: IF L_PAREN condition R_PAREN block elseStmt?;
+moanStmt: (MOAN | MOANLOUD) expression;
+ejaculateStmt: EJACULATE expression?;
+ifStmt: IF L_PAREN expression R_PAREN block elseStmt?;
 elseStmt: ELSE (block | ifStmt);
-lubeStmt: LUBE condition block;
+lubeStmt: LUBE expression block;
 bedActivityStmt: BEDACTIVITY IDENTIFIER type? L_PAREN paramsDeclaration? R_PAREN block;
 
 paramsDeclaration
     : type IDENTIFIER
-    ;
-
-// LOGIC
-condition
-    : expression
-    | expression ((AND | OR) expression)*
     ;
 
 // TYPES AND LITERALS
@@ -133,24 +113,11 @@ COMMA:      ',';
 
 // OPERATORS
 // Arithmetic
-arithmeticOperator
-    : ADD
-    | SUB
-    | MULT
-    | DIV
-    ;
 ADD:        '+';
 SUB:        '-';
-MULT:       '*';
+MUL:       '*';
 DIV:        '/';
 // Logic
-binaryLogicOperator
-    : EQUAL
-    | GT
-    | LT
-    | GE
-    | LE
-    ;
 NEG:        '!';
 EQUAL:      '==';
 GT:         '>';
