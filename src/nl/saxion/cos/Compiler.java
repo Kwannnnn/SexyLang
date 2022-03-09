@@ -2,10 +2,11 @@ package nl.saxion.cos;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeProperty;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 /**
  * Compiles source code in a custom language into Jasmin and then assembles a
@@ -18,6 +19,8 @@ public class Compiler {
 	 * The number of errors detected by the lexer and parser.
 	 */
 	private int errorCount = 0;
+
+	private ParseTreeProperty<DataType> types = new ParseTreeProperty<>();
 
 	/**
 	 * Compiles a complete source code file.
@@ -76,13 +79,13 @@ public class Compiler {
 	 * @return        A parse tree
 	 */
 	private ParseTree runLexerAndParser( CharStream input ) {
-		ExampleLangLexer lexer = new ExampleLangLexer(input);      // TODO: Replace lexer with the one for your own language
+		SexyLangLexer lexer = new SexyLangLexer(input);
 		lexer.addErrorListener(getErrorListener());
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-		ExampleLangParser parser = new ExampleLangParser(tokens);  // TODO: Replace parser with the one for your own language
+		SexyLangParser parser = new SexyLangParser(tokens);
 		parser.addErrorListener(getErrorListener());
-		return parser.program();                                   // TODO: Replace .program() with your own start symbol
+		return parser.program();
 	}
 
 	/**
@@ -93,6 +96,9 @@ public class Compiler {
 	 * @return           True if all code is semantically correct
 	 */
 	private boolean runChecker( ParseTree parseTree ) {
+		TypeChecker typeChecker = new TypeChecker(this.types);
+		typeChecker.visit(parseTree);
+
 		// TODO: Create your own checker that inherits from a BaseVisitor, e.g. ExampleLangBaseVisitor.
 		//       Call the visit() method with the parseTree as parameter. In that visitor, you check for
 		//       errors in the source code. Examples of errors you may want to check for:
@@ -113,6 +119,9 @@ public class Compiler {
 	private JasminBytecode generateCode( ParseTree parseTree, String className ) {
 		JasminBytecode jasminBytecode = new JasminBytecode( className );
 
+		CodeGenerator codeGenerator = new CodeGenerator(this.types);
+		codeGenerator.visit(parseTree);
+
 		jasminBytecode.add(".bytecode 49.0")
 				.add(".class public " + className)
 				.add(".super java/lang/Object")
@@ -126,12 +135,14 @@ public class Compiler {
 		//       For now, I'll just create a simple template that prints 'Hello world!'
 
 		jasminBytecode.add(".method public static main([Ljava/lang/String;)V")
-				.add(".limit stack 2")
-				.add(".limit locals 1")  // NOTE: The args-parameter is a local too
+				.add(".limit stack 99")
+				.add(".limit locals 99")  // NOTE: The args-parameter is a local too
 				.add()
-				.add("getstatic java/lang/System/out Ljava/io/PrintStream;")            // Push System.out
-				.add("ldc \"Hello from ExampleLang!\"")                                 // Push message
-				.add("invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V")  // Call println()
+				.addAll(codeGenerator.getCode())
+				.add()
+//				.add("getstatic java/lang/System/out Ljava/io/PrintStream;")            // Push System.out
+//				.add("ldc \"Hello from ExampleLang!\"")                                 // Push message
+//				.add("invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V")  // Call println()
 				.add("return")
 				.add(".end method");
 
