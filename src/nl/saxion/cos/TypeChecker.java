@@ -34,10 +34,44 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
         if (leftType != rightType) {
-            throw new RuntimeException("Adding different types is not allowed");
+            throw new RuntimeException("Arithmetic operations on operands with different types is not allowed");
         }
 
         this.types.put(ctx, leftType);
         return leftType;
     }
+
+    @Override
+    public DataType visitMulDivExpression(SexyLangParser.MulDivExpressionContext ctx) {
+        DataType leftType = visit(ctx.left);
+        DataType rightType = visit(ctx.right);
+        if (leftType != rightType) {
+            throw new RuntimeException("Arithmetic operations on operands with different types is not allowed");
+        }
+
+        this.types.put(ctx, leftType);
+        return leftType;
+    }
+
+    @Override
+    public DataType visitMoanStmt(SexyLangParser.MoanStmtContext ctx) {
+        DataType dataType = visit(ctx.expression());
+
+        this.types.put(ctx, dataType);
+        return dataType;
+    }
+
+    @Override
+    public DataType visitNegationExpression(SexyLangParser.NegationExpressionContext ctx) {
+        DataType dataType = visit(ctx.expression());
+
+        if (!dataType.equals(DataType.BULGE)) {
+            throw new RuntimeException("Negation operator not allowed on this type");
+        }
+
+        this.types.put(ctx, dataType);
+        return dataType;
+    }
+
+
 }

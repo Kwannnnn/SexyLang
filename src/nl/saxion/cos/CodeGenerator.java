@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CodeGenerator extends SexyLangBaseVisitor<Void> {
+    public static final String ADD_SIGN = "+";
+    public static final String SUB_SIGN = "-";
+    public static final String MUL_SIGN = "*";
+    public static final String DIV_SIGN = "/";
+
+    public static final String TRUE_DESC = "hard";
+    public static final String FALSE_DESC = "soft";
 
     private final List<String> code;
     private final ParseTreeProperty<DataType> types;
@@ -23,8 +30,9 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     public Void visitMoanStmt(SexyLangParser.MoanStmtContext ctx) {
         this.code.add("getstatic java/lang/System/out Ljava/io/PrintStream;");
         visit(ctx.expression());
-        // TODO: this only works with strings. The typechecker will help with making it work
-        this.code.add("invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
+
+        String typeDescriptor = getTypeDescriptor(this.types.get(ctx));
+        this.code.add("invokevirtual java/io/PrintStream/print(" + typeDescriptor + ")V");
 
         return null;
     }
@@ -34,11 +42,62 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.left);
         visit(ctx.right);
 
-        DataType dataType = types.get(ctx);
-        if (dataType == DataType.BODY_COUNT) {
-            this.code.add("iadd");
-        } else if (dataType == DataType.LENGTH) {
-            this.code.add("fadd");
+        String typeMnemonic = getTypeMnemonic(this.types.get(ctx));
+        String instruction = getOperatorInstruction(ctx.op.getText());
+
+        this.code.add(typeMnemonic + instruction);
+
+        return null;
+    }
+
+    @Override
+    public Void visitMulDivExpression(SexyLangParser.MulDivExpressionContext ctx) {
+        visit(ctx.left);
+        visit(ctx.right);
+
+        String typeMnemonic = getTypeMnemonic(this.types.get(ctx));
+        String instruction = getOperatorInstruction(ctx.op.getText());
+
+        this.code.add(typeMnemonic + instruction);
+
+        return null;
+    }
+
+    @Override
+    public Void visitBodyCountLiteral(SexyLangParser.BodyCountLiteralContext ctx) {
+        int value = Integer.parseInt(ctx.getText());
+
+        if (value < 6) {
+            this.code.add("iconst_" + value);
+        } else {
+            this.code.add("ldc " + value);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visitSafeWordLiteral(SexyLangParser.SafeWordLiteralContext ctx) {
+        this.code.add("ldc " + ctx.getText());
+
+        return null;
+    }
+
+    @Override
+    public Void visitLengthLiteral(SexyLangParser.LengthLiteralContext ctx) {
+        this.code.add("ldc " + ctx.getText());
+
+        return null;
+    }
+
+    @Override
+    public Void visitBulgeLiteral(SexyLangParser.BulgeLiteralContext ctx) {
+        String value = ctx.getText();
+
+        if (value.equals(TRUE_DESC)) {
+            this.code.add("iconst_1");
+        } else if (value.equals(FALSE_DESC)) {
+            this.code.add("iconst_0");
         } else {
             assert false;
         }
@@ -46,10 +105,35 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         return null;
     }
 
-    @Override
-    public Void visitLiteral(SexyLangParser.LiteralContext ctx) {
-        this.code.add("ldc " + ctx.getText());
+    private String getOperatorInstruction(String operator) {
+        switch (operator) {
+            case ADD_SIGN: return "add";
+            case SUB_SIGN: return "sub";
+            case MUL_SIGN: return "mul";
+            case DIV_SIGN: return "div";
+            default: throw new RuntimeException("Unsupported arithmetic operator");
+        }
+    }
 
-        return null;
+    private String getTypeMnemonic(DataType dataType) {
+        switch (dataType) {
+            case BODY_COUNT:
+            case BULGE:
+                return "i";
+            case LENGTH: return "f";
+            // TODO: deal with this
+            default: return "l";
+        }
+    }
+
+    private String getTypeDescriptor(DataType dataType) {
+        switch (dataType) {
+            case BODY_COUNT: return "I";
+            case BULGE: return "Z";
+            case LENGTH: return "F";
+            case SAFE_WORD: return "Ljava/lang/String;";
+            // TODO: deal with this
+            default: return "";
+        }
     }
 }

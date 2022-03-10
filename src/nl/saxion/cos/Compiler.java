@@ -20,7 +20,7 @@ public class Compiler {
 	 */
 	private int errorCount = 0;
 
-	private ParseTreeProperty<DataType> types = new ParseTreeProperty<>();
+	private final ParseTreeProperty<DataType> types = new ParseTreeProperty<>();
 
 	/**
 	 * Compiles a complete source code file.
