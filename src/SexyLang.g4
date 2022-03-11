@@ -11,7 +11,10 @@ expression
     | expression op=(AND | OR) expression                               #ChainedLogicExpression
     | L_PAREN expression R_PAREN                                        #GroupExpression
     | bedActivityCall                                                   #BedActivitCallExpression
-    | literal                                                           #LiteralExpression
+    | bulgeLiteral                                                      #BulgeLiteralExpression
+    | bodyCountLiteral                                                  #BodyCountLiteralExpression
+    | safeWordLiteral                                                   #SafeWordLiteralExpression
+    | lengthLiteral                                                     #LengthLiteralExpression
     | IDENTIFIER                                                        #IdentifierExpression
     ;
 
@@ -65,14 +68,6 @@ type
     | BODYCOUNT
     | LENGTH
     | SAFEWORD
-    ;
-
-// Literals
-literal
-    : bulgeLiteral
-    | bodyCountLiteral
-    | lengthLiteral
-    | safeWordLiteral
     ;
 
 bulgeLiteral
