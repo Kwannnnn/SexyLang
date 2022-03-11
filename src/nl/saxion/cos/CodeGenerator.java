@@ -5,15 +5,9 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+import static nl.saxion.cos.Constants.*;
+
 public class CodeGenerator extends SexyLangBaseVisitor<Void> {
-    public static final String ADD_SIGN = "+";
-    public static final String SUB_SIGN = "-";
-    public static final String MUL_SIGN = "*";
-    public static final String DIV_SIGN = "/";
-
-    public static final String TRUE_DESC = "hard";
-    public static final String FALSE_DESC = "soft";
-
     private final List<String> code;
     private final ParseTreeProperty<DataType> types;
 
@@ -67,6 +61,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     public Void visitBodyCountLiteral(SexyLangParser.BodyCountLiteralContext ctx) {
         int value = Integer.parseInt(ctx.getText());
 
+        // TODO :
         if (value < 6) {
             this.code.add("iconst_" + value);
         } else {
