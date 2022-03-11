@@ -11,27 +11,15 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     }
 
     @Override
-    public DataType visitBodyCountLiteral(SexyLangParser.BodyCountLiteralContext ctx) {
-        this.types.put(ctx, DataType.BODY_COUNT);
-        return DataType.BODY_COUNT;
-    }
+    public DataType visitNegationExpression(SexyLangParser.NegationExpressionContext ctx) {
+        DataType dataType = visit(ctx.expression());
 
-    @Override
-    public DataType visitLengthLiteral(SexyLangParser.LengthLiteralContext ctx) {
-        this.types.put(ctx, DataType.LENGTH);
-        return DataType.LENGTH;
-    }
+        if (!dataType.equals(DataType.BULGE)) {
+            throw new CompilerException("Negation operator not allowed on this type");
+        }
 
-    @Override
-    public DataType visitBulgeLiteral(SexyLangParser.BulgeLiteralContext ctx) {
-        this.types.put(ctx, DataType.BULGE);
-        return DataType.BULGE;
-    }
-
-    @Override
-    public DataType visitSafeWordLiteral(SexyLangParser.SafeWordLiteralContext ctx) {
-        this.types.put(ctx, DataType.SAFE_WORD);
-        return DataType.SAFE_WORD;
+        this.types.put(ctx, dataType);
+        return dataType;
     }
 
     @Override
@@ -59,16 +47,50 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     }
 
     @Override
-    public DataType visitNegationExpression(SexyLangParser.NegationExpressionContext ctx) {
-        DataType dataType = visit(ctx.expression());
-
-        if (!dataType.equals(DataType.BULGE)) {
-            throw new CompilerException("Negation operator not allowed on this type");
-        }
-
-        this.types.put(ctx, dataType);
-        return dataType;
+    public DataType visitLogicExpression(SexyLangParser.LogicExpressionContext ctx) {
+        // TODO
+        return null;
     }
 
+    @Override
+    public DataType visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx) {
+        // TODO
+        return null;
+    }
 
+    @Override
+    public DataType visitGroupExpression(SexyLangParser.GroupExpressionContext ctx) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public DataType visitBedActivityCall(SexyLangParser.BedActivityCallContext ctx) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public DataType visitBodyCountLiteral(SexyLangParser.BodyCountLiteralContext ctx) {
+        this.types.put(ctx, DataType.BODY_COUNT);
+        return DataType.BODY_COUNT;
+    }
+
+    @Override
+    public DataType visitLengthLiteral(SexyLangParser.LengthLiteralContext ctx) {
+        this.types.put(ctx, DataType.LENGTH);
+        return DataType.LENGTH;
+    }
+
+    @Override
+    public DataType visitBulgeLiteral(SexyLangParser.BulgeLiteralContext ctx) {
+        this.types.put(ctx, DataType.BULGE);
+        return DataType.BULGE;
+    }
+
+    @Override
+    public DataType visitSafeWordLiteral(SexyLangParser.SafeWordLiteralContext ctx) {
+        this.types.put(ctx, DataType.SAFE_WORD);
+        return DataType.SAFE_WORD;
+    }
 }
