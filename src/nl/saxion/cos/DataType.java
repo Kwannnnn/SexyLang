@@ -1,8 +1,24 @@
 package nl.saxion.cos;
 
 public enum DataType {
-    BODY_COUNT,
-    SAFE_WORD,
-    LENGTH,
-    BULGE
+    BODY_COUNT("I", "i"),
+    SAFE_WORD("Ljava/lang/String;", "a"),
+    LENGTH("F", "f"),
+    BULGE("Z", "i");
+
+    private final String descriptor;
+    private final String mnemonic;
+
+    DataType(String descriptior, String mnemonic) {
+        this.descriptor = descriptior;
+        this.mnemonic = mnemonic;
+    }
+
+    public String getDescriptor() {
+        return this.descriptor;
+    }
+
+    public String getMnemonic() {
+        return this.mnemonic;
+    }
 }

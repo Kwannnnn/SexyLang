@@ -1,5 +1,7 @@
 package nl.saxion.cos;
 
+import nl.saxion.cos.exception.AssembleException;
+import nl.saxion.cos.exception.CompilerException;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -97,15 +99,13 @@ public class Compiler {
 	 */
 	private boolean runChecker( ParseTree parseTree ) {
 		TypeChecker typeChecker = new TypeChecker(this.types);
-		typeChecker.visit(parseTree);
+		try {
+			typeChecker.visit(parseTree);
+		} catch (CompilerException e) {
+			e.printStackTrace();
+			return false;
+		}
 
-		// TODO: Create your own checker that inherits from a BaseVisitor, e.g. ExampleLangBaseVisitor.
-		//       Call the visit() method with the parseTree as parameter. In that visitor, you check for
-		//       errors in the source code. Examples of errors you may want to check for:
-		//         - A variable is used before it was declared
-		//         - The user is trying to assign a value to a variable with a different type
-		//         - An if-statement has a condition that is not a boolean
-		//         - An expression mixes values of incompatible data types
 		return true;
 	}
 

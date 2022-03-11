@@ -31,8 +31,8 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         this.code.add("getstatic java/lang/System/out Ljava/io/PrintStream;");
         visit(ctx.expression());
 
-        String typeDescriptor = getTypeDescriptor(this.types.get(ctx));
-        this.code.add("invokevirtual java/io/PrintStream/print(" + typeDescriptor + ")V");
+        DataType dataType = this.types.get(ctx.expression());
+        this.code.add("invokevirtual java/io/PrintStream/print(" + dataType.getDescriptor() + ")V");
 
         return null;
     }
@@ -42,7 +42,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.left);
         visit(ctx.right);
 
-        String typeMnemonic = getTypeMnemonic(this.types.get(ctx));
+        String typeMnemonic = this.types.get(ctx).getMnemonic();
         String instruction = getOperatorInstruction(ctx.op.getText());
 
         this.code.add(typeMnemonic + instruction);
@@ -55,7 +55,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.left);
         visit(ctx.right);
 
-        String typeMnemonic = getTypeMnemonic(this.types.get(ctx));
+        String typeMnemonic = this.types.get(ctx).getMnemonic();
         String instruction = getOperatorInstruction(ctx.op.getText());
 
         this.code.add(typeMnemonic + instruction);
@@ -112,28 +112,6 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
             case MUL_SIGN: return "mul";
             case DIV_SIGN: return "div";
             default: throw new RuntimeException("Unsupported arithmetic operator");
-        }
-    }
-
-    private String getTypeMnemonic(DataType dataType) {
-        switch (dataType) {
-            case BODY_COUNT:
-            case BULGE:
-                return "i";
-            case LENGTH: return "f";
-            // TODO: deal with this
-            default: return "l";
-        }
-    }
-
-    private String getTypeDescriptor(DataType dataType) {
-        switch (dataType) {
-            case BODY_COUNT: return "I";
-            case BULGE: return "Z";
-            case LENGTH: return "F";
-            case SAFE_WORD: return "Ljava/lang/String;";
-            // TODO: deal with this
-            default: return "";
         }
     }
 }
