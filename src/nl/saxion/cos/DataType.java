@@ -9,8 +9,8 @@ public enum DataType {
     private final String descriptor;
     private final String mnemonic;
 
-    DataType(String descriptior, String mnemonic) {
-        this.descriptor = descriptior;
+    DataType(String descriptor, String mnemonic) {
+        this.descriptor = descriptor;
         this.mnemonic = mnemonic;
     }
 

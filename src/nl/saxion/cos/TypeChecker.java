@@ -48,20 +48,39 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
     @Override
     public DataType visitLogicExpression(SexyLangParser.LogicExpressionContext ctx) {
-        // TODO
-        return null;
+        DataType leftType = visit(ctx.left);
+        DataType rightType = visit(ctx.right);
+
+        if (leftType != rightType) {
+            throw new CompilerException("Logic operations on operands with different types is not allowed");
+        } else if (!(leftType.equals(DataType.BODY_COUNT) || leftType.equals(DataType.LENGTH))) {
+            throw new CompilerException("Incomparable type for logic operations. Only bodyCount or length allowed.");
+        }
+
+        this.types.put(ctx, DataType.BULGE);
+        return DataType.BULGE;
     }
 
     @Override
     public DataType visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx) {
-        // TODO
-        return null;
+        DataType leftType = visit(ctx.left);
+        DataType rightType = visit(ctx.right);
+
+        if (leftType != rightType) {
+            throw new CompilerException("Logic operations on operands with different types is not allowed");
+        } else if (!leftType.equals(DataType.BULGE)) {
+            throw new CompilerException("Incomparable type for chained logic operations. Only bulge allowed.");
+        }
+
+        this.types.put(ctx, DataType.BULGE);
+        return DataType.BULGE;
     }
 
     @Override
     public DataType visitGroupExpression(SexyLangParser.GroupExpressionContext ctx) {
-        // TODO
-        return null;
+        DataType type = visit(ctx.expression());
+        this.types.put(ctx, type);
+        return type;
     }
 
     @Override

@@ -8,7 +8,7 @@ expression
     | left=expression op=(MUL | DIV) right=expression                   #MulDivExpression
     | left=expression op=(ADD | SUB) right=expression                   #AddSubExpression
     | left=expression op=(EQUAL | LE | GE | LT | GT) right=expression   #LogicExpression
-    | expression op=(AND | OR) expression                               #ChainedLogicExpression
+    | left=expression op=(AND | OR) right=expression                    #ChainedLogicExpression
     | L_PAREN expression R_PAREN                                        #GroupExpression
     | bedActivityCall                                                   #BedActivitCallExpression
     | bulgeLiteral                                                      #BulgeLiteralExpression
@@ -74,9 +74,9 @@ bulgeLiteral
     : HARD
     | SOFT
     ;
+safeWordLiteral: STRING ;
 bodyCountLiteral: '0' | '-'? NUMBER;
 lengthLiteral: bodyCountLiteral ('.' ('0' | NUMBER))?;
-safeWordLiteral: '"' IDENTIFIER* '"';
 
 
 // KEYWORDS
@@ -122,6 +122,7 @@ LE:         '<=';
 AND:        'and';
 OR:         'or';
 
+STRING: '"' [a-zA-Z0-9 ]* '"';
 IDENTIFIER : [A-Za-z][A-Za-z0-9_]*;
 NUMBER : [1-9][0-9]*;
 
