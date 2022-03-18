@@ -48,13 +48,13 @@ block
     : L_CURLY blockStatement? R_CURLY
     ;
 
-varDeclaration: INSERT type expression IN IDENTIFIER;
-varAssignment: INSERT expression IN IDENTIFIER;
-moanStmt: (MOAN | MOANLOUD) expression;
-ejaculateStmt: EJACULATE expression?;
-ifStmt: IF L_PAREN expression R_PAREN block elseStmt?;
-elseStmt: ELSE (block | ifStmt);
-lubeStmt: LUBE expression block;
+varDeclaration: command=INSERT varType=type expression IN varName=IDENTIFIER;
+varAssignment: command=INSERT expression IN varName=IDENTIFIER;
+moanStmt: command=(MOAN | MOANLOUD) expression;
+ejaculateStmt: command=EJACULATE expression?;
+ifStmt: command=IF L_PAREN condition=expression R_PAREN block elseStmt?;
+elseStmt: command=ELSE (block | ifStmt);
+lubeStmt: command=LUBE expression block;
 bedActivityStmt: BEDACTIVITY IDENTIFIER type? L_PAREN paramsDeclaration? R_PAREN block;
 
 paramsDeclaration

@@ -2,6 +2,7 @@ package nl.saxion.cos;
 
 import nl.saxion.cos.exception.AssembleException;
 import nl.saxion.cos.exception.CompilerException;
+import nl.saxion.cos.type.SymbolTable;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -23,6 +24,7 @@ public class Compiler {
 	private int errorCount = 0;
 
 	private final ParseTreeProperty<DataType> types = new ParseTreeProperty<>();
+	private final SymbolTable symbolTable = new SymbolTable();
 
 	/**
 	 * Compiles a complete source code file.
@@ -98,7 +100,7 @@ public class Compiler {
 	 * @return           True if all code is semantically correct
 	 */
 	private boolean runChecker( ParseTree parseTree ) {
-		TypeChecker typeChecker = new TypeChecker(this.types);
+		TypeChecker typeChecker = new TypeChecker(this.types, this.symbolTable);
 		try {
 			typeChecker.visit(parseTree);
 		} catch (CompilerException e) {
@@ -119,7 +121,7 @@ public class Compiler {
 	private JasminBytecode generateCode( ParseTree parseTree, String className ) {
 		JasminBytecode jasminBytecode = new JasminBytecode( className );
 
-		CodeGenerator codeGenerator = new CodeGenerator(this.types);
+		CodeGenerator codeGenerator = new CodeGenerator(this.types, this.symbolTable);
 		codeGenerator.visit(parseTree);
 
 		jasminBytecode.add(".bytecode 49.0")

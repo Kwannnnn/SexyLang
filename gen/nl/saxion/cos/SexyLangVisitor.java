@@ -31,6 +31,20 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code BulgeLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBulgeLiteralExpression(SexyLangParser.BulgeLiteralExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BodyCountLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBodyCountLiteralExpression(SexyLangParser.BodyCountLiteralExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code LogicExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
@@ -38,12 +52,19 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogicExpression(SexyLangParser.LogicExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LiteralExpression}
+	 * Visit a parse tree produced by the {@code SafeWordLiteralExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLiteralExpression(SexyLangParser.LiteralExpressionContext ctx);
+	T visitSafeWordLiteralExpression(SexyLangParser.SafeWordLiteralExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LengthLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLengthLiteralExpression(SexyLangParser.LengthLiteralExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code BedActivitCallExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
@@ -170,17 +191,17 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(SexyLangParser.TypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SexyLangParser#literal}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLiteral(SexyLangParser.LiteralContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#bulgeLiteral}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitBulgeLiteral(SexyLangParser.BulgeLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#safeWordLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSafeWordLiteral(SexyLangParser.SafeWordLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#bodyCountLiteral}.
 	 * @param ctx the parse tree
@@ -193,10 +214,4 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLengthLiteral(SexyLangParser.LengthLiteralContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SexyLangParser#safeWordLiteral}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSafeWordLiteral(SexyLangParser.SafeWordLiteralContext ctx);
 }

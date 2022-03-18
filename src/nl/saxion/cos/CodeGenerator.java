@@ -1,17 +1,21 @@
 package nl.saxion.cos;
 
+import nl.saxion.cos.type.SymbolTable;
+import nl.saxion.cos.type.VariableSymbol;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static nl.saxion.cos.Constants.*;
+import static nl.saxion.cos.SexyLangUtils.getOperatorInstruction;
 
 public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     private final List<String> code;
     private final ParseTreeProperty<DataType> types;
+    private final SymbolTable symbolTable;
 
-    public CodeGenerator(ParseTreeProperty<DataType> types) {
+    public CodeGenerator(ParseTreeProperty<DataType> types, SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
         this.code = new ArrayList<>();
         this.types = types;
     }
@@ -21,12 +25,39 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
+    public Void visitVarDeclaration(SexyLangParser.VarDeclarationContext ctx) {
+        VariableSymbol variableSymbol = (VariableSymbol) this.symbolTable.lookup(ctx.IDENTIFIER().getText());
+        visit(ctx.expression()); // Put something on the stack
+        this.code.add(variableSymbol.getType().getMnemonic() + "store " + variableSymbol.getIndex());
+
+        return null;
+    }
+
+    @Override
+    public Void visitIdentifierExpression(SexyLangParser.IdentifierExpressionContext ctx) {
+        VariableSymbol variableSymbol = (VariableSymbol) this.symbolTable.lookup(ctx.IDENTIFIER().getText());
+        this.code.add(variableSymbol.getType().getMnemonic() + "load " + variableSymbol.getIndex());
+        
+        return null;
+    }
+
+    @Override
     public Void visitMoanStmt(SexyLangParser.MoanStmtContext ctx) {
         this.code.add("getstatic java/lang/System/out Ljava/io/PrintStream;");
         visit(ctx.expression());
-
         DataType dataType = this.types.get(ctx.expression());
-        this.code.add("invokevirtual java/io/PrintStream/print(" + dataType.getDescriptor() + ")V");
+
+        switch (ctx.command.getType()) {
+            case SexyLangLexer.MOAN:
+                this.code.add("invokevirtual java/io/PrintStream/print(" + dataType.getDescriptor() + ")V");
+                break;
+            case SexyLangLexer.MOANLOUD:
+                this.code.add("invokevirtual java/io/PrintStream/println(" + dataType.getDescriptor() + ")V");
+                break;
+            default:
+                assert false;
+                break;
+        }
 
         return null;
     }
@@ -37,7 +68,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.right);
 
         String typeMnemonic = this.types.get(ctx).getMnemonic();
-        String instruction = getOperatorInstruction(ctx.op.getText());
+        String instruction = getOperatorInstruction(ctx.op.getType());
 
         this.code.add(typeMnemonic + instruction);
 
@@ -50,7 +81,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.right);
 
         String typeMnemonic = this.types.get(ctx).getMnemonic();
-        String instruction = getOperatorInstruction(ctx.op.getText());
+        String instruction = getOperatorInstruction(ctx.op.getType());
 
         this.code.add(typeMnemonic + instruction);
 
@@ -61,12 +92,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     public Void visitBodyCountLiteral(SexyLangParser.BodyCountLiteralContext ctx) {
         int value = Integer.parseInt(ctx.getText());
 
-        // TODO :
-        if (value < 6) {
-            this.code.add("iconst_" + value);
-        } else {
-            this.code.add("ldc " + value);
-        }
+        this.code.add(value >= 0 && value <= 5 ? "iconst_" + value : "ldc " + value);
 
         return null;
     }
@@ -86,27 +112,19 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
-    public Void visitBulgeLiteral(SexyLangParser.BulgeLiteralContext ctx) {
-        String value = ctx.getText();
-
-        if (value.equals(TRUE_DESC)) {
-            this.code.add("iconst_1");
-        } else if (value.equals(FALSE_DESC)) {
-            this.code.add("iconst_0");
-        } else {
-            assert false;
-        }
+    public Void visitIfStmt(SexyLangParser.IfStmtContext ctx) {
+        visit(ctx.condition);
+        this.code.add("ifeq end");
+        visit(ctx.block());
+        this.code.add("end:");
 
         return null;
     }
 
-    private String getOperatorInstruction(String operator) {
-        switch (operator) {
-            case ADD_SIGN: return "add";
-            case SUB_SIGN: return "sub";
-            case MUL_SIGN: return "mul";
-            case DIV_SIGN: return "div";
-            default: throw new RuntimeException("Unsupported arithmetic operator");
-        }
+    @Override
+    public Void visitBulgeLiteral(SexyLangParser.BulgeLiteralContext ctx) {
+        this.code.add(ctx.HARD() != null ? "iconst_1" : "iconst_0");
+
+        return null;
     }
 }
