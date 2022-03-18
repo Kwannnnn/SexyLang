@@ -11,17 +11,29 @@ import static nl.saxion.cos.SexyLangUtils.getDataType;
 
 public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     private final ParseTreeProperty<DataType> types;
-    private final SymbolTable symbolTable;
+    private final ParseTreeProperty<SymbolTable> scopes;
+    private SymbolTable currentScope;
 
-    public TypeChecker(ParseTreeProperty<DataType> types, SymbolTable symbolTable) {
+    public TypeChecker(ParseTreeProperty<DataType> types,
+                       ParseTreeProperty<SymbolTable> scopes) {
         this.types = types;
-        this.symbolTable = symbolTable;
+        this.scopes = scopes;
+        this.currentScope = new SymbolTable();
+    }
+
+    @Override
+    public DataType visitBlockStatement(SexyLangParser.BlockStatementContext ctx) {
+        this.currentScope = this.currentScope.openScope();
+        visitChildren(ctx);
+        this.currentScope = this.currentScope.closeScope();
+
+        return null;
     }
 
     @Override
     public DataType visitVarDeclaration(SexyLangParser.VarDeclarationContext ctx) {
         String variableName = ctx.IDENTIFIER().getText();
-        Symbol variableSymbol = this.symbolTable.lookup(variableName);
+        Symbol variableSymbol = this.currentScope.lookup(variableName);
 
         // Checks if a variable with the same name exist in the scope
         if (variableSymbol != null) {
@@ -46,8 +58,8 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                     " the type of the given value!");
         }
 
-        this.symbolTable.addVariableSymbol(ctx.IDENTIFIER().getText(), varType);
-
+        this.currentScope.addVariableSymbol(ctx.IDENTIFIER().getText(), varType);
+        this.scopes.put(ctx, this.currentScope);
         return null;
     }
 
@@ -178,7 +190,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
     @Override
     public DataType visitIdentifierExpression(SexyLangParser.IdentifierExpressionContext ctx) {
-        Symbol symbol = this.symbolTable.lookup(ctx.IDENTIFIER().getText());
+        Symbol symbol = this.currentScope.lookup(ctx.IDENTIFIER().getText());
 
         if (symbol == null) {
             throw new CompilerException("Variable with name " + ctx.IDENTIFIER().getText() + " does not exist.");
@@ -190,7 +202,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         DataType type = ((VariableSymbol) symbol).getType();
         this.types.put(ctx, type);
-
+        this.scopes.put(ctx, this.currentScope);
         return type;
     }
 }

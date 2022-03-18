@@ -5,6 +5,8 @@ import nl.saxion.cos.DataType;
 import java.util.HashMap;
 
 public class SymbolTable {
+    private SymbolTable parent;
+
     private int lastUsedIndex;
     private final HashMap<String, Symbol> symbolTable = new HashMap<>();
 
@@ -13,6 +15,24 @@ public class SymbolTable {
     }
 
     public Symbol lookup(String name) {
-        return this.symbolTable.get(name);
+        Symbol symbol = this.symbolTable.get(name);
+
+        if (symbol == null && this.parent != null) {
+            symbol = this.parent.lookup(name);
+        }
+
+        return symbol;
+    }
+
+    public SymbolTable openScope() {
+        SymbolTable newScope = new SymbolTable();
+        newScope.parent = this;
+        newScope.lastUsedIndex = this.lastUsedIndex;
+
+        return newScope;
+    }
+
+    public SymbolTable closeScope() {
+        return parent;
     }
 }

@@ -12,12 +12,13 @@ import static nl.saxion.cos.SexyLangUtils.getOperatorInstruction;
 public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     private final List<String> code;
     private final ParseTreeProperty<DataType> types;
-    private final SymbolTable symbolTable;
+    private final ParseTreeProperty<SymbolTable> scopes;
 
-    public CodeGenerator(ParseTreeProperty<DataType> types, SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
+    public CodeGenerator(ParseTreeProperty<DataType> types,
+                         ParseTreeProperty<SymbolTable> scopes) {
         this.code = new ArrayList<>();
         this.types = types;
+        this.scopes = scopes;
     }
 
     public List<String> getCode() {
@@ -25,8 +26,17 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
+    public Void visitBlockStatement(SexyLangParser.BlockStatementContext ctx) {
+        SymbolTable symbolTable = this.scopes.get(ctx);
+        visitChildren(ctx);
+
+        return null;
+    }
+
+    @Override
     public Void visitVarDeclaration(SexyLangParser.VarDeclarationContext ctx) {
-        VariableSymbol variableSymbol = (VariableSymbol) this.symbolTable.lookup(ctx.IDENTIFIER().getText());
+        SymbolTable symbolTable = this.scopes.get(ctx);
+        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
         visit(ctx.expression()); // Put something on the stack
         this.code.add(variableSymbol.getType().getMnemonic() + "store " + variableSymbol.getIndex());
 
@@ -35,7 +45,8 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitIdentifierExpression(SexyLangParser.IdentifierExpressionContext ctx) {
-        VariableSymbol variableSymbol = (VariableSymbol) this.symbolTable.lookup(ctx.IDENTIFIER().getText());
+        SymbolTable symbolTable = this.scopes.get(ctx);
+        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
         this.code.add(variableSymbol.getType().getMnemonic() + "load " + variableSymbol.getIndex());
         
         return null;
