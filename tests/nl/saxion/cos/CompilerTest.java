@@ -2,7 +2,6 @@ package nl.saxion.cos;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -99,27 +98,5 @@ class CompilerTest extends TestBase {
 		assertArrayEquals(new String[] {
 				"Hello from ExampleLang!"
 		}, output.toArray());
-	}
-
-	@Test
-	void checkFloatAddition() throws Exception {
-		// Compile and assemble the string 'hello; hi;'
-		Compiler c = new Compiler();
-		JasminBytecode code = c.compileString("moan 37.0 + 42.0", "test");
-		assertNotNull(code);
-
-		// Check that output matches what we expect
-		List<String> output = runCode(code);
-		assertArrayEquals(new String[] {
-				"79.0"
-		}, output.toArray());
-	}
-
-	@Test
-	void checkFloatAddition_badWeather() throws Exception {
-		// Compile and assemble the string 'hello; hi;'
-		Compiler c = new Compiler();
-		JasminBytecode code = c.compileString("moan 1 + 42.0", "test");
-		assertNull(code);
 	}
 }
