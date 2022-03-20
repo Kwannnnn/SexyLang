@@ -5,10 +5,15 @@ import nl.saxion.cos.DataType;
 import java.util.HashMap;
 
 public class SymbolTable {
-    private SymbolTable parent;
 
+    private SymbolTable parent;
     private int lastUsedIndex;
-    private final HashMap<String, Symbol> symbolTable = new HashMap<>();
+
+    private final HashMap<String, Symbol> symbolTable;
+
+    public SymbolTable() {
+        this.symbolTable = new HashMap<>();
+    }
 
     public void addVariableSymbol(String name, DataType type) {
         this.symbolTable.put(name, new VariableSymbol(name, ++lastUsedIndex, type));

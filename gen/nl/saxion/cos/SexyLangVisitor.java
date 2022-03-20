@@ -73,19 +73,19 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBedActivitCallExpression(SexyLangParser.BedActivitCallExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code NegationExpression}
-	 * labeled alternative in {@link SexyLangParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNegationExpression(SexyLangParser.NegationExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code GroupExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGroupExpression(SexyLangParser.GroupExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NegationExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNegationExpression(SexyLangParser.NegationExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code IdentifierExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.

@@ -1,34 +1,32 @@
-package nl.saxion.cos;
+package nl.saxion.cos.visitor;
 
+import nl.saxion.cos.*;
 import nl.saxion.cos.type.SymbolTable;
 import nl.saxion.cos.type.VariableSymbol;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static nl.saxion.cos.SexyLangUtils.getOperatorInstruction;
 
 public class CodeGenerator extends SexyLangBaseVisitor<Void> {
-    private final List<String> code;
+    private long labelCounter;
+    private final JasminBytecode code;
     private final ParseTreeProperty<DataType> types;
     private final ParseTreeProperty<SymbolTable> scopes;
 
     public CodeGenerator(ParseTreeProperty<DataType> types,
-                         ParseTreeProperty<SymbolTable> scopes) {
-        this.code = new ArrayList<>();
+                         ParseTreeProperty<SymbolTable> scopes,
+                         JasminBytecode jasminBytecode) {
         this.types = types;
         this.scopes = scopes;
-    }
-
-    public List<String> getCode() {
-        return this.code;
+        this.code = jasminBytecode;
     }
 
     @Override
-    public Void visitBlockStatement(SexyLangParser.BlockStatementContext ctx) {
+    public Void visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
-        visitChildren(ctx);
+        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
+        visit(ctx.expression());
+        this.code.add(variableSymbol.getType().getMnemonic() + "store " + variableSymbol.getIndex());
 
         return null;
     }
@@ -75,26 +73,31 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
-        visit(ctx.left);
-        visit(ctx.right);
+        if (this.types.get(ctx) == DataType.SAFE_WORD) {
+            // TODO: Ask Gerralt about getText() returning string containing " or '
+            this.code.add("ldc \"" + ctx.left.getText().replace("\"", "")
+                    + ctx.right.getText().replace("\"", "") + "\"");
+            return null;
+        }
 
-        String typeMnemonic = this.types.get(ctx).getMnemonic();
-        String instruction = getOperatorInstruction(ctx.op.getType());
-
-        this.code.add(typeMnemonic + instruction);
+        generateTwoOperandCode(
+                ctx.left,
+                ctx.right,
+                this.types.get(ctx).getMnemonic(),
+                getOperatorInstruction(ctx.op.getType())
+        );
 
         return null;
     }
 
     @Override
     public Void visitMulDivExpression(SexyLangParser.MulDivExpressionContext ctx) {
-        visit(ctx.left);
-        visit(ctx.right);
-
-        String typeMnemonic = this.types.get(ctx).getMnemonic();
-        String instruction = getOperatorInstruction(ctx.op.getType());
-
-        this.code.add(typeMnemonic + instruction);
+        generateTwoOperandCode(
+                ctx.left,
+                ctx.right,
+                this.types.get(ctx).getMnemonic(),
+                getOperatorInstruction(ctx.op.getType())
+        );
 
         return null;
     }
@@ -125,9 +128,9 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     @Override
     public Void visitIfStmt(SexyLangParser.IfStmtContext ctx) {
         visit(ctx.condition);
-        this.code.add("ifeq end");
+        this.code.add("ifeq end" + (++labelCounter));
         visit(ctx.block());
-        this.code.add("end:");
+        this.code.add("end" + labelCounter + ":");
 
         return null;
     }
@@ -137,5 +140,15 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         this.code.add(ctx.HARD() != null ? "iconst_1" : "iconst_0");
 
         return null;
+    }
+
+    private void generateTwoOperandCode(SexyLangParser.ExpressionContext left,
+                                        SexyLangParser.ExpressionContext right,
+                                        String typeMnemonic,
+                                        String instruction) {
+        visit(left);
+        visit(right);
+
+        this.code.add(typeMnemonic + instruction);
     }
 }

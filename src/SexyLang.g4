@@ -4,13 +4,12 @@ program: (expression | statement)* EOF;
 
 // EXPRESSIONS
 expression
-    : NEG expression                                                    #NegationExpression
+    : L_PAREN expression R_PAREN                                        #GroupExpression
+    | NEG expression                                                    #NegationExpression
     | left=expression op=(MUL | DIV) right=expression                   #MulDivExpression
     | left=expression op=(ADD | SUB) right=expression                   #AddSubExpression
     | left=expression op=(EQUAL | LE | GE | LT | GT) right=expression   #LogicExpression
-    | left=expression op=(AND | OR) right=expression                    #ChainedLogicExpression
-    | L_PAREN expression R_PAREN                                        #GroupExpression
-    | bedActivityCall                                                   #BedActivitCallExpression
+    | left=expression op=(AND | OR) right=expression                    #ChainedLogicExpression    | bedActivityCall                                                   #BedActivitCallExpression
     | bulgeLiteral                                                      #BulgeLiteralExpression
     | bodyCountLiteral                                                  #BodyCountLiteralExpression
     | safeWordLiteral                                                   #SafeWordLiteralExpression

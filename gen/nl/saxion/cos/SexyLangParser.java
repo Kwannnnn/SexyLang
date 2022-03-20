@@ -324,18 +324,6 @@ public class SexyLangParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class NegationExpressionContext extends ExpressionContext {
-		public TerminalNode NEG() { return getToken(SexyLangParser.NEG, 0); }
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
-		public NegationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitNegationExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class GroupExpressionContext extends ExpressionContext {
 		public TerminalNode L_PAREN() { return getToken(SexyLangParser.L_PAREN, 0); }
 		public ExpressionContext expression() {
@@ -346,6 +334,18 @@ public class SexyLangParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitGroupExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NegationExpressionContext extends ExpressionContext {
+		public TerminalNode NEG() { return getToken(SexyLangParser.NEG, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public NegationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitNegationExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -399,27 +399,27 @@ public class SexyLangParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
-				_localctx = new NegationExpressionContext(_localctx);
+				_localctx = new GroupExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
 				setState(52);
-				match(NEG);
+				match(L_PAREN);
 				setState(53);
-				expression(12);
+				expression(0);
+				setState(54);
+				match(R_PAREN);
 				}
 				break;
 			case 2:
 				{
-				_localctx = new GroupExpressionContext(_localctx);
+				_localctx = new NegationExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(54);
-				match(L_PAREN);
-				setState(55);
-				expression(0);
 				setState(56);
-				match(R_PAREN);
+				match(NEG);
+				setState(57);
+				expression(11);
 				}
 				break;
 			case 3:
@@ -495,7 +495,7 @@ public class SexyLangParser extends Parser {
 						((MulDivExpressionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(66);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(67);
 						((MulDivExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
@@ -508,7 +508,7 @@ public class SexyLangParser extends Parser {
 							consume();
 						}
 						setState(68);
-						((MulDivExpressionContext)_localctx).right = expression(12);
+						((MulDivExpressionContext)_localctx).right = expression(11);
 						}
 						break;
 					case 2:
@@ -517,7 +517,7 @@ public class SexyLangParser extends Parser {
 						((AddSubExpressionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(69);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
 						setState(70);
 						((AddSubExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
@@ -530,7 +530,7 @@ public class SexyLangParser extends Parser {
 							consume();
 						}
 						setState(71);
-						((AddSubExpressionContext)_localctx).right = expression(11);
+						((AddSubExpressionContext)_localctx).right = expression(10);
 						}
 						break;
 					case 3:
@@ -539,7 +539,7 @@ public class SexyLangParser extends Parser {
 						((LogicExpressionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(72);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(73);
 						((LogicExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
@@ -552,7 +552,7 @@ public class SexyLangParser extends Parser {
 							consume();
 						}
 						setState(74);
-						((LogicExpressionContext)_localctx).right = expression(10);
+						((LogicExpressionContext)_localctx).right = expression(9);
 						}
 						break;
 					case 4:
@@ -561,7 +561,7 @@ public class SexyLangParser extends Parser {
 						((ChainedLogicExpressionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(75);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(76);
 						((ChainedLogicExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
@@ -574,7 +574,7 @@ public class SexyLangParser extends Parser {
 							consume();
 						}
 						setState(77);
-						((ChainedLogicExpressionContext)_localctx).right = expression(9);
+						((ChainedLogicExpressionContext)_localctx).right = expression(8);
 						}
 						break;
 					}
@@ -1684,13 +1684,13 @@ public class SexyLangParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 11);
-		case 1:
 			return precpred(_ctx, 10);
-		case 2:
+		case 1:
 			return precpred(_ctx, 9);
-		case 3:
+		case 2:
 			return precpred(_ctx, 8);
+		case 3:
+			return precpred(_ctx, 7);
 		}
 		return true;
 	}
@@ -1718,25 +1718,25 @@ public class SexyLangParser extends Parser {
 		"\3\2\2\2$\u00ae\3\2\2\2&\u00b0\3\2\2\2(\u00b7\3\2\2\2*\u00b9\3\2\2\2,"+
 		"/\5\4\3\2-/\5\n\6\2.,\3\2\2\2.-\3\2\2\2/\62\3\2\2\2\60.\3\2\2\2\60\61"+
 		"\3\2\2\2\61\63\3\2\2\2\62\60\3\2\2\2\63\64\7\2\2\3\64\3\3\2\2\2\65\66"+
-		"\b\3\1\2\66\67\7\35\2\2\67C\5\4\3\1689\7\24\2\29:\5\4\3\2:;\7\25\2\2;"+
-		"C\3\2\2\2<C\5\6\4\2=C\5$\23\2>C\5(\25\2?C\5&\24\2@C\5*\26\2AC\7&\2\2B"+
-		"\65\3\2\2\2B8\3\2\2\2B<\3\2\2\2B=\3\2\2\2B>\3\2\2\2B?\3\2\2\2B@\3\2\2"+
-		"\2BA\3\2\2\2CR\3\2\2\2DE\f\r\2\2EF\t\2\2\2FQ\5\4\3\16GH\f\f\2\2HI\t\3"+
-		"\2\2IQ\5\4\3\rJK\f\13\2\2KL\t\4\2\2LQ\5\4\3\fMN\f\n\2\2NO\t\5\2\2OQ\5"+
-		"\4\3\13PD\3\2\2\2PG\3\2\2\2PJ\3\2\2\2PM\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS"+
-		"\3\2\2\2S\5\3\2\2\2TR\3\2\2\2UV\7&\2\2VX\7\24\2\2WY\5\b\5\2XW\3\2\2\2"+
-		"XY\3\2\2\2YZ\3\2\2\2Z[\7\25\2\2[\7\3\2\2\2\\a\5\4\3\2]^\7\30\2\2^`\5\4"+
-		"\3\2_]\3\2\2\2`c\3\2\2\2a_\3\2\2\2ab\3\2\2\2b\t\3\2\2\2ca\3\2\2\2dk\5"+
-		"\20\t\2ek\5\22\n\2fk\5\24\13\2gk\5\30\r\2hk\5\34\17\2ik\5\36\20\2jd\3"+
-		"\2\2\2je\3\2\2\2jf\3\2\2\2jg\3\2\2\2jh\3\2\2\2ji\3\2\2\2k\13\3\2\2\2l"+
-		"s\5\20\t\2ms\5\22\n\2ns\5\24\13\2os\5\30\r\2ps\5\34\17\2qs\5\26\f\2rl"+
-		"\3\2\2\2rm\3\2\2\2rn\3\2\2\2ro\3\2\2\2rp\3\2\2\2rq\3\2\2\2s\r\3\2\2\2"+
-		"tv\7\26\2\2uw\5\f\7\2vu\3\2\2\2vw\3\2\2\2wx\3\2\2\2xy\7\27\2\2y\17\3\2"+
-		"\2\2z{\7\t\2\2{|\5\"\22\2|}\5\4\3\2}~\7\n\2\2~\177\7&\2\2\177\21\3\2\2"+
-		"\2\u0080\u0081\7\t\2\2\u0081\u0082\5\4\3\2\u0082\u0083\7\n\2\2\u0083\u0084"+
-		"\7&\2\2\u0084\23\3\2\2\2\u0085\u0086\t\6\2\2\u0086\u0087\5\4\3\2\u0087"+
-		"\25\3\2\2\2\u0088\u008a\7\16\2\2\u0089\u008b\5\4\3\2\u008a\u0089\3\2\2"+
-		"\2\u008a\u008b\3\2\2\2\u008b\27\3\2\2\2\u008c\u008d\7\17\2\2\u008d\u008e"+
+		"\b\3\1\2\66\67\7\24\2\2\678\5\4\3\289\7\25\2\29C\3\2\2\2:;\7\35\2\2;C"+
+		"\5\4\3\r<C\5\6\4\2=C\5$\23\2>C\5(\25\2?C\5&\24\2@C\5*\26\2AC\7&\2\2B\65"+
+		"\3\2\2\2B:\3\2\2\2B<\3\2\2\2B=\3\2\2\2B>\3\2\2\2B?\3\2\2\2B@\3\2\2\2B"+
+		"A\3\2\2\2CR\3\2\2\2DE\f\f\2\2EF\t\2\2\2FQ\5\4\3\rGH\f\13\2\2HI\t\3\2\2"+
+		"IQ\5\4\3\fJK\f\n\2\2KL\t\4\2\2LQ\5\4\3\13MN\f\t\2\2NO\t\5\2\2OQ\5\4\3"+
+		"\nPD\3\2\2\2PG\3\2\2\2PJ\3\2\2\2PM\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2"+
+		"\2S\5\3\2\2\2TR\3\2\2\2UV\7&\2\2VX\7\24\2\2WY\5\b\5\2XW\3\2\2\2XY\3\2"+
+		"\2\2YZ\3\2\2\2Z[\7\25\2\2[\7\3\2\2\2\\a\5\4\3\2]^\7\30\2\2^`\5\4\3\2_"+
+		"]\3\2\2\2`c\3\2\2\2a_\3\2\2\2ab\3\2\2\2b\t\3\2\2\2ca\3\2\2\2dk\5\20\t"+
+		"\2ek\5\22\n\2fk\5\24\13\2gk\5\30\r\2hk\5\34\17\2ik\5\36\20\2jd\3\2\2\2"+
+		"je\3\2\2\2jf\3\2\2\2jg\3\2\2\2jh\3\2\2\2ji\3\2\2\2k\13\3\2\2\2ls\5\20"+
+		"\t\2ms\5\22\n\2ns\5\24\13\2os\5\30\r\2ps\5\34\17\2qs\5\26\f\2rl\3\2\2"+
+		"\2rm\3\2\2\2rn\3\2\2\2ro\3\2\2\2rp\3\2\2\2rq\3\2\2\2s\r\3\2\2\2tv\7\26"+
+		"\2\2uw\5\f\7\2vu\3\2\2\2vw\3\2\2\2wx\3\2\2\2xy\7\27\2\2y\17\3\2\2\2z{"+
+		"\7\t\2\2{|\5\"\22\2|}\5\4\3\2}~\7\n\2\2~\177\7&\2\2\177\21\3\2\2\2\u0080"+
+		"\u0081\7\t\2\2\u0081\u0082\5\4\3\2\u0082\u0083\7\n\2\2\u0083\u0084\7&"+
+		"\2\2\u0084\23\3\2\2\2\u0085\u0086\t\6\2\2\u0086\u0087\5\4\3\2\u0087\25"+
+		"\3\2\2\2\u0088\u008a\7\16\2\2\u0089\u008b\5\4\3\2\u008a\u0089\3\2\2\2"+
+		"\u008a\u008b\3\2\2\2\u008b\27\3\2\2\2\u008c\u008d\7\17\2\2\u008d\u008e"+
 		"\7\24\2\2\u008e\u008f\5\4\3\2\u008f\u0090\7\25\2\2\u0090\u0092\5\16\b"+
 		"\2\u0091\u0093\5\32\16\2\u0092\u0091\3\2\2\2\u0092\u0093\3\2\2\2\u0093"+
 		"\31\3\2\2\2\u0094\u0097\7\20\2\2\u0095\u0098\5\16\b\2\u0096\u0098\5\30"+

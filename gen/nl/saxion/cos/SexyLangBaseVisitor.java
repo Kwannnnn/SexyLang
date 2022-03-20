@@ -80,14 +80,14 @@ public class SexyLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNegationExpression(SexyLangParser.NegationExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGroupExpression(SexyLangParser.GroupExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGroupExpression(SexyLangParser.GroupExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNegationExpression(SexyLangParser.NegationExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -3,6 +3,8 @@ package nl.saxion.cos;
 import nl.saxion.cos.exception.AssembleException;
 import nl.saxion.cos.exception.CompilerException;
 import nl.saxion.cos.type.SymbolTable;
+import nl.saxion.cos.visitor.CodeGenerator;
+import nl.saxion.cos.visitor.TypeChecker;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -22,7 +24,6 @@ public class Compiler {
 	 * The number of errors detected by the lexer and parser.
 	 */
 	private int errorCount = 0;
-
 	private final ParseTreeProperty<DataType> types = new ParseTreeProperty<>();
 	private final ParseTreeProperty<SymbolTable> scopes = new ParseTreeProperty<>();
 
@@ -100,16 +101,15 @@ public class Compiler {
 	 * @return           True if all code is semantically correct
 	 */
 	private boolean runChecker( ParseTree parseTree ) {
-		this.scopes.put(parseTree, new SymbolTable()); // Parent scope added to the root of the tree
-		TypeChecker typeChecker = new TypeChecker(this.types, this.scopes);
 		try {
+			this.scopes.put(parseTree, new SymbolTable()); // Parent scope added to the root of the tree
+			TypeChecker typeChecker = new TypeChecker(this.types, this.scopes);
 			typeChecker.visit(parseTree);
+			return true;
 		} catch (CompilerException e) {
 			e.printStackTrace();
 			return false;
 		}
-
-		return true;
 	}
 
 	/**
@@ -122,30 +122,23 @@ public class Compiler {
 	private JasminBytecode generateCode( ParseTree parseTree, String className ) {
 		JasminBytecode jasminBytecode = new JasminBytecode( className );
 
-		CodeGenerator codeGenerator = new CodeGenerator(this.types, this.scopes);
-		codeGenerator.visit(parseTree);
-
 		jasminBytecode.add(".bytecode 49.0")
 				.add(".class public " + className)
 				.add(".super java/lang/Object")
 				.add();
 
 		// Main method
-		// TODO: You will have to create a visitor that visits the parse tree and generates
-		//       code for the nodes in that tree.
-		//       In your case, you will probably want to supply that visitor with the JasminCode
-		//       created above and emit lines of Jasmin code for the nodes in the parse tree.
-		//       For now, I'll just create a simple template that prints 'Hello world!'
-
 		jasminBytecode.add(".method public static main([Ljava/lang/String;)V")
 				.add(".limit stack 99")
 				.add(".limit locals 99")  // NOTE: The args-parameter is a local too
-				.add()
-				.addAll(codeGenerator.getCode())
-				.add()
-//				.add("getstatic java/lang/System/out Ljava/io/PrintStream;")            // Push System.out
-//				.add("ldc \"Hello from ExampleLang!\"")                                 // Push message
-//				.add("invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V")  // Call println()
+				.add();
+
+		// Generated code
+		CodeGenerator codeGenerator = new CodeGenerator(this.types, this.scopes, jasminBytecode);
+		codeGenerator.visit(parseTree);
+
+		// Return
+		jasminBytecode.add()
 				.add("return")
 				.add(".end method");
 

@@ -1,5 +1,9 @@
-package nl.saxion.cos;
+package nl.saxion.cos.visitor;
 
+import nl.saxion.cos.DataType;
+import nl.saxion.cos.SexyLangBaseVisitor;
+import nl.saxion.cos.SexyLangLexer;
+import nl.saxion.cos.SexyLangParser;
 import nl.saxion.cos.exception.CompilerException;
 import nl.saxion.cos.type.Symbol;
 import nl.saxion.cos.type.SymbolTable;
@@ -7,12 +11,19 @@ import nl.saxion.cos.type.VariableSymbol;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-import static nl.saxion.cos.SexyLangUtils.getDataType;
+import static nl.saxion.cos.SexyLangUtils.*;
 
 public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     private final ParseTreeProperty<DataType> types;
     private final ParseTreeProperty<SymbolTable> scopes;
     private SymbolTable currentScope;
+
+    // TODO:
+    // TODO: Variable Assignment
+    // TODO: Moan Statement
+    // TODO: Lube Statement
+    // TODO: Bed Activity Statement
+    // TODO: Params
 
     public TypeChecker(ParseTreeProperty<DataType> types,
                        ParseTreeProperty<SymbolTable> scopes) {
@@ -30,6 +41,49 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return null;
     }
 
+    @Override
+    public DataType visitIfStmt(SexyLangParser.IfStmtContext ctx) {
+        DataType conditionType = visit(ctx.condition);
+
+        if (conditionType != DataType.BULGE) {
+            throw new CompilerException("If statement condition must be of type boolean");
+        }
+
+        visit(ctx.block());
+
+        return null;
+    }
+
+    /**
+     * Variable Assignment
+     */
+    @Override
+    public DataType visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
+        String variableName = ctx.IDENTIFIER().getText();
+        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope.lookup(variableName);
+
+        // Checks if a variable with the same name exist in the scope
+        if (variableSymbol == null) {
+            throw new CompilerException("Variable '"+ variableName
+                    + "' is not defined in current scope");
+        }
+
+        DataType varType = variableSymbol.getType();
+        DataType exprType = visit(ctx.expression());
+
+        // Check if type is specified during the declaration
+        if (exprType != varType) {
+            throw new CompilerException("Type of variable does not match" +
+                    " the type of the given value!");
+        }
+
+        this.scopes.put(ctx, this.currentScope);
+        return null;
+    }
+
+    /**
+     * Variable Declaration
+     */
     @Override
     public DataType visitVarDeclaration(SexyLangParser.VarDeclarationContext ctx) {
         String variableName = ctx.IDENTIFIER().getText();
@@ -63,6 +117,19 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return null;
     }
 
+    /**
+     * Group Expression
+     */
+    @Override
+    public DataType visitGroupExpression(SexyLangParser.GroupExpressionContext ctx) {
+        DataType type = visit(ctx.expression());
+        this.types.put(ctx, type);
+        return type;
+    }
+
+    /**
+     * Negation Expression
+     */
     @Override
     public DataType visitNegationExpression(SexyLangParser.NegationExpressionContext ctx) {
         DataType dataType = visit(ctx.expression());
@@ -76,43 +143,73 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return dataType;
     }
 
-    @Override
-    public DataType visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
-        DataType leftType = visit(ctx.left);
-        DataType rightType = visit(ctx.right);
-        if (leftType != rightType) {
-            throw new CompilerException("Operator '" + ctx.op + "' cannot be" +
-                    "applied on operands with different types");
-        }
-
-        this.types.put(ctx, leftType);
-        return leftType;
-    }
-
+    /**
+     * Mul - Div Expression
+     */
     @Override
     public DataType visitMulDivExpression(SexyLangParser.MulDivExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
-        if (leftType != rightType) {
-            throw new CompilerException("Operator '" + ctx.op + "' cannot be" +
-                    "applied on operands with different types");
+        if (leftType != rightType
+                || !COMPUTABLE_DATA_TYPES.contains(leftType)
+                || !COMPUTABLE_DATA_TYPES.contains(rightType)) {
+            throw new CompilerException(getIncompatibleOperandsMessage(
+                    ctx.op.getText(),
+                    leftType,
+                    rightType
+            ));
         }
 
         this.types.put(ctx, leftType);
         return leftType;
     }
 
+    /**
+     * Add - Sub Expression
+     */
+    @Override
+    public DataType visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
+        DataType leftType = visit(ctx.left);
+        DataType rightType = visit(ctx.right);
+
+        // Handle string concatenation
+        if (ctx.op.getType() == SexyLangLexer.ADD
+                && (leftType == DataType.SAFE_WORD || rightType == DataType.SAFE_WORD)) {
+            this.types.put(ctx, DataType.SAFE_WORD);
+            return DataType.SAFE_WORD;
+        }
+
+        // Check whether operands are computable
+        if (leftType != rightType
+                || !COMPUTABLE_DATA_TYPES.contains(leftType)
+                || !COMPUTABLE_DATA_TYPES.contains(rightType)) {
+            throw new CompilerException(getIncompatibleOperandsMessage(
+                    ctx.op.getText(),
+                    leftType,
+                    rightType
+            ));
+        }
+
+        this.types.put(ctx, leftType);
+        return leftType;
+    }
+
+    /**
+     * Logic Expression
+     */
     @Override
     public DataType visitLogicExpression(SexyLangParser.LogicExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
 
-        if (leftType != rightType) {
-            throw new CompilerException("Operator '" + ctx.op + "' cannot be" +
-                    "applied on operands with different types");
+        if (!COMPARABLE_DATA_TYPES.contains(leftType)
+            || !COMPUTABLE_DATA_TYPES.contains((rightType))) {
+            throw new CompilerException("Bad operand types for binary" +
+                    " operator '" + ctx.op.getText() + "'");
         }
 
-        if (!SexyLangUtils.COMPARABLE_DATA_TYPES.contains(leftType)) {
+        if (leftType != rightType
+            && (leftType == DataType.SAFE_WORD)) {
             throw new CompilerException("Incomparable type for logic" +
                     "operations. Only bodyCount or length allowed.");
         }
@@ -121,6 +218,9 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return DataType.BULGE;
     }
 
+    /**
+     * Chained Logic Expression
+     */
     @Override
     public DataType visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
@@ -136,58 +236,54 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return DataType.BULGE;
     }
 
-    @Override
-    public DataType visitIfStmt(SexyLangParser.IfStmtContext ctx) {
-        DataType conditionType = visit(ctx.condition);
-
-        if (conditionType != DataType.BULGE) {
-            throw new CompilerException("If statement condition must be of type boolean");
-        }
-
-        visit(ctx.block());
-
-        return null;
-    }
-
-    @Override
-    public DataType visitGroupExpression(SexyLangParser.GroupExpressionContext ctx) {
-        DataType type = visit(ctx.expression());
-        this.types.put(ctx, type);
-        return type;
-    }
-
+    /**
+     * Function Call Expression
+     */
     @Override
     public DataType visitBedActivityCall(SexyLangParser.BedActivityCallContext ctx) {
         // TODO
         return null;
     }
 
-    // TODO: Ask Gerralt about visiting visitBodyCountLiteralExpression vs visitBodyCountLiteral
-
-    @Override
-    public DataType visitBodyCountLiteralExpression(SexyLangParser.BodyCountLiteralExpressionContext ctx) {
-        this.types.put(ctx, DataType.BODY_COUNT);
-        return DataType.BODY_COUNT;
-    }
-
-    @Override
-    public DataType visitLengthLiteralExpression(SexyLangParser.LengthLiteralExpressionContext ctx) {
-        this.types.put(ctx, DataType.LENGTH);
-        return DataType.LENGTH;
-    }
-
+    /**
+     * Boolean Literal Expression
+     */
     @Override
     public DataType visitBulgeLiteralExpression(SexyLangParser.BulgeLiteralExpressionContext ctx) {
         this.types.put(ctx, DataType.BULGE);
         return DataType.BULGE;
     }
 
+    /**
+     * Integer Literal Expression
+     */
+    @Override
+    public DataType visitBodyCountLiteralExpression(SexyLangParser.BodyCountLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.BODY_COUNT);
+        return DataType.BODY_COUNT;
+    }
+
+    /**
+     * String Literal Expression
+     */
     @Override
     public DataType visitSafeWordLiteralExpression(SexyLangParser.SafeWordLiteralExpressionContext ctx) {
         this.types.put(ctx, DataType.SAFE_WORD);
         return DataType.SAFE_WORD;
     }
 
+    /**
+     * Float Literal Expression
+     */
+    @Override
+    public DataType visitLengthLiteralExpression(SexyLangParser.LengthLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.LENGTH);
+        return DataType.LENGTH;
+    }
+
+    /**
+     * Identifier Expression
+     */
     @Override
     public DataType visitIdentifierExpression(SexyLangParser.IdentifierExpressionContext ctx) {
         Symbol symbol = this.currentScope.lookup(ctx.IDENTIFIER().getText());
