@@ -1,184 +1,296 @@
-# Compilers and Operating systems
+# SexyLang
 
-This is the base project for the assignment of *Compilers and Operating Systems*.
+SexyLang is an esoteric programming language inspired by the fountain of life, the creator of us all - sex. The language itself is a strongly static typed programming language, that provides with several basic functionalities such as storing values in variables, arrays, performing mathematical operations, branching based on a boolean expression, looping and defining functions and calling them.
 
-The project has support for reading your files, assembling Jasmin bytecode into classes and even 
-running them automatically in JUnit-tests. The actual code generation is of course missing still 
-(since that is the whole point of the assignment) and you should replace the grammar (and associated
-lexer and parser) with one of your own.
+## 1. Supported operators
 
-You can change this code in any way you see fit.
+### 1.1. Arithmetic operators
+- Addition ( *+* )
+- Subtraction ( *-* )
+- Multiplication ( *\** )
+- Division ( \/ )
 
-## Compiler phases
+### 1.2. Logic operators
+- Negation ( *!* )
+- Equals ( *==* )
+- Less than ( *<* )
+- Greater than ( *>* )
+- And ( *and* )
+- Or ( *or* )
 
-During the course, you will build your own compiler. The compiler we discuss in the lectures
-consists of a few phases:
 
-![Diagram showing compiler has lexer, parser, checker and generation phase](doc/readme/compiler-phases.png)
+## 2. Variable Types
 
-* ***Lexer***\
-  The lexer takes the source file of your user and groups the characters in the file
-  into meaningful *tokens*. So a string of characters like
+| Type        | Description                                                                                                                                                         |
+|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `bulge`     | A primitive type used to represent truth values. True value is represented by <code><b>hard</b></code> and a false value is represented by <code><b>soft</b></code> |
+| `bodyCount` | A primitive data type representing an integer                                                                                                                       |
+| `length`    | Represents the float data type that stores double-precision floating-point numbers                                                                                  |
+| `SafeWord`  | Represents a sequence of characters that together form a text                                                                                                       |
 
-   `i` `n` `t` `<space>` `m` `a` `i` `n` `(` `)` `{` `<CRLF>` `i` `n` `t` `<space>` `a` `=` `3` `4` `;`
-   `<CRLF>` `}`
-   
-   is grouped into:
-   
-   `int` `main` `(` `)` `{` `int` `a` `=` `34` `;` `}`
+## 3. Statements
 
-* ***Parser***\
-  The parser then takes those tokens and tries to build a tree structure from them, 
-  called a *parse tree*, like: 
-  
-  ![Example parse tree](doc/readme/parsetree.png)
-  
-* ***Checker***\
-  The checker then walks through that parse tree and checks if the code the user gave
-  to the compiler is actually correct. For example, it will check if the user uses the right type
-  of arguments when calling a function.
+SexyLang has the following statements
 
-* ***Code generator***\
-  After making sure the user's code is correct, the code generator will walk
-  the parse tree and generate Jasmin byte code. The end result will look something like:
-  
-  ```
-  .class public Example
-  .super java/lang/Object
-  .method public static main([Ljava/lang/String;)V
-  ldc 34
-  istore 1
-  return
-  .end method
-  ```
+<table>
+    <tr>
+        <th>Statement</th>
+        <th>Description</th>
+        <th>Example usage</th>
+    </tr>
+    <tr>
+        <td>
+            3==D <i>[comment]</i>
+        </td>
+        <td>
+            Comment
+        </td>
+        <td>
+            <pre><i>3==D Tease me!</i></pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>insert</b> <i>[type]</i> <i>[value]</i> <b>in</b> <i>[variable]</i>
+        </td>
+        <td>
+            Variable declaration
+        </td>
+        <td>
+            <pre><b>insert</b> SafeWord "shrek" <b>in</b> safeword</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>insert</b> <i>[value]</i> <b>in</b> <i>[variable]</i>
+        </td>
+        <td>
+            Variable assignment
+        </td>
+        <td>
+            <pre><b>insert</b> SafeWord "shrek" <b>in</b> safeword<br><br><b>insert</b> "shrek2" in safeword </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>moan</b> <i>[data]</i>
+        </td>
+        <td>
+            Print data onto the same line
+        </td>
+        <td>
+            <pre><b>moan</b> "shrek"</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>moanLoud</b> <i>[data]</i>
+        </td>
+        <td>
+            Prints data on a new line
+        </td>
+        <td>
+            <pre><b>moanLoud</b> "shrek"</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>bedActivity</b> <i>[name]</i> <i>[return type?]</i> (<i>[parameters?]</i>)
+        </td>
+        <td>
+            Function declaration; if no return type is specified, type void is inferred
+        </td>
+        <td>
+            <pre><b>bedActivity</b> stop (SafeWord safeword) {<br>    <b>moanLoud</b> safeword<br>}</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>ejaculate</b> <i>[data?]</i>
+        </td>
+        <td>
+            Indicates the completion of a method or returns a value from a method
+        </td>
+        <td>
+            <pre><b>bedActivity</b> hasFinished <b>bulge</b> () {<br>    <b>ejaculate hard</b> <br>}</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>if</b> (<i>[condition]</i>)
+        </td>
+        <td>
+            Definition of if statement
+        </td>
+        <td>
+            <pre><b>insert bulge hard in</b> d<br><b>if</b> (d == hard) {<br>    <b>moanLoud</b> "Get in"<br>}</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>elseif</b> (<i>[condition]</i>)
+        </td>
+        <td>
+            Definition of elseif statement
+        </td>
+        <td>
+            <pre><b>insert bodyCount 3 in</b> partners<br><b>if</b> (partners == 2) {<br>    <b>moanLoud</b> "..." <br>} elseif (partners == 3) {<br>   <b>moanLoud</b> "It's a trio!"<br>}</pre>
+        </td>
+    </tr>
+        <tr>
+        <td>
+            <b>else</b>
+        </td>
+        <td>
+            Definition of else statement
+        </td>
+        <td>
+            <pre><b>insert bulge hard in</b> d<br><b>if</b> (d == hard) {<br>    <b>moanLoud</b> "Go for it!" <br>} else {<br>   <b>moanLoud</b> "Try again next time!"<br>}</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <b>lube</b> (<i>[condition]</i>)
+        </td>
+        <td>
+            Continually executes a block of statements while a particular condition is true
+        </td>
+        <td>
+            <pre><b>insert bulge hard in</b> hole<br><b>lube</b> (hole) {<br>    <b>moanLoud "Yes"</b> <br>}</pre>
+        </td>
+    </tr>
+</table>
 
-If this seems daunting, do not worry: for the first two phases we will use a tool call ANTLR. When
-we supply that tool with a description of our programming language, it will generate the *lexer* and
-*parser* for us.
+<i><b>Note:</b> the parameters marked with a \`<b>?</b>\` are optional.</i>
 
-## Planning
+## 4. Example programs
 
-During the course, we will design our own programming language and create a compiler for it. In the
-first weeks, you will build your knowledge and can expand your project week-by-week.
+### 4.1. Good weather examples
 
-* ***Week 1***\
-  You will design you own language and make example programs in your language. These
-  examples can then also be used as input for your unit tests.
-* ***Week 2***\
-  Your compiler will generate [Jasmin](http://jasmin.sourceforge.net)-compatible byte
-  code. We will learn to create programs in byte code and then translate our example programs to
-  byte code. This will be the expected output of your unit tests.
-* ***Week 3***\
-  ANTLR needs a grammar that describes the rules of your language. We will create that
-  grammar during this week. You can now use the ANTLR plugin to show parse trees of your example
-  programs.
-* ***Week 4***\
-  This week we will do our first code generation. After this week, you can expand your
-  compiler so that it can compile code in your language with hardcoded values.
-* ***Week 5***\
-  We will now add support for variables to our compiler. Most code in your language
-  can now compile. Also, we will make sure that if a user makes errors, they are found by the
-  compiler.
-* ***Week 6-8***\
-  You can use this time to make sure all the features in your language have been
-  implemented and tested.
+#### **HelloSexy.sexy** - a very basic program that prints the String *Hello Sexy!* on the console
 
-## Running the compiler
+<pre>
+<b>bedActivity</b> intercourse() {
+    moanLoud "Hello Sexy!"
+}
+</pre>
 
-### How to run
+#### **ItsMoreComplicated.sexy** - a program that stores a number and increments it based on a condition
 
-If you run the compiler framework just after you cloned it from GitLab, it will probably give you
-an error message like:
+<pre>
+<b>bedActivity</b> moreComplicated() {
+    <b>insert bodyCount</b> 0 <b>in</b> rounds
+    <b>insert bulge soft in</b> isTired
+    <b>if</b> (!isTired) {
+        <b>insert</b> rounds + 1 <b>in</b> rounds
+        <b>moanLoud</b> "Another round, baby!"
+    }
+}
+</pre>
 
-> ``Usage: java Compiler <name of Source>``
- 
-This is because the compiler expects the path to the input program as a program argument. To supply
-this program argument, expand the combo box next to the Build- and Play-buttons.
+#### **ItsWayMoreComplicated.sexy** - a program that prints out different Strings based on different conditions
 
-![Screenshots showing run configuration combobox](doc/readme/runconfig1.png)
+<pre>
+<b>bedActivity</b> wayMoreComplicated() {
+    <b>insert bodyCount</b> 16 <b>in</b> p1Age
+    <b>insert bodyCount</b> 21 <b>in</b> p2Age
+    <b>insert bulge soft in</b> isConsensual
+    <b>if</b> (isConsensual) {
+        <b>if</b> (p1Age < 16 <b>or</b> p2Age < 16) {
+            moanLoud "Hey, that's illegal!"
+        } <b>else</b> {
+            moanLoud "Here we go!"
+        }
+    } <b> else </b> {
+        moanLoud "I respect your boring decision"
+    }
+}
+</pre>
 
-This will open the *Run/Debug Configurations* screen. You can supply the program argument (i.e. the
-file you want to compile) in the third input field. This path is relative to the *working directory*
-that you can find in the text field below.
+#### **Safeword.sexy** - a program that declares a function that accepts a parameter and returns a result
 
-![Screenshots showing run configuration combobox](doc/readme/runconfig2.png)
+<pre>
+<b>bedActivity</b> safeword() {
+    <b>insert Safeword</b> "shrek" <b>in</b> safeword
+    <b>insert bulge</b> checkSafeword(safeword) <b>in</b> safewordIsCorrect
 
-### So what will it do?
+    <b>bedActivity bulge</b> checkSafeword(Safeword safeword) {
+        <b>if</b> (safeword != "shrek") {
+            <b>return false</b>
+        }
+        <b>return true</b>
+    }
+}
+</pre>
 
-When you run the compiler, it will take your input file and try to compile it into byte code and
-assemble that into a Java VM-compatible class.
+#### **Toy.sexy** - a program that continually runs in a loop until a certain condition is false
+<pre>
+<b>bedActivity</b> playToy() {
+    <b>insert length</b> 69.6 <b>in</b> toyBattery
+    <b>lube</b> (toyBattery >= 0) {
+        <b>moanLoud</b> "It's better than the real thing!"
+        <b>insert</b> toyBattery - 10 <b>in</b> toyBattery
+    }
+    <b>moanLoud</b> "The fun is over. No more battery!"
+}
 
-It will output 2 files:
+</pre>
+### 4.2. Bad weather examples
+#### **WrongLength.sexy** - a basic program that assigns a wrong value to a variable type and then tries to print it.
 
-* The Jasmin byte code. Whatever the compiler generated will be stored in a file with the
-  `.j`-extension.
-* A `.class` file that is created by running Jasmin over the byte code from the previous step.
+<pre>
+<b>bedActivity</b> wrongLength() {
+    <b>insert length</b> "long" <b>in</b> dLength
+    moanLoud dLength
+}
+</pre>
 
-If your code is correct, you should be able to run the class file by starting the Java virtual
-machine and giving it the name of the class you want to run (without the `.class` extension):
+#### **NoLength.sexy** - a basic program that assigns a value to a variable that has not been declared.
 
-> `java MyProgram`
+<pre>
+<b>bedActivity</b> noLength() {
+    <b>insert</b> "long" <b>in</b> dLength
+    moanLoud dLength
+}
+</pre>
 
-## Testing
+#### **Empty.sexy** - a program that has an if statement with an empty condition
 
-Of course, you can test your compiler manually as shown above. However, it is probably more practical
-to use the unit tests. Check the `CompilerTest` for some examples how to do this. You could consider
-tests like:
+<pre>
+<b>bedActivity</b> empty() {
+    <b>insert bulge soft in</b> isTired
+    <b>if</b> () {
+        <b>moanLoud</b> "Another round, baby!"
+    }
+}
+</pre>
 
-* Taking the example programs you created in week 1, compiling them and comparing them to the
-  byte code equivalents you wrote in week 2.
-* Making smaller programs (testing just a single feature) and comparing the generated byte code.
-* Running the compiled programs and comparing the output.
-* Checking that certain errors will be found by the checker.
+#### **WrongToy.sexy** - a program that performs an infinite loop.
 
-## Getting started
+<pre>
+<b>bedActivity</b> wrongToy() {
+    <b>insert length</b> 69.6 <b>in</b> toyBattery
+    <b>lube</b> (toyBattery >= 0) {
+        <b>moanLoud</b> "It's better than the real thing!"
+    }
+    <b>moanLoud</b> "The fun is over. No more battery!"
+}
+</pre>
 
-So, how do you get started?
+#### **WrongSafeword.sexy** - a program that declares a function that accepts a parameter and returns a result. However, this time the parameter is of the wrong type.
 
-* Design your programming language and create the grammar for it. Also generate the classes for the
-  lexer, parser and base visitor using ANTLR.
-* In `Compiler.runLexer()` and `Compiler.runParser()` refer to your own lexer and parser, instead of
-  the example language.
-* Create a visitor to generate code and generate Jasmin code for programs in your language. Hook
-  that up to the compiler by calling `visit(parseTree)` on your code generator in
-  `Compiler.generateCode()`.\
-  *Start small!* Make sure you can compile the equivalent of `print("Hello World!");` and then
-  expand from there. Use automated tests to track your success.
-* Expand your project with a checker and code generator for all features needed.
+<pre>
+<b>bedActivity</b> wrongSafeword() {
+    <b>insert bulge</b> false <b>in</b> safeword
+    <b>insert bulge</b> checkSafeword(safeword) <b>in</b> safewordIsCorrect
 
-## Classes
+    <b>bedActivity bulge</b> checkSafeword(Safeword safeword) {
+        <b>if</b> (safeword != "shrek") {
+            <b>return false</b>
+        }
+        <b>return true</b>
+    }
+}
+</pre>
 
-A quick explanation of some of the classes we gave you: 
 
-### Compiler
-
-The compiler reads in the source file and the runs the four phases described above:
-* `runLexer()`\
-  Runs the lexer generated by ANTLR. By default, it will run `ExampleLangLexer`. Replace it with
-  your own. 
-* `runParser()`\
-  Runs the parser generated by ANTLR. By default, it will run `ExampleLangParser`. Replace it with
-  your own.
-* `runChecker()` \
-  Does nothing by default. This will be the method where you check if the user's source code is
-  correct. If you return false here, compilation stops.
-* `generateCode()`\
-  Generates a `JasminBytecode` instance from a given `ParseTree`. The byte code is then written to a
-  file and given to Jasmin to assemble into a runnable `.class` file.\
-  By default, this function just generates the byte code for printing *Hello, world*.
-
-### JasminBytecode
-
-Basically a wrapper around `ArrayList<String>`. You can add lines of bytecode to this object just as
-you would to an `ArrayList`. The class also contains functionality to write all lines to a file, 
-which is used by the `Compiler` class.
-
-### AssembledClass
-
-After successfully generating the `JasminCode` it is passed to `AssembledClass.assemble()` to run
-Jasmin and create a JVM-compatible class.
-
-### SandBox
-
-The testing framework uses `SandBox` to run the assembled class in a safe environment.
-You can check the output after execution finished.
