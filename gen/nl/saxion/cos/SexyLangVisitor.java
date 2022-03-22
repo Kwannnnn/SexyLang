@@ -161,6 +161,12 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStmt(SexyLangParser.IfStmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#elseIfStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseIfStmt(SexyLangParser.ElseIfStmtContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#elseStmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

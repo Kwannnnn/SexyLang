@@ -9,7 +9,8 @@ expression
     | left=expression op=(MUL | DIV) right=expression                   #MulDivExpression
     | left=expression op=(ADD | SUB) right=expression                   #AddSubExpression
     | left=expression op=(EQUAL | LE | GE | LT | GT) right=expression   #LogicExpression
-    | left=expression op=(AND | OR) right=expression                    #ChainedLogicExpression    | bedActivityCall                                                   #BedActivitCallExpression
+    | left=expression op=(AND | OR) right=expression                    #ChainedLogicExpression
+    | bedActivityCall                                                   #BedActivitCallExpression
     | bulgeLiteral                                                      #BulgeLiteralExpression
     | bodyCountLiteral                                                  #BodyCountLiteralExpression
     | safeWordLiteral                                                   #SafeWordLiteralExpression
@@ -51,8 +52,9 @@ varDeclaration: command=INSERT varType=type expression IN varName=IDENTIFIER;
 varAssignment: command=INSERT expression IN varName=IDENTIFIER;
 moanStmt: command=(MOAN | MOANLOUD) expression;
 ejaculateStmt: command=EJACULATE expression?;
-ifStmt: command=IF L_PAREN condition=expression R_PAREN block elseStmt?;
-elseStmt: command=ELSE (block | ifStmt);
+ifStmt: command=IF L_PAREN condition=expression R_PAREN block elseIfStmt* elseStmt?;
+elseIfStmt: command=ELSEIF L_PAREN conition=expression R_PAREN block;
+elseStmt: command=ELSE block;
 lubeStmt: command=LUBE expression block;
 bedActivityStmt: BEDACTIVITY IDENTIFIER type? L_PAREN paramsDeclaration? R_PAREN block;
 
@@ -92,6 +94,7 @@ MOANLOUD:       'moanLoud';
 BEDACTIVITY:    'bedActivity';
 EJACULATE:      'ejaculate';
 IF:             'if';
+ELSEIF:         'else if';
 ELSE:           'else';
 LUBE:           'lube';
 // Other

@@ -12,6 +12,7 @@ public final class SexyLangUtils {
     public static final Set<DataType> COMPARABLE_DATA_TYPES = new HashSet<DataType>() {{
         add(DataType.BULGE);
         add(DataType.BODY_COUNT);
+        add(DataType.LENGTH);
     }};
 
     public static final Set<DataType> COMPUTABLE_DATA_TYPES = new HashSet<DataType>() {{
@@ -54,8 +55,8 @@ public final class SexyLangUtils {
     public static String getIncompatibleOperandsMessage(String operator,
                                                  DataType leftOperandType,
                                                  DataType rightOperandType) {
-        return "ArithmeticOperator '" + operator + "'" +
-                " cannot be applied to " + leftOperandType.getName() + " and " +
+        return "Operator '" + operator + "'" + " cannot be applied to " +
+                leftOperandType.getName() + " and " +
                 rightOperandType.getName() + " operands.";
     }
 }

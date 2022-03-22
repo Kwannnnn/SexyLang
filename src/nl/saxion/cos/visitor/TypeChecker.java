@@ -8,7 +8,6 @@ import nl.saxion.cos.exception.CompilerException;
 import nl.saxion.cos.type.Symbol;
 import nl.saxion.cos.type.SymbolTable;
 import nl.saxion.cos.type.VariableSymbol;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import static nl.saxion.cos.SexyLangUtils.*;
@@ -49,7 +48,18 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
             throw new CompilerException("If statement condition must be of type boolean");
         }
 
-        visit(ctx.block());
+        visitChildren(ctx);
+
+        return null;
+    }
+
+    @Override
+    public DataType visitElseIfStmt(SexyLangParser.ElseIfStmtContext ctx) {
+        DataType conditionType = visit(ctx.conition);
+
+        if (conditionType != DataType.BULGE) {
+            throw new CompilerException("Condition must be of type boolean");
+        }
 
         return null;
     }
@@ -97,12 +107,6 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         DataType exprType = visit(ctx.expression());
         int varTypeIndex = ctx.varType.start.getType();
-
-        // Check if type is specified during the declaration
-        if (varTypeIndex == Token.INVALID_TYPE) {
-            throw new CompilerException("No variable type specified for '"
-                    + variableName + "'");
-        }
 
         DataType varType = getDataType(varTypeIndex);
         // Check if the type of the expression that is saved in the variable is
@@ -202,16 +206,14 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
 
-        if (!COMPARABLE_DATA_TYPES.contains(leftType)
-            || !COMPUTABLE_DATA_TYPES.contains((rightType))) {
-            throw new CompilerException("Bad operand types for binary" +
-                    " operator '" + ctx.op.getText() + "'");
-        }
-
         if (leftType != rightType
-            && (leftType == DataType.SAFE_WORD)) {
-            throw new CompilerException("Incomparable type for logic" +
-                    "operations. Only bodyCount or length allowed.");
+                || !isComparable(leftType)
+                || !isComparable(rightType)) {
+            throw new CompilerException(getIncompatibleOperandsMessage(
+                    ctx.op.getText(),
+                    leftType,
+                    rightType
+            ));
         }
 
         this.types.put(ctx, DataType.BULGE);
@@ -300,5 +302,9 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.types.put(ctx, type);
         this.scopes.put(ctx, this.currentScope);
         return type;
+    }
+
+    private boolean isComparable(DataType dataType) {
+        return COMPARABLE_DATA_TYPES.contains(dataType);
     }
 }

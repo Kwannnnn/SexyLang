@@ -147,4 +147,23 @@ public class VariableTest extends TestBase {
                 "varAssignmentMismatch");
         assertNull(code);
     }
+
+    @Test
+    @DisplayName("Bad Weather: Variable Assignment ID not found")
+    void badWeather_variable_assignment_not_found() throws Exception {
+        JasminBytecode code = c.compileString(
+                        INSERT_KEYWORD + " " + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
+                        MOAN_KEYWORD + " " + VAR_IDENT1,
+                "varIdNotFound");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Token not found")
+    void badWeather_token_not_found() throws Exception {
+        JasminBytecode code = c.compileString(
+                        MOAN_KEYWORD + " " + VAR_IDENT1,
+                "varIdNotFound");
+        assertNull(code);
+    }
 }

@@ -1,1 +1,10 @@
-insert bulge hard in booty
+insert bodyCount 12 in input
+insert bodyCount 4 in input2
+
+if (input > 10 and input2 < 5) {
+    moan "one"
+} else if (5 < 1) {
+    moan "two"
+} else {
+    moan "four"
+}

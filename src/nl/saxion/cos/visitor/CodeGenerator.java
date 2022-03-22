@@ -72,6 +72,37 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
+    public Void visitLogicExpression(SexyLangParser.LogicExpressionContext ctx) {
+        visit(ctx.left);
+        visit(ctx.right);
+        DataType dataType = this.types.get(ctx.left);
+        switch (ctx.op.getType()) {
+            case SexyLangLexer.GT:
+                this.code.add("if_" + dataType.getMnemonic() + "cmple jump" + labelCounter);
+                break;
+            case SexyLangLexer.GE:
+                this.code.add("if_" + dataType.getMnemonic() + "cmplt jump" + labelCounter);
+                break;
+            case SexyLangLexer.LT:
+                this.code.add("if_" + dataType.getMnemonic() + "cmpge jump" + labelCounter);
+                break;
+            case SexyLangLexer.LE:
+                this.code.add("if_" + dataType.getMnemonic() + "cmpgt jump" + labelCounter);
+                break;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx) {
+        visit(ctx.left);
+        visit(ctx.right);
+
+        return null;
+    }
+
+    @Override
     public Void visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
         if (this.types.get(ctx) == DataType.SAFE_WORD) {
             // TODO: Ask Gerralt about getText() returning string containing " or '
@@ -106,7 +137,13 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     public Void visitBodyCountLiteral(SexyLangParser.BodyCountLiteralContext ctx) {
         int value = Integer.parseInt(ctx.getText());
 
-        this.code.add(value >= 0 && value <= 5 ? "iconst_" + value : "ldc " + value);
+        if (value >= 0 && value <= 5) {
+            this.code.add("iconst_" + value);
+        } else if (value >= -128 && value <= 127) {
+            this.code.add("bipush " + value);
+        } else {
+            this.code.add("ldc " + value);
+        }
 
         return null;
     }
@@ -127,10 +164,36 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitIfStmt(SexyLangParser.IfStmtContext ctx) {
+        long thisIfLabel = ++labelCounter;
         visit(ctx.condition);
-        this.code.add("ifeq end" + (++labelCounter));
         visit(ctx.block());
-        this.code.add("end" + labelCounter + ":");
+        this.code.add("goto endif" + thisIfLabel);
+        this.code.add("jump" + labelCounter + ":");
+
+        if (ctx.elseIfStmt().size() > 0) {
+            ctx.elseIfStmt().forEach(s -> {
+                ++labelCounter;
+                visit(s.conition);
+                visit(s.block());
+                this.code.add("goto endif" + thisIfLabel);
+                this.code.add("jump" + labelCounter + ":");
+            });
+        }
+
+        if (ctx.elseStmt() != null) {
+            visit(ctx.elseStmt());
+        }
+
+        this.code.add("endif" + thisIfLabel + ":");
+
+        return null;
+    }
+
+    @Override
+    public Void visitElseIfStmt(SexyLangParser.ElseIfStmtContext ctx) {
+        visit(ctx.conition);
+        visit(ctx.block());
+        this.code.add("jump" + labelCounter + ":");
 
         return null;
     }
