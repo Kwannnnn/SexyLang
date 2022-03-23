@@ -25,7 +25,8 @@ public class VariableTest extends TestBase {
     private static final int INTEGER_1 = 37;
     private static final int INTEGER_2 = 42;
     private static final float FLOAT = 37.42F;
-    private final Compiler c = new Compiler();
+
+    private static final Compiler COMPILER = new Compiler();
 
     @Test
     @DisplayName("Good Weather: Boolean Variable Declaration")
@@ -33,9 +34,9 @@ public class VariableTest extends TestBase {
         // insert bulge hard in var1
         // moan var1
         String srcCode =
-                INSERT_KEYWORD + " " + BULGE_KEYWORD + " " + HARD_KEYWORD + " " + IN_KEYWORD + " " + VAR_IDENT1 + " "
-                        + MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode, "bulgeVarDeclaration");
+                INSERT_KEYWORD + " " + BULGE_KEYWORD + " " + HARD_KEYWORD + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
+                MOAN_KEYWORD + " " + VAR_IDENT1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "bulgeVarDeclaration");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -51,9 +52,9 @@ public class VariableTest extends TestBase {
         // insert bodyCount 37 in var1
         // moan var1
         String srcCode =
-                INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " "
-                        + MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode, "integerVarDeclaration");
+                INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
+                MOAN_KEYWORD + " " + VAR_IDENT1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "integerVarDeclaration");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -69,9 +70,9 @@ public class VariableTest extends TestBase {
         // insert length 42.37 in var1
         // moan var1
         String srcCode =
-                INSERT_KEYWORD + " " + LENGTH_KEYWORD + " " + FLOAT + " " + IN_KEYWORD + " " + VAR_IDENT1 + " "
-                        + MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode,"floatVarDeclaration");
+                INSERT_KEYWORD + " " + LENGTH_KEYWORD + " " + FLOAT + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
+                MOAN_KEYWORD + " " + VAR_IDENT1;
+        JasminBytecode code = COMPILER.compileString(srcCode,"floatVarDeclaration");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -87,9 +88,9 @@ public class VariableTest extends TestBase {
         // insert SafeWord "shrek" in var1
         // moan var1
         String srcCode =
-                INSERT_KEYWORD + " " + SAFEWORD_KEYWORD + " \"" + STRING + "\" " + IN_KEYWORD + " " + VAR_IDENT1 + " "
-                        + MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode,"stringVarDeclaration");
+                INSERT_KEYWORD + " " + SAFEWORD_KEYWORD + " \"" + STRING + "\" " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
+                MOAN_KEYWORD + " " + VAR_IDENT1;
+        JasminBytecode code = COMPILER.compileString(srcCode,"stringVarDeclaration");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -109,7 +110,7 @@ public class VariableTest extends TestBase {
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT2 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1 + ADD_SIGN + VAR_IDENT2;
-        JasminBytecode code = this.c.compileString(srcCode, "varArithmetics");
+        JasminBytecode code = COMPILER.compileString(srcCode, "varArithmetics");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -128,7 +129,7 @@ public class VariableTest extends TestBase {
         String srcCode =
                 INSERT_KEYWORD + " " + BULGE_KEYWORD + " \"" + STRING + "\" " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode, "bulgeVarMismatch");
+        JasminBytecode code = COMPILER.compileString(srcCode, "bulgeVarMismatch");
         assertNull(code);
     }
 
@@ -142,7 +143,7 @@ public class VariableTest extends TestBase {
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode, "tokenExistsInScope");
+        JasminBytecode code = COMPILER.compileString(srcCode, "tokenExistsInScope");
         assertNull(code);
     }
 
@@ -156,7 +157,7 @@ public class VariableTest extends TestBase {
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 INSERT_KEYWORD + " " + INTEGER_2 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode, "varArithmetics");
+        JasminBytecode code = COMPILER.compileString(srcCode, "varArithmetics");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -176,7 +177,7 @@ public class VariableTest extends TestBase {
                 INSERT_KEYWORD + " " + SAFEWORD_KEYWORD + " \"" + STRING + "\" " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 INSERT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode, "varAssignmentMismatch");
+        JasminBytecode code = COMPILER.compileString(srcCode, "varAssignmentMismatch");
         assertNull(code);
     }
 
@@ -189,7 +190,7 @@ public class VariableTest extends TestBase {
         String srcCode =
                 INSERT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode, "varIdNotFound");
+        JasminBytecode code = COMPILER.compileString(srcCode, "varIdNotFound");
         assertNull(code);
     }
 
@@ -198,7 +199,7 @@ public class VariableTest extends TestBase {
     void badWeather_token_not_found() throws Exception {
         // moan var1
         String srcCode = MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = this.c.compileString(srcCode, "varIdNotFound");
+        JasminBytecode code = COMPILER.compileString(srcCode, "varIdNotFound");
         assertNull(code);
     }
 }

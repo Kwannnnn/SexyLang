@@ -1,16 +1,12 @@
 package nl.saxion.cos;
 
 import nl.saxion.cos.exception.CompilerException;
-import org.antlr.v4.runtime.Vocabulary;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public final class SexyLangUtils {
-    private static final Vocabulary vocabulary = SexyLangLexer.VOCABULARY;
-
     public static final Set<DataType> COMPARABLE_DATA_TYPES = new HashSet<DataType>() {{
-        add(DataType.BULGE);
         add(DataType.BODY_COUNT);
         add(DataType.LENGTH);
     }};
@@ -19,18 +15,6 @@ public final class SexyLangUtils {
         add(DataType.LENGTH);
         add(DataType.BODY_COUNT);
     }};
-
-    // Type Keywords
-    public static final String BULGE_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.BULGE).replace("'", "");
-    public static final String BODYCOUNT_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.BODYCOUNT).replace("'", "");
-    public static final String LENGTH_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.LENGTH).replace("'", "");
-    public static final String SAFEWORD_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.SAFEWORD).replace("'", "");
-
-    public static final String MOAN_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.MOAN).replace("'", "");
-    public static final String INSERT_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.INSERT).replace("'", "");
-    public static final String IN_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.IN).replace("'", "");
-    public static final String HARD_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.HARD).replace("'", "");
-    public static final String SOFT_KEYWORD = vocabulary.getLiteralName(SexyLangLexer.HARD).replace("'", "");
 
     public static String getOperatorInstruction(int operatorIndex) {
         switch (operatorIndex) {
