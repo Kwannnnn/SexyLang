@@ -76,20 +76,41 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.left);
         visit(ctx.right);
         DataType dataType = this.types.get(ctx.left);
-        switch (ctx.op.getType()) {
-            case SexyLangLexer.GT:
-                this.code.add("if_" + dataType.getMnemonic() + "cmple jump" + labelCounter);
-                break;
-            case SexyLangLexer.GE:
-                this.code.add("if_" + dataType.getMnemonic() + "cmplt jump" + labelCounter);
-                break;
-            case SexyLangLexer.LT:
-                this.code.add("if_" + dataType.getMnemonic() + "cmpge jump" + labelCounter);
-                break;
-            case SexyLangLexer.LE:
-                this.code.add("if_" + dataType.getMnemonic() + "cmpgt jump" + labelCounter);
-                break;
+
+        if (dataType.equals(DataType.BODY_COUNT)) {
+            switch (ctx.op.getType()) {
+                case SexyLangLexer.GT:
+                    this.code.add("if_" + dataType.getMnemonic() + "cmple jump" + labelCounter);
+                    break;
+                case SexyLangLexer.GE:
+                    this.code.add("if_" + dataType.getMnemonic() + "cmplt jump" + labelCounter);
+                    break;
+                case SexyLangLexer.LT:
+                    this.code.add("if_" + dataType.getMnemonic() + "cmpge jump" + labelCounter);
+                    break;
+                case SexyLangLexer.LE:
+                    this.code.add("if_" + dataType.getMnemonic() + "cmpgt jump" + labelCounter);
+                    break;
+            }
+        } else if (dataType.equals(DataType.LENGTH)) {
+            this.code.add("fcmpg");
+
+            switch (ctx.op.getType()) {
+                case SexyLangLexer.GT:
+                    code.add("ifle jump" + labelCounter);
+                    break;
+                case SexyLangLexer.GE:
+                    code.add("iflt jump" + labelCounter);
+                    break;
+                case SexyLangLexer.LT:
+                    code.add("ifge jump" + labelCounter);
+                    break;
+                case SexyLangLexer.LE:
+                    code.add("ifgt jump" + labelCounter);
+                    break;
+            }
         }
+
 
         code.add("iconst_1");
         code.add("goto endLogic" + labelCounter);
