@@ -55,7 +55,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
     @Override
     public DataType visitElseIfStmt(SexyLangParser.ElseIfStmtContext ctx) {
-        DataType conditionType = visit(ctx.conition);
+        DataType conditionType = visit(ctx.condition);
 
         if (conditionType != DataType.BULGE) {
             throw new CompilerException("Condition must be of type boolean");

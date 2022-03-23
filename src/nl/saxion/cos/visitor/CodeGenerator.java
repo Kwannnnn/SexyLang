@@ -91,6 +91,15 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
                 break;
         }
 
+        code.add("iconst_1");
+        code.add("goto endLogic" + labelCounter);
+
+        code.add("jump" + labelCounter + ":");
+        code.add("iconst_0");
+
+        code.add("endLogic" + labelCounter + ":");
+
+        labelCounter++;
         return null;
     }
 
@@ -99,6 +108,37 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.left);
         visit(ctx.right);
 
+        if (ctx.op.getType() == SexyLangLexer.AND) {
+            code.add("ifeq jumpFirst" + labelCounter);
+
+            code.add("ifeq jumpSecond" + labelCounter);
+            code.add("iconst_1");
+            code.add("goto endChained" + labelCounter);
+
+            code.add("jumpFirst" + labelCounter + ":");
+            code.add("pop");
+
+            code.add("jumpSecond" + labelCounter + ":");
+            code.add("iconst_0");
+
+        } else if (ctx.op.getType() == SexyLangLexer.OR) {
+
+            code.add("ifne jumpFirst" + labelCounter);
+
+            code.add("ifne jumpSecond" + labelCounter);
+            code.add("iconst_0");
+            code.add("goto endChained" + labelCounter);
+
+            code.add("jumpFirst" + labelCounter + ":");
+            code.add("pop");
+
+            code.add("jumpSecond" + labelCounter + ":");
+            code.add("iconst_1");
+        }
+
+        code.add("endChained" + labelCounter + ":");
+
+        labelCounter++;
         return null;
     }
 
@@ -173,7 +213,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         if (ctx.elseIfStmt().size() > 0) {
             ctx.elseIfStmt().forEach(s -> {
                 ++labelCounter;
-                visit(s.conition);
+                visit(s.condition);
                 visit(s.block());
                 this.code.add("goto endif" + thisIfLabel);
                 this.code.add("jump" + labelCounter + ":");
@@ -191,7 +231,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitElseIfStmt(SexyLangParser.ElseIfStmtContext ctx) {
-        visit(ctx.conition);
+        visit(ctx.condition);
         visit(ctx.block());
         this.code.add("jump" + labelCounter + ":");
 
