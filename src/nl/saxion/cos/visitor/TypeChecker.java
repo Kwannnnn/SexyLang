@@ -61,6 +61,8 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
             throw new CompilerException("Condition must be of type boolean");
         }
 
+        visitChildren(ctx);
+
         return null;
     }
 
@@ -70,7 +72,8 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     @Override
     public DataType visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
         String variableName = ctx.IDENTIFIER().getText();
-        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope.lookup(variableName);
+        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope
+                .lookup(variableName);
 
         // Checks if a variable with the same name exist in the scope
         if (variableSymbol == null) {
