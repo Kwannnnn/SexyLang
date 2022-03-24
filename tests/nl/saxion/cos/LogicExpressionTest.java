@@ -13,7 +13,7 @@ public class LogicExpressionTest extends TestBase {
     public static final String GT_SIGN = ">";
     public static final String LT_SIGN = "<";
     public static final String LE_SIGN = "<=";
-    public static final String GE_SIGN = ">";
+    public static final String GE_SIGN = ">=";
     public static final String EQUALS_SIGN = "==";
     // Test values
     public static final String BOOLEAN = "hard";
