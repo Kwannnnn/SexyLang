@@ -80,16 +80,19 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         if (dataType.equals(DataType.BODY_COUNT)) {
             switch (ctx.op.getType()) {
                 case SexyLangLexer.GT:
-                    this.code.add("if_" + dataType.getMnemonic() + "cmple jump" + labelCounter);
+                    this.code.add("if_icmple jump" + labelCounter);
                     break;
                 case SexyLangLexer.GE:
-                    this.code.add("if_" + dataType.getMnemonic() + "cmplt jump" + labelCounter);
+                    this.code.add("if_icmplt jump" + labelCounter);
                     break;
                 case SexyLangLexer.LT:
-                    this.code.add("if_" + dataType.getMnemonic() + "cmpge jump" + labelCounter);
+                    this.code.add("if_icmpge jump" + labelCounter);
                     break;
                 case SexyLangLexer.LE:
-                    this.code.add("if_" + dataType.getMnemonic() + "cmpgt jump" + labelCounter);
+                    this.code.add("if_icmpgt jump" + labelCounter);
+                    break;
+                case SexyLangLexer.EQUAL:
+                    this.code.add("if_icmpne jump" + labelCounter);
                     break;
             }
         } else if (dataType.equals(DataType.LENGTH)) {
@@ -108,9 +111,11 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
                 case SexyLangLexer.LE:
                     code.add("ifgt jump" + labelCounter);
                     break;
+                case SexyLangLexer.EQUAL:
+                    this.code.add("ifne" + " jump" + labelCounter);
+                    break;
             }
         }
-
 
         code.add("iconst_1");
         code.add("goto endLogic" + labelCounter);
