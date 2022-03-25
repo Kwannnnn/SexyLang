@@ -18,7 +18,6 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     private SymbolTable currentScope;
 
     // TODO:
-    // TODO: Variable Assignment
     // TODO: Moan Statement
     // TODO: Lube Statement
     // TODO: Bed Activity Statement
@@ -36,6 +35,19 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.currentScope = this.currentScope.openScope();
         visitChildren(ctx);
         this.currentScope = this.currentScope.closeScope();
+
+        return null;
+    }
+
+    @Override
+    public DataType visitLubeStmt(SexyLangParser.LubeStmtContext ctx) {
+        DataType conditionType = visit(ctx.condition);
+
+        if (conditionType != DataType.BULGE) {
+            throw new CompilerException("Lube statement condition must be of type boolean");
+        }
+
+        visitChildren(ctx);
 
         return null;
     }
