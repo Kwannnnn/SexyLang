@@ -11,12 +11,14 @@ public class LogicExpressionTest extends TestBase {
     // Language specifics
     public static final String MOAN_KEYWORD = "moan";
     public static final String GT_SIGN = ">";
+    public static final String NEG_SIGN = "!";
     public static final String LT_SIGN = "<";
     public static final String LE_SIGN = "<=";
     public static final String GE_SIGN = ">=";
     public static final String EQUALS_SIGN = "==";
     // Test values
     public static final String BOOLEAN = "hard";
+    public static final String BOOLEAN_FALSE = "soft";
     public static final String STRING = "shrek";
     public static final int INTEGER_1 = 37;
     public static final int INTEGER_2 = 42;
@@ -24,6 +26,16 @@ public class LogicExpressionTest extends TestBase {
     public static final float FLOAT_2 = 37.42F;
 
     private static final Compiler COMPILER = new Compiler();
+
+    @Test
+    @DisplayName("Bad Weather: !Int is not allowed")
+    void badWeather_int_NEG() throws Exception {
+        // moan !37
+        String srcCode =
+                MOAN_KEYWORD + " " + NEG_SIGN + INTEGER_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "intNEG");
+        assertNull(code);
+    }
 
     @Test
     @DisplayName("Bad Weather: Int > Boolean is not allowed")
@@ -326,6 +338,16 @@ public class LogicExpressionTest extends TestBase {
     }
 
     // FLOATS
+    @Test
+    @DisplayName("Bad Weather: !Float is not allowed")
+    void badWeather_float_NEG() throws Exception {
+        // moan !42.37
+        String srcCode =
+                MOAN_KEYWORD + " " + NEG_SIGN + FLOAT_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "floatNEG");
+        assertNull(code);
+    }
+
     @Test
     @DisplayName("Bad Weather: Float > Int is not allowed")
     void badWeather_float_GT_int() throws Exception {
@@ -635,6 +657,17 @@ public class LogicExpressionTest extends TestBase {
         }, output.toArray());
     }
 
+    // STRINGS
+    @Test
+    @DisplayName("Bad Weather: !String is not allowed")
+    void badWeather_string_NEG() throws Exception {
+        // moan !"shrek"
+        String srcCode =
+                MOAN_KEYWORD + " " + NEG_SIGN + "\"" + STRING + "\"";
+        JasminBytecode code = COMPILER.compileString(srcCode, "stringNEG");
+        assertNull(code);
+    }
+
     @Test
     @DisplayName("Bad Weather: String > Float is not allowed")
     void badWeather_string_GT_float() throws Exception {
@@ -839,5 +872,224 @@ public class LogicExpressionTest extends TestBase {
         assertArrayEquals(new String[] {
                 String.valueOf(STRING.equals(STRING))
         }, output.toArray());
+    }
+
+    // BOOLEANS
+    @Test
+    @DisplayName("Good Weather: !Boolean")
+    void boolean_NEG() throws Exception {
+        // moan !hard
+        String srcCode =
+                MOAN_KEYWORD + " " + NEG_SIGN + BOOLEAN;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanNEG");
+        assertNotNull(code);
+
+        // Check that output matches what we expect
+        List<String> output = runCode(code);
+        assertArrayEquals(new String[] {
+                String.valueOf(false)
+        }, output.toArray());
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean > Boolean is not allowed")
+    void badWeather_boolean_GT_Boolean() throws Exception {
+        // moan hard > hard
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + GT_SIGN + BOOLEAN;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGTboolean");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean < Boolean is not allowed")
+    void badWeather_boolean_LT_Boolean() throws Exception {
+        // moan hard < hard
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + LT_SIGN + BOOLEAN;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLTboolean");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean >= Boolean is not allowed")
+    void badWeather_boolean_GE_Boolean() throws Exception {
+        // moan hard >= hard
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + GE_SIGN + BOOLEAN;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGEboolean");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean <= Boolean is not allowed")
+    void badWeather_boolean_LE_Boolean() throws Exception {
+        // moan hard <= hard
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + LE_SIGN + BOOLEAN;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLEboolean");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Good Weather: Boolean == Boolean (true == true)")
+    void boolean_EQUALS_boolean_true() throws Exception {
+        // moan hard == hard
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + EQUALS_SIGN + BOOLEAN;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanEQUALSboolean_true");
+        assertNotNull(code);
+
+        // Check that output matches what we expect
+        List<String> output = runCode(code);
+        assertArrayEquals(new String[] {
+                String.valueOf(true)
+        }, output.toArray());
+    }
+
+    @Test
+    @DisplayName("Good Weather: Boolean == Boolean (true == false)")
+    void boolean_EQUALS_boolean_false() throws Exception {
+        // moan hard == soft
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + EQUALS_SIGN + BOOLEAN_FALSE;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanEQUALSboolean_false");
+        assertNotNull(code);
+
+        // Check that output matches what we expect
+        List<String> output = runCode(code);
+        assertArrayEquals(new String[] {
+                String.valueOf(false)
+        }, output.toArray());
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean > Int is not allowed")
+    void badWeather_boolean_GT_Int() throws Exception {
+        // moan hard > 37
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + GT_SIGN + INTEGER_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGTInt");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean < Int is not allowed")
+    void badWeather_boolean_LT_Int() throws Exception {
+        // moan hard < 37
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + LT_SIGN + INTEGER_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLTInt");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean >= Int is not allowed")
+    void badWeather_boolean_GE_Int() throws Exception {
+        // moan hard >= 37
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + GE_SIGN + INTEGER_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGEInt");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean <= Int is not allowed")
+    void badWeather_boolean_LE_Int() throws Exception {
+        // moan hard <= 37
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + LE_SIGN + INTEGER_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLEInt");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean > Float is not allowed")
+    void badWeather_boolean_GT_Float() throws Exception {
+        // moan hard > 42.37
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + GT_SIGN + FLOAT_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGTFloat");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean < Float is not allowed")
+    void badWeather_boolean_LT_Float() throws Exception {
+        // moan hard < 42.37
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + LT_SIGN + FLOAT_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLTFloat");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean >= Float is not allowed")
+    void badWeather_boolean_GE_Float() throws Exception {
+        // moan hard >= 42.37
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + GE_SIGN + FLOAT_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGEFloat");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean <= Float is not allowed")
+    void badWeather_boolean_LE_Float() throws Exception {
+        // moan hard <= 42.37
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + LE_SIGN + FLOAT_1;
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLEFloat");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean > String is not allowed")
+    void badWeather_boolean_GT_String() throws Exception {
+        // moan hard > "shrek"
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + GT_SIGN + "\"" + STRING + "\"";
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGTString");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean < String is not allowed")
+    void badWeather_boolean_LT_String() throws Exception {
+        // moan hard < "shrek"
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + LT_SIGN + "\"" + STRING + "\"";
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLTString");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean >= String is not allowed")
+    void badWeather_boolean_GE_String() throws Exception {
+        // moan hard >= "shrek"
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + GE_SIGN + "\"" + STRING + "\"";
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGEString");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean <= String is not allowed")
+    void badWeather_boolean_LE_String() throws Exception {
+        // moan hard <= "shrek"
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + LE_SIGN + "\"" + STRING + "\"";
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLEString");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Boolean == String is not allowed")
+    void badWeather_boolean_EQUALS_string() throws Exception {
+        // moan hard == "shrek"
+        String srcCode =
+                MOAN_KEYWORD + " " + BOOLEAN + EQUALS_SIGN + "\"" + STRING + "\"";
+        JasminBytecode code = COMPILER.compileString(srcCode, "booleanEQUALSString");
+        assertNull(code);
     }
 }
