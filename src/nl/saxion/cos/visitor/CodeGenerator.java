@@ -264,6 +264,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     public Void visitIfStmt(SexyLangParser.IfStmtContext ctx) {
         long thisIfLabel = ++labelCounter;
         visit(ctx.condition);
+        this.code.add("ifeq jump" + labelCounter);
         visit(ctx.block());
         this.code.add("goto endif" + thisIfLabel);
         this.code.add("jump" + labelCounter + ":");
@@ -272,6 +273,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
             ctx.elseIfStmt().forEach(s -> {
                 ++labelCounter;
                 visit(s.condition);
+                this.code.add("ifeq jump" + labelCounter);
                 visit(s.block());
                 this.code.add("goto endif" + thisIfLabel);
                 this.code.add("jump" + labelCounter + ":");
