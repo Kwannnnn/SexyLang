@@ -45,7 +45,7 @@ blockStatement
     ;
 
 block
-    : L_CURLY blockStatement? R_CURLY
+    : L_CURLY (expression | blockStatement)* R_CURLY
     ;
 
 varDeclaration: command=INSERT varType=type expression IN varName=IDENTIFIER;
@@ -124,6 +124,7 @@ LE:         '<=';
 AND:        'and';
 OR:         'or';
 
+// TODO: Copy STRING rules from java
 STRING: '"' [a-zA-Z0-9 ]* '"';
 IDENTIFIER : [A-Za-z][A-Za-z0-9_]*;
 NUMBER : [1-9][0-9]*;
