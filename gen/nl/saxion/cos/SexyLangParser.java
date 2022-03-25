@@ -1,4 +1,4 @@
-// Generated from /Users/quan/Projects/compilers_and_operating_systems/src/SexyLang.g4 by ANTLR 4.9.2
+// Generated from /Users/kristiyan/Documents/Saxion/Y2/Q3/compilers-and-os/61/src/SexyLang.g4 by ANTLR 4.9.2
 package nl.saxion.cos;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -1326,13 +1326,14 @@ public class SexyLangParser extends Parser {
 
 	public static class LubeStmtContext extends ParserRuleContext {
 		public Token command;
-		public ExpressionContext expression() {
-			return getRuleContext(ExpressionContext.class,0);
-		}
+		public ExpressionContext condition;
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
 		public TerminalNode LUBE() { return getToken(SexyLangParser.LUBE, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
 		public LubeStmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1353,7 +1354,7 @@ public class SexyLangParser extends Parser {
 			setState(163);
 			((LubeStmtContext)_localctx).command = match(LUBE);
 			setState(164);
-			expression(0);
+			((LubeStmtContext)_localctx).condition = expression(0);
 			setState(165);
 			block();
 			}

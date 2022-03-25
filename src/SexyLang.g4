@@ -55,7 +55,7 @@ ejaculateStmt: command=EJACULATE expression?;
 ifStmt: command=IF L_PAREN condition=expression R_PAREN block elseIfStmt* elseStmt?;
 elseIfStmt: command=ELSEIF L_PAREN condition=expression R_PAREN block;
 elseStmt: command=ELSE block;
-lubeStmt: command=LUBE expression block;
+lubeStmt: command=LUBE condition=expression block;
 bedActivityStmt: BEDACTIVITY IDENTIFIER type? L_PAREN paramsDeclaration? R_PAREN block;
 
 paramsDeclaration
