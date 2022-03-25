@@ -22,6 +22,11 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
+    public Void visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
+        return null;
+    }
+
+    @Override
     public Void visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
         VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
@@ -67,6 +72,20 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
                 assert false;
                 break;
         }
+
+        return null;
+    }
+
+    @Override
+    public Void visitNegationExpression(SexyLangParser.NegationExpressionContext ctx) {
+        long negationLabel = ++labelCounter;
+        visit(ctx.expression());
+        this.code.add("ifeq jump" + ++labelCounter);
+        this.code.add("iconst_0");
+        this.code.add("goto endNeg" + negationLabel);
+        this.code.add("jump" + labelCounter + ":");
+        this.code.add("iconst_1");
+        this.code.add("endNeg" + negationLabel + ":");
 
         return null;
     }
