@@ -30,7 +30,7 @@ class CompilerTest extends TestBase {
 	void checkByteCode() throws Exception {
 		// Compile the file testFiles/hello.exlang
 		Compiler c = new Compiler();
-		JasminBytecode code = c.compileFile("testFiles/hello.exlang", "HelloWorld");
+		JasminBytecode code = c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
 		assertNotNull(code);
 
 		// Check that the bytecode matches what we expect
@@ -40,11 +40,11 @@ class CompilerTest extends TestBase {
 				".super java/lang/Object",
 				"",
 				".method public static main([Ljava/lang/String;)V",
-				".limit stack 2",
-				".limit locals 1",
+				".limit stack 99",
+				".limit locals 99",
 				"",
 				"getstatic java/lang/System/out Ljava/io/PrintStream;",
-				"ldc \"Hello from ExampleLang!\"",
+				"ldc \"Hello Sexy\"",
 				"invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V",
 				"return",
 				".end method"
@@ -53,13 +53,13 @@ class CompilerTest extends TestBase {
 
 	@Test
 	void checkByteCode2() throws Exception {
-		// Compile the file testFiles/hello.exlang
+		// Compile the file testFiles/helloSexy.sexy
 		Compiler c = new Compiler();
-		JasminBytecode code = c.compileFile("testFiles/hello.exlang", "HelloWorld");
+		JasminBytecode code = c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
 		assertNotNull(code);
 
 		// Check that the bytecode matches what we expect
-		List<String> expectedOutput = Files.readAllLines(Paths.get("testFiles/hello.expected_j"));
+		List<String> expectedOutput = Files.readAllLines(Paths.get("testFiles/helloSexy.expected_j"));
 		assertArrayEquals(expectedOutput.toArray(), code.getLines().toArray());
 	}
 
@@ -74,15 +74,15 @@ class CompilerTest extends TestBase {
 
 	@Test
 	void checkOutputFile() throws Exception {
-		// Compile and assemble testFiles/hello.exlang
+		// Compile and assemble testFiles/helloSexy.sexy
 		Compiler c = new Compiler();
-		JasminBytecode code = c.compileFile("testFiles/hello.exlang", "HelloWorld");
+		JasminBytecode code = c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
 		assertNotNull(code);
 
 		// Check that output matches what we expect
 		List<String> output = runCode(code);
 		assertArrayEquals(new String[] {
-				"Hello from ExampleLang!"
+				"Hello Sexy"
 		}, output.toArray());
 	}
 
@@ -90,13 +90,13 @@ class CompilerTest extends TestBase {
 	void checkOutputString() throws Exception {
 		// Compile and assemble the string 'hello; hi;'
 		Compiler c = new Compiler();
-		JasminBytecode code = c.compileString("hello; hi;", "HelloWorld");
+		JasminBytecode code = c.compileString("moanLoud \"Hello Sexy\"", "HelloWorld");
 		assertNotNull(code);
 
 		// Check that output matches what we expect
 		List<String> output = runCode(code);
 		assertArrayEquals(new String[] {
-				"Hello from ExampleLang!"
+				"Hello Sexy"
 		}, output.toArray());
 	}
 }

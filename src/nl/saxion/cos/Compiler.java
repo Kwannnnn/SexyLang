@@ -138,7 +138,7 @@ public class Compiler {
 		codeGenerator.visit(parseTree);
 
 		// Return
-		jasminBytecode.add()
+		jasminBytecode
 				.add("return")
 				.add(".end method");
 
