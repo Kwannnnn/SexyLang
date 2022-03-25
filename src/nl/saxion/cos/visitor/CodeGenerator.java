@@ -56,6 +56,19 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
+    public Void visitLubeStmt(SexyLangParser.LubeStmtContext ctx) {
+        long lubeCount = ++labelCounter;
+        this.code.add("goto begin" + lubeCount);
+        this.code.add("do" + ++labelCounter + ":");
+        visit(ctx.block());
+        this.code.add("begin" + lubeCount + ":");
+        visit(ctx.condition);
+        this.code.add("ifne do" + labelCounter);
+
+        return null;
+    }
+
+    @Override
     public Void visitMoanStmt(SexyLangParser.MoanStmtContext ctx) {
         this.code.add("getstatic java/lang/System/out Ljava/io/PrintStream;");
         visit(ctx.expression());
