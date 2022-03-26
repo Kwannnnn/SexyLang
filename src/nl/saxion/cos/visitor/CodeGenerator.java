@@ -109,22 +109,23 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.right);
         DataType dataType = this.types.get(ctx.left);
 
+        String ifInstruction = "";
         if (dataType.equals(DataType.BODY_COUNT)) {
             switch (ctx.op.getType()) {
                 case SexyLangLexer.GT:
-                    this.code.add("if_icmple jump" + labelCounter);
+                    ifInstruction += "if_icmple";
                     break;
                 case SexyLangLexer.GE:
-                    this.code.add("if_icmplt jump" + labelCounter);
+                    ifInstruction += "if_icmplt";
                     break;
                 case SexyLangLexer.LT:
-                    this.code.add("if_icmpge jump" + labelCounter);
+                    ifInstruction += "if_icmpge";
                     break;
                 case SexyLangLexer.LE:
-                    this.code.add("if_icmpgt jump" + labelCounter);
+                    ifInstruction += "if_icmpgt";
                     break;
                 case SexyLangLexer.EQUAL:
-                    this.code.add("if_icmpne jump" + labelCounter);
+                    ifInstruction += "if_icmpne";
                     break;
             }
         } else if (dataType.equals(DataType.LENGTH)) {
@@ -132,22 +133,29 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
             switch (ctx.op.getType()) {
                 case SexyLangLexer.GT:
-                    code.add("ifle jump" + labelCounter);
+                    ifInstruction += "ifle";
                     break;
                 case SexyLangLexer.GE:
-                    code.add("iflt jump" + labelCounter);
+                    ifInstruction += "iflt";
                     break;
                 case SexyLangLexer.LT:
-                    code.add("ifge jump" + labelCounter);
+                    ifInstruction += "ifge";
                     break;
                 case SexyLangLexer.LE:
-                    code.add("ifgt jump" + labelCounter);
+                    ifInstruction += "ifgt";
                     break;
                 case SexyLangLexer.EQUAL:
-                    this.code.add("ifne" + " jump" + labelCounter);
+                    ifInstruction += "ifne";
                     break;
             }
+        } else if (dataType.equals(DataType.BULGE)) {
+            // only equals operator is allowed
+            // otherwise an exception would have been thrown before this
+            ifInstruction += "if_icmpne";
         }
+
+        ifInstruction += " jump" + labelCounter;
+        code.add(ifInstruction);
 
         code.add("iconst_1");
         code.add("goto endLogic" + labelCounter);
@@ -165,6 +173,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     public Void visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx) {
         visit(ctx.left);
         visit(ctx.right);
+
 
         if (ctx.op.getType() == SexyLangLexer.AND) {
             code.add("ifeq jumpFirst" + labelCounter);

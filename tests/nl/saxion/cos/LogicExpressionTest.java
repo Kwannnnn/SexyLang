@@ -859,19 +859,19 @@ public class LogicExpressionTest extends TestBase {
     }
 
     @Test
-    @DisplayName("Good Weather: String == String")
+    @DisplayName("Bad Weather: String == String is not allowed")
     void string_EQUALS_string() throws Exception {
         // moan "shrek" == "shrek"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + EQUALS_SIGN + " \"" + STRING + "\"";
         JasminBytecode code = COMPILER.compileString(srcCode, "stringEQUALSString");
-        assertNotNull(code);
+        assertNull(code);
 
-        // Check that output matches what we expect
-        List<String> output = runCode(code);
-        assertArrayEquals(new String[] {
-                String.valueOf(STRING.equals(STRING))
-        }, output.toArray());
+//        // Check that output matches what we expect
+//        List<String> output = runCode(code);
+//        assertArrayEquals(new String[] {
+//                String.valueOf(STRING.equals(STRING))
+//        }, output.toArray());
     }
 
     // BOOLEANS

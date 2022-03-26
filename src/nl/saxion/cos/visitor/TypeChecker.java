@@ -222,8 +222,8 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         DataType rightType = visit(ctx.right);
 
         if (leftType != rightType
-                || !isComparable(leftType)
-                || !isComparable(rightType)) {
+            || (!isComparable(leftType) && ctx.op.getType() != SexyLangLexer.EQUAL)
+            || leftType.equals(DataType.SAFE_WORD)) {
             throw new CompilerException(getIncompatibleOperandsMessage(
                     ctx.op.getText(),
                     leftType,
