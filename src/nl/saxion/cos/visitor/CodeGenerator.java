@@ -51,7 +51,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         SymbolTable symbolTable = this.scopes.get(ctx);
         VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
         this.code.add(variableSymbol.getType().getMnemonic() + "load " + variableSymbol.getIndex());
-        
+
         return null;
     }
 
@@ -174,34 +174,34 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(ctx.left);
         visit(ctx.right);
 
+        String ifInstuction = "";
+        String defaultValue = "";
+        String altValue = "";
 
-        if (ctx.op.getType() == SexyLangLexer.AND) {
-            code.add("ifeq jumpFirst" + labelCounter);
-
-            code.add("ifeq jumpSecond" + labelCounter);
-            code.add("iconst_1");
-            code.add("goto endChained" + labelCounter);
-
-            code.add("jumpFirst" + labelCounter + ":");
-            code.add("pop");
-
-            code.add("jumpSecond" + labelCounter + ":");
-            code.add("iconst_0");
-
-        } else if (ctx.op.getType() == SexyLangLexer.OR) {
-
-            code.add("ifne jumpFirst" + labelCounter);
-
-            code.add("ifne jumpSecond" + labelCounter);
-            code.add("iconst_0");
-            code.add("goto endChained" + labelCounter);
-
-            code.add("jumpFirst" + labelCounter + ":");
-            code.add("pop");
-
-            code.add("jumpSecond" + labelCounter + ":");
-            code.add("iconst_1");
+        switch (ctx.op.getType()) {
+            case SexyLangLexer.AND:
+                ifInstuction = "ifeq";
+                defaultValue = "iconst_1";
+                altValue = "iconst_0";
+                break;
+            case SexyLangLexer.OR:
+                ifInstuction = "ifne";
+                defaultValue = "iconst_0";
+                altValue = "iconst_1";
+                break;
         }
+
+        code.add(ifInstuction + " jumpFirst" + labelCounter);
+
+        code.add(ifInstuction + " jumpSecond" + labelCounter);
+        code.add(defaultValue);
+        code.add("goto endChained" + labelCounter);
+
+        code.add("jumpFirst" + labelCounter + ":");
+        code.add("pop");
+
+        code.add("jumpSecond" + labelCounter + ":");
+        code.add(altValue);
 
         code.add("endChained" + labelCounter + ":");
 
