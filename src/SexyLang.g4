@@ -56,7 +56,7 @@ ifStmt: command=IF L_PAREN condition=expression R_PAREN block elseIfStmt* elseSt
 elseIfStmt: command=ELSEIF L_PAREN condition=expression R_PAREN block;
 elseStmt: command=ELSE block;
 lubeStmt: command=LUBE condition=expression block;
-bedActivityStmt: BEDACTIVITY IDENTIFIER type? L_PAREN paramsDeclaration? R_PAREN block;
+bedActivityStmt: BEDACTIVITY name=IDENTIFIER type? L_PAREN paramsDeclaration? R_PAREN block;
 
 paramsDeclaration
     : type IDENTIFIER

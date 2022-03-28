@@ -4,6 +4,7 @@ import nl.saxion.cos.exception.AssembleException;
 import nl.saxion.cos.exception.CompilerException;
 import nl.saxion.cos.type.SymbolTable;
 import nl.saxion.cos.visitor.CodeGenerator;
+import nl.saxion.cos.visitor.MethodVisitor;
 import nl.saxion.cos.visitor.TypeChecker;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -126,6 +127,9 @@ public class Compiler {
 				.add(".class public " + className)
 				.add(".super java/lang/Object")
 				.add();
+
+		MethodVisitor methodVisitor = new MethodVisitor(this.types, this.scopes, jasminBytecode);
+		methodVisitor.visit(parseTree);
 
 		// Main method
 		jasminBytecode.add(".method public static main([Ljava/lang/String;)V")
