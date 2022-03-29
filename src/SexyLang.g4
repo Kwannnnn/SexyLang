@@ -41,11 +41,14 @@ blockStatement
     | moanStmt
     | ifStmt
     | lubeStmt
-    | ejaculateStmt
     ;
 
 block
     : L_CURLY (expression | blockStatement)* R_CURLY
+    ;
+
+methodBlock
+    : L_CURLY (expression | blockStatement)* ejaculateStmt R_CURLY
     ;
 
 varDeclaration: command=INSERT varType=type expression IN varName=IDENTIFIER;
@@ -56,7 +59,7 @@ ifStmt: command=IF L_PAREN condition=expression R_PAREN block elseIfStmt* elseSt
 elseIfStmt: command=ELSEIF L_PAREN condition=expression R_PAREN block;
 elseStmt: command=ELSE block;
 lubeStmt: command=LUBE condition=expression block;
-bedActivityStmt: BEDACTIVITY name=IDENTIFIER type? L_PAREN paramsDeclaration? R_PAREN block;
+bedActivityStmt: BEDACTIVITY name=IDENTIFIER type L_PAREN paramsDeclaration? R_PAREN methodBlock;
 
 paramsDeclaration
     : type IDENTIFIER
@@ -65,7 +68,8 @@ paramsDeclaration
 // TYPES AND LITERALS
 // Types
 type
-    : BULGE
+    : EMPTY
+    | BULGE
     | BODYCOUNT
     | LENGTH
     | SAFEWORD
@@ -79,9 +83,9 @@ safeWordLiteral: STRING ;
 bodyCountLiteral: '0' | '-'? NUMBER;
 lengthLiteral: bodyCountLiteral ('.' ('0' | NUMBER))?;
 
-
 // KEYWORDS
 // Types
+EMPTY:          'empty';
 BULGE:          'bulge';
 BODYCOUNT:      'bodyCount';
 LENGTH:         'length';
@@ -114,13 +118,13 @@ ADD:        '+';
 SUB:        '-';
 MUL:       '*';
 DIV:        '/';
-// Logic
 NEG:        '!';
 EQUAL:      '==';
 GT:         '>';
 LT:         '<';
 GE:         '>=';
 LE:         '<=';
+// Logic
 AND:        'and';
 OR:         'or';
 

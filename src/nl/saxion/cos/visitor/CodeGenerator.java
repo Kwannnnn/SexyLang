@@ -170,6 +170,14 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
+    public Void visitEjaculateStmt(SexyLangParser.EjaculateStmtContext ctx) {
+        visit(ctx.expression());
+        this.code.add(this.types.get(ctx).getMnemonic() + "return");
+
+        return null;
+    }
+
+    @Override
     public Void visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx) {
         visit(ctx.left);
         visit(ctx.right);

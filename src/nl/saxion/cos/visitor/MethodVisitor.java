@@ -22,11 +22,11 @@ public class MethodVisitor extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
-        this.code.add(".method public " + ctx.name.getText() + "()V");
-        this.code.add(".limit stack 99");
-        this.code.add(".limit locals 99");
+        this.code.add(".method public static " + ctx.name.getText() + "()" + this.types.get(ctx.type()).getDescriptor());
+        this.code.add(".limit stack 20");
+        this.code.add(".limit locals 20");
         CodeGenerator codeGenerator = new CodeGenerator(this.types, this.scopes, this.code);
-        codeGenerator.visit(ctx.block());
+        codeGenerator.visit(ctx.methodBlock());
         this.code.add(".end method");
 
         return null;

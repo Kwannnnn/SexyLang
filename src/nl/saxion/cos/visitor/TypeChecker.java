@@ -32,11 +32,64 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
     @Override
     public DataType visitBlockStatement(SexyLangParser.BlockStatementContext ctx) {
-        this.currentScope = this.currentScope.openScope();
         visitChildren(ctx);
+
+        return null;
+    }
+
+    @Override
+    public DataType visitMethodBlock(SexyLangParser.MethodBlockContext ctx) {
+        visitChildren(ctx);
+
+        return null;
+    }
+
+    @Override
+    public DataType visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
+        DataType ejaculateType = visit(ctx.methodBlock().ejaculateStmt());
+        DataType returnType = visit(ctx.type());
+
+        if (!ejaculateType.getName().equals(ctx.type().getText())) {
+            throw new CompilerException("Return type does not match function type");
+        }
+
+        this.currentScope = this.currentScope.openScope();
+        visit(ctx.methodBlock());
         this.currentScope = this.currentScope.closeScope();
 
         return null;
+    }
+
+    @Override
+    public DataType visitType(SexyLangParser.TypeContext ctx) {
+        DataType dataType;
+        switch (ctx.getStart().getType()) {
+            case SexyLangLexer.BULGE:
+                dataType = DataType.BULGE;
+                break;
+            case SexyLangLexer.BODYCOUNT:
+                dataType = DataType.BODY_COUNT;
+                break;
+            case SexyLangLexer.LENGTH:
+                dataType = DataType.LENGTH;
+                break;
+            case SexyLangLexer.SAFEWORD:
+                dataType = DataType.SAFE_WORD;
+                break;
+            default : dataType = DataType.EMPTY;
+        }
+        this.types.put(ctx, dataType);
+        return dataType;
+    }
+
+    @Override
+    public DataType visitEjaculateStmt(SexyLangParser.EjaculateStmtContext ctx) {
+        DataType returnType = ctx.expression() != null
+                ? visit(ctx.expression())
+                : DataType.EMPTY;
+
+        this.types.put(ctx, returnType);
+        return returnType;
     }
 
     @Override
@@ -47,7 +100,9 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
             throw new CompilerException("Lube statement condition must be of type boolean");
         }
 
-        visitChildren(ctx);
+        this.currentScope = this.currentScope.openScope();
+        visit(ctx.block());
+        this.currentScope = this.currentScope.closeScope();
 
         return null;
     }
@@ -60,7 +115,9 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
             throw new CompilerException("If statement condition must be of type boolean");
         }
 
+        this.currentScope = this.currentScope.openScope();
         visitChildren(ctx);
+        this.currentScope = this.currentScope.closeScope();
 
         return null;
     }
@@ -73,7 +130,9 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
             throw new CompilerException("Condition must be of type boolean");
         }
 
-        visitChildren(ctx);
+        this.currentScope = this.currentScope.openScope();
+        visit(ctx.block());
+        this.currentScope = this.currentScope.closeScope();
 
         return null;
     }

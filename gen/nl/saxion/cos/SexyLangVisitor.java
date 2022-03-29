@@ -131,6 +131,12 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlock(SexyLangParser.BlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#methodBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMethodBlock(SexyLangParser.MethodBlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#varDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

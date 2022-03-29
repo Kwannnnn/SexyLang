@@ -64,7 +64,7 @@ public class IfStatementTest extends TestBase {
     @Test
     @DisplayName("Good Weather: if FALSE should trigger ELSE block")
     void badWeather_if_FALSE_should_trigger_else() throws Exception {
-        // if (false) {
+        // if (soft) {
         //    moan "shrek"
         // } else {
         //    moan "fiona"
