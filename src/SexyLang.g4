@@ -10,7 +10,7 @@ expression
     | left=expression op=(ADD | SUB) right=expression                   #AddSubExpression
     | left=expression op=(EQUAL | LE | GE | LT | GT) right=expression   #LogicExpression
     | left=expression op=(AND | OR) right=expression                    #ChainedLogicExpression
-    | bedActivityCall                                                   #BedActivitCallExpression
+    | bedActivityCall                                                   #BedActivityCallExpression
     | bulgeLiteral                                                      #BulgeLiteralExpression
     | bodyCountLiteral                                                  #BodyCountLiteralExpression
     | safeWordLiteral                                                   #SafeWordLiteralExpression
@@ -19,7 +19,7 @@ expression
     ;
 
  bedActivityCall
-     : IDENTIFIER L_PAREN params? R_PAREN;
+     : name=IDENTIFIER L_PAREN params? R_PAREN;
 
  params
      : expression (COMMA expression)*
