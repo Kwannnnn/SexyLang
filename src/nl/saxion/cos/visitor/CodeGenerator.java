@@ -39,6 +39,16 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
+    public Void visitBedActivityCall(SexyLangParser.BedActivityCallContext ctx) {
+        SymbolTable symbolTable = this.scopes.get(ctx);
+        String methodName = ctx.name.getText();
+        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(methodName);
+        this.code.add("invokestatic test/" + methodName + "()" + variableSymbol.getType().getDescriptor());
+
+        return null;
+    }
+
+    @Override
     public Void visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
         VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
@@ -183,6 +193,11 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitEjaculateStmt(SexyLangParser.EjaculateStmtContext ctx) {
+        if (ctx.expression() == null) {
+            this.code.add("return");
+            return null;
+        }
+
         visit(ctx.expression());
         this.code.add(this.types.get(ctx).getMnemonic() + "return");
 

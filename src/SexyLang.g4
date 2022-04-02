@@ -22,12 +22,11 @@ expression
  whatLengthCall: WHAT_LENGTH L_PAREN R_PAREN;
 
  bedActivityCall
-     : IDENTIFIER L_PAREN params? R_PAREN;
+     : name=IDENTIFIER L_PAREN params? R_PAREN;
 
  params
      : expression (COMMA expression)*
      ;
-
 
 // STATEMENTS
 statement
