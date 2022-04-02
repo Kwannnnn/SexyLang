@@ -15,6 +15,7 @@ public class StringConcatenationTest extends TestBase {
     // Test values
     private static final String BOOLEAN = "hard";
     private static final String STRING = "shrek";
+    private static final String SPECIAL_CHARS = "!@#$%^&*():;<>?/{}[]|`~±§";
     private static final int INTEGER = 37;
     private static final float FLOAT = 42.37F;
 
@@ -114,6 +115,33 @@ public class StringConcatenationTest extends TestBase {
         output = runCode(code);
         assertArrayEquals(new String[] {
                 STRING + INTEGER
+        }, output.toArray());
+    }
+
+    @Test
+    @DisplayName("specialChars + String concatenation")
+    void specialChars_stringConcatenation() throws Exception {
+        // moan 37 + "shrek"
+        String srcCode =
+                MOAN_KEYWORD + " " + "\"" + SPECIAL_CHARS + "\"" + ADD_SIGN + "\"" + STRING + "\"";
+        JasminBytecode code = COMPILER.compileString(srcCode, "specialCharsStringConcat");
+        assertNotNull(code);
+
+        // Check that output matches what we expect
+        List<String> output = runCode(code);
+        assertArrayEquals(new String[] {
+                SPECIAL_CHARS + STRING
+        }, output.toArray());
+
+        // moan "shrek" + 37
+        srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + ADD_SIGN + "\"" + SPECIAL_CHARS + "\"";
+        code = COMPILER.compileString(srcCode, "specialCharsIntConcat");
+        assertNotNull(code);
+
+        // Check that output matches what we expect
+        output = runCode(code);
+        assertArrayEquals(new String[] {
+                STRING + SPECIAL_CHARS
         }, output.toArray());
     }
 

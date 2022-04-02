@@ -10,6 +10,7 @@ expression
     | left=expression op=(ADD | SUB) right=expression                   #AddSubExpression
     | left=expression op=(EQUAL | LE | GE | LT | GT) right=expression   #LogicExpression
     | left=expression op=(AND | OR) right=expression                    #ChainedLogicExpression
+    | whatLengthCall                                                    #WhatLengthCallExpression
     | bedActivityCall                                                   #BedActivitCallExpression
     | bulgeLiteral                                                      #BulgeLiteralExpression
     | bodyCountLiteral                                                  #BodyCountLiteralExpression
@@ -18,12 +19,15 @@ expression
     | IDENTIFIER                                                        #IdentifierExpression
     ;
 
+ whatLengthCall: WHAT_LENGTH L_PAREN R_PAREN;
+
  bedActivityCall
      : IDENTIFIER L_PAREN params? R_PAREN;
 
  params
      : expression (COMMA expression)*
      ;
+
 
 // STATEMENTS
 statement
@@ -128,9 +132,12 @@ LE:         '<=';
 AND:        'and';
 OR:         'or';
 
+WHAT_LENGTH: 'whatLength';
+
 // TODO: Copy STRING rules from java
-STRING: '"' [a-zA-Z0-9 ]* '"';
-IDENTIFIER : [A-Za-z][A-Za-z0-9_]*;
+//STRING: '"' [a-zA-Z0-9 ]* '"';
+STRING: '"' (~["\\\r\n])* '"';
+IDENTIFIER: [A-Za-z][A-Za-z0-9_]*;
 NUMBER : [1-9][0-9]*;
 
 WS: [\r\n\t ]+ -> skip;

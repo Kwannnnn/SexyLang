@@ -1,4 +1,4 @@
-// Generated from /Users/kristiyan/Documents/Saxion/Y2/Q3/compilers-and-os/61/src/SexyLang.g4 by ANTLR 4.9.2
+// Generated from /Users/quan/Projects/compilers_and_operating_systems/src/SexyLang.g4 by ANTLR 4.9.2
 package nl.saxion.cos;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -16,6 +16,34 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProgram(SexyLangParser.ProgramContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BodyCountLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBodyCountLiteralExpression(SexyLangParser.BodyCountLiteralExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LengthLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLengthLiteralExpression(SexyLangParser.LengthLiteralExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code GroupExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGroupExpression(SexyLangParser.GroupExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code IdentifierExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifierExpression(SexyLangParser.IdentifierExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code AddSubExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
@@ -38,13 +66,6 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBulgeLiteralExpression(SexyLangParser.BulgeLiteralExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code BodyCountLiteralExpression}
-	 * labeled alternative in {@link SexyLangParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBodyCountLiteralExpression(SexyLangParser.BodyCountLiteralExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code LogicExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
@@ -59,12 +80,12 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSafeWordLiteralExpression(SexyLangParser.SafeWordLiteralExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code LengthLiteralExpression}
+	 * Visit a parse tree produced by the {@code WhatLengthCallExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLengthLiteralExpression(SexyLangParser.LengthLiteralExpressionContext ctx);
+	T visitWhatLengthCallExpression(SexyLangParser.WhatLengthCallExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code BedActivitCallExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
@@ -73,13 +94,6 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBedActivitCallExpression(SexyLangParser.BedActivitCallExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code GroupExpression}
-	 * labeled alternative in {@link SexyLangParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGroupExpression(SexyLangParser.GroupExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code NegationExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
@@ -87,19 +101,18 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNegationExpression(SexyLangParser.NegationExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code IdentifierExpression}
-	 * labeled alternative in {@link SexyLangParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdentifierExpression(SexyLangParser.IdentifierExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code MulDivExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMulDivExpression(SexyLangParser.MulDivExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#whatLengthCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhatLengthCall(SexyLangParser.WhatLengthCallContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#bedActivityCall}.
 	 * @param ctx the parse tree

@@ -21,6 +21,18 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         this.code = jasminBytecode;
     }
 
+    // when providing a float use "," instead of "."
+    @Override
+    public Void visitWhatLengthCallExpression(SexyLangParser.WhatLengthCallExpressionContext ctx) {
+        code.add("new java/util/Scanner");
+        code.add("dup");
+        code.add("getstatic java/lang/System/in Ljava/io/InputStream;");
+        code.add("invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V");
+        code.add("invokevirtual java/util/Scanner/nextFloat()F");
+
+        return null;
+    }
+
     @Override
     public Void visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
         return null;

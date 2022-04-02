@@ -31,6 +31,12 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     }
 
     @Override
+    public DataType visitWhatLengthCallExpression(SexyLangParser.WhatLengthCallExpressionContext ctx) {
+        this.types.put(ctx, DataType.LENGTH);
+        return DataType.LENGTH;
+    }
+
+    @Override
     public DataType visitBlockStatement(SexyLangParser.BlockStatementContext ctx) {
         visitChildren(ctx);
 
