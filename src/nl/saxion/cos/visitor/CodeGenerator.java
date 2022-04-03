@@ -3,6 +3,7 @@ package nl.saxion.cos.visitor;
 import nl.saxion.cos.*;
 import nl.saxion.cos.type.SymbolTable;
 import nl.saxion.cos.type.VariableSymbol;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import static nl.saxion.cos.SexyLangUtils.getOperatorInstruction;
@@ -19,6 +20,50 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         this.types = types;
         this.scopes = scopes;
         this.code = jasminBytecode;
+    }
+
+    @Override
+    public Void visitArrayAccessExpression(SexyLangParser.ArrayAccessExpressionContext ctx) {
+        SymbolTable symbolTable = this.scopes.get(ctx);
+        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.arrayAccess().IDENTIFIER().getText());
+
+        code.add("aload " + variableSymbol.getIndex());
+        code.add("ldc " + ctx.arrayAccess().index.getText());
+        code.add("iaload");
+
+        return null;
+    }
+
+    // ugly ass solution
+    @Override
+    public Void visitBodyCountArrayLiteral(SexyLangParser.BodyCountArrayLiteralContext ctx) {
+        int elementsCount = 0;
+
+        boolean bodyCountElementsExist = ctx.bodyCountElements() != null;
+        if (bodyCountElementsExist) {
+            elementsCount = ctx
+                    .getChild(1)
+                    .getChildCount();
+
+            // remove count for commas
+            if (elementsCount > 2) elementsCount = elementsCount / 2 + 1;
+        }
+
+        code.add("ldc " + elementsCount);
+        code.add("newarray int");
+
+        //populating the array
+        int currentIndex = 0;
+        for (ParseTree child : ctx.bodyCountElements().children) {
+            if (child instanceof SexyLangParser.BodyCountLiteralContext) {
+                code.add("dup");
+                code.add("ldc " + currentIndex++);
+                visit(child);
+                code.add("iastore");
+            }
+        }
+
+        return null;
     }
 
     // when providing a float use "," instead of "."

@@ -31,6 +31,42 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     }
 
     @Override
+    public DataType visitArrayAccessExpression(SexyLangParser.ArrayAccessExpressionContext ctx) {
+        DataType type = visit(ctx.arrayAccess());
+        this.types.put(ctx, type);
+        this.scopes.put(ctx, this.currentScope);
+        return type;
+    }
+
+    @Override
+    public DataType visitArrayAccess(SexyLangParser.ArrayAccessContext ctx) {
+        String variableName = ctx.IDENTIFIER().getText();
+        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope
+                .lookup(variableName);
+
+        // Checks if a variable with the same name exist in the scope
+        if (variableSymbol == null) {
+            throw new CompilerException("Array '"+ variableName
+                    + "' is not defined in current scope");
+        }
+
+        DataType dataType;
+        switch (variableSymbol.getType()) {
+            case BODY_COUNT_ARRAY:
+                dataType = DataType.BODY_COUNT;
+                break;
+            default: dataType = DataType.EMPTY;
+        }
+        return dataType;
+    }
+
+    @Override
+    public DataType visitBodyCountArrayLiteralExpression(SexyLangParser.BodyCountArrayLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.BODY_COUNT_ARRAY);
+        return DataType.BODY_COUNT_ARRAY;
+    }
+
+    @Override
     public DataType visitWhatLengthCallExpression(SexyLangParser.WhatLengthCallExpressionContext ctx) {
         this.types.put(ctx, DataType.LENGTH);
         return DataType.LENGTH;
@@ -86,6 +122,9 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                 break;
             case SexyLangLexer.SAFEWORD:
                 dataType = DataType.SAFE_WORD;
+                break;
+            case  SexyLangLexer.BODYCOUNT_ARRAY:
+                dataType = DataType.BODY_COUNT_ARRAY;
                 break;
             default : dataType = DataType.EMPTY;
         }

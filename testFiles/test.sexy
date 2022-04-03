@@ -1,3 +1,2 @@
-moanLoud "what?"
-insert length whatLength() in ass
-moanLoud ass
+insert bodyCountArray [6, 9] in ass
+moan ass[1]

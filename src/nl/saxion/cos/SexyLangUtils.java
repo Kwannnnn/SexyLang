@@ -32,6 +32,7 @@ public final class SexyLangUtils {
             case SexyLangLexer.BODYCOUNT: return DataType.BODY_COUNT;
             case SexyLangLexer.LENGTH: return DataType.LENGTH;
             case SexyLangLexer.SAFEWORD: return DataType.SAFE_WORD;
+            case SexyLangLexer.BODYCOUNT_ARRAY: return DataType.BODY_COUNT_ARRAY;
             default: throw new CompilerException("Unsupported data type");
         }
     }

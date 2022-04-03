@@ -38,6 +38,13 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGroupExpression(SexyLangParser.GroupExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code BodyCountArrayLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBodyCountArrayLiteralExpression(SexyLangParser.BodyCountArrayLiteralExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code IdentifierExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
@@ -100,6 +107,13 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNegationExpression(SexyLangParser.NegationExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ArrayAccessExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAccessExpression(SexyLangParser.ArrayAccessExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MulDivExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
@@ -239,4 +253,22 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLengthLiteral(SexyLangParser.LengthLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#bodyCountElements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBodyCountElements(SexyLangParser.BodyCountElementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#bodyCountArrayLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBodyCountArrayLiteral(SexyLangParser.BodyCountArrayLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#arrayAccess}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAccess(SexyLangParser.ArrayAccessContext ctx);
 }

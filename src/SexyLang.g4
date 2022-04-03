@@ -16,6 +16,8 @@ expression
     | bodyCountLiteral                                                  #BodyCountLiteralExpression
     | safeWordLiteral                                                   #SafeWordLiteralExpression
     | lengthLiteral                                                     #LengthLiteralExpression
+    | bodyCountArrayLiteral                                             #BodyCountArrayLiteralExpression
+    | arrayAccess                                                       #ArrayAccessExpression
     | IDENTIFIER                                                        #IdentifierExpression
     ;
 
@@ -76,6 +78,7 @@ type
     | BODYCOUNT
     | LENGTH
     | SAFEWORD
+    | BODYCOUNT_ARRAY
     ;
 
 bulgeLiteral
@@ -86,11 +89,18 @@ safeWordLiteral: STRING ;
 bodyCountLiteral: '0' | '-'? NUMBER;
 lengthLiteral: bodyCountLiteral ('.' ('0' | NUMBER))?;
 
+bodyCountElements: bodyCountLiteral (COMMA bodyCountLiteral)*;
+bodyCountArrayLiteral: L_SQUARE bodyCountElements? R_SQUARE;
+// insert bodyCountArray [6, 9] in ass
+
+arrayAccess: IDENTIFIER L_SQUARE index=('0' | NUMBER) R_SQUARE;
+
 // KEYWORDS
 // Types
 EMPTY:          'empty';
 BULGE:          'bulge';
 BODYCOUNT:      'bodyCount';
+BODYCOUNT_ARRAY:'bodyCountArray';
 LENGTH:         'length';
 SAFEWORD:       'SafeWord';
 // Reserved for methods
@@ -113,6 +123,8 @@ L_PAREN:    '(';
 R_PAREN:    ')';
 L_CURLY:    '{';
 R_CURLY:    '}';
+L_SQUARE:   '[';
+R_SQUARE:   ']';
 COMMA:      ',';
 
 // OPERATORS
