@@ -19,6 +19,10 @@ public class SymbolTable {
         this.symbolTable.put(name, new VariableSymbol(name, ++lastUsedIndex, type));
     }
 
+    public void addMethodSymbol(String name, DataType returnType) {
+        this.symbolTable.put(name, new MethodSymbol(name, returnType));
+    }
+
     public Symbol lookup(String name) {
         Symbol symbol = this.symbolTable.get(name);
 

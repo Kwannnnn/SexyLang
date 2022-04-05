@@ -108,6 +108,24 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     }
 
     @Override
+    public DataType visitArgDeclaration(SexyLangParser.ArgDeclarationContext ctx) {
+        String name = ctx.name.getText();
+        Symbol symbol = this.currentScope.lookup(name);
+
+        if (symbol != null) {
+            throw  new CompilerException("Variable '" + name + "' is already" +
+                    " defined in the scope.");
+        }
+
+        DataType type = visit(ctx.type());
+
+        this.currentScope.addVariableSymbol(name, type);
+        this.scopes.put(ctx, this.currentScope);
+
+        return null;
+    }
+
+    @Override
     public DataType visitType(SexyLangParser.TypeContext ctx) {
         DataType dataType;
         switch (ctx.getStart().getType()) {

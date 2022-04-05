@@ -64,10 +64,14 @@ ifStmt: command=IF L_PAREN condition=expression R_PAREN block elseIfStmt* elseSt
 elseIfStmt: command=ELSEIF L_PAREN condition=expression R_PAREN block;
 elseStmt: command=ELSE block;
 lubeStmt: command=LUBE condition=expression block;
-bedActivityStmt: BEDACTIVITY name=IDENTIFIER type L_PAREN paramsDeclaration? R_PAREN methodBlock;
+bedActivityStmt: BEDACTIVITY name=IDENTIFIER type L_PAREN args? R_PAREN methodBlock;
 
-paramsDeclaration
-    : type IDENTIFIER
+args
+    : argDeclaration (',' argDeclaration)*
+    ;
+
+argDeclaration
+    : type name=IDENTIFIER
     ;
 
 // TYPES AND LITERALS

@@ -1,4 +1,4 @@
-// Generated from /Users/quan/Projects/compilers_and_operating_systems/src/SexyLang.g4 by ANTLR 4.9.2
+// Generated from /Users/kristiyan/Documents/Saxion/Y2/Q3/compilers-and-os/61/src/SexyLang.g4 by ANTLR 4.9.2
 package nl.saxion.cos;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -218,11 +218,17 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SexyLangParser#paramsDeclaration}.
+	 * Visit a parse tree produced by {@link SexyLangParser#args}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitParamsDeclaration(SexyLangParser.ParamsDeclarationContext ctx);
+	T visitArgs(SexyLangParser.ArgsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#argDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgDeclaration(SexyLangParser.ArgDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#type}.
 	 * @param ctx the parse tree
