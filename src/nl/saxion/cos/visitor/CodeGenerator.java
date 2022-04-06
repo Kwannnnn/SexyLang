@@ -1,6 +1,7 @@
 package nl.saxion.cos.visitor;
 
 import nl.saxion.cos.*;
+import nl.saxion.cos.type.MethodSymbol;
 import nl.saxion.cos.type.SymbolTable;
 import nl.saxion.cos.type.VariableSymbol;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -85,10 +86,14 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitBedActivityCall(SexyLangParser.BedActivityCallContext ctx) {
+        if (ctx.params() != null) {
+            ctx.params().expression().forEach(this::visit);
+        }
+
         SymbolTable symbolTable = this.scopes.get(ctx);
         String methodName = ctx.name.getText();
-        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(methodName);
-        this.code.add("invokestatic test/" + methodName + "()" + variableSymbol.getType().getDescriptor());
+        MethodSymbol methodSymbol = (MethodSymbol) symbolTable.lookup(methodName);
+        this.code.add("invokestatic test/" + methodSymbol.getSignature());
 
         return null;
     }

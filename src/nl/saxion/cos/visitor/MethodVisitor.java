@@ -4,8 +4,8 @@ import nl.saxion.cos.DataType;
 import nl.saxion.cos.JasminBytecode;
 import nl.saxion.cos.SexyLangBaseVisitor;
 import nl.saxion.cos.SexyLangParser;
+import nl.saxion.cos.type.MethodSymbol;
 import nl.saxion.cos.type.SymbolTable;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 public class MethodVisitor extends SexyLangBaseVisitor<Void> {
@@ -23,15 +23,16 @@ public class MethodVisitor extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
-        StringBuilder types = new StringBuilder();
+        MethodSymbol methodSymbol = (MethodSymbol) this.scopes.get(ctx).lookup(ctx.name.getText());
+//        StringBuilder types = new StringBuilder();
+//
+//        if (ctx.args() != null) {
+//            ctx.args().argDeclaration().forEach((arg) ->
+//                types.append(this.types.get(arg.type()).getDescriptor())
+//            );
+//        }
 
-        if (ctx.args() != null) {
-            ctx.args().argDeclaration().forEach((arg) ->
-                types.append(this.types.get(arg.type()).getDescriptor())
-            );
-        }
-
-        this.code.add(".method public static " + ctx.name.getText() + "(" + types + ")" + this.types.get(ctx.type()).getDescriptor());
+        this.code.add(".method public static " + methodSymbol.getSignature());
         this.code.add(".limit stack 20");
         this.code.add(".limit locals 20");
         CodeGenerator codeGenerator = new CodeGenerator(this.types, this.scopes, this.code);
