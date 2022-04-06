@@ -1,5 +1,6 @@
 package nl.saxion.cos;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,12 @@ public class ChainedLogicExpressionTest extends TestBase{
     public static final float FLOAT_1 = 69.96f;
     public static final float FLOAT_2 = 96.69f;
 
-    private static final Compiler COMPILER = new Compiler();
+    private Compiler c = new Compiler();
+
+    @BeforeEach
+    void setUp() {
+        this.c = new Compiler();
+    }
 
     @Test
     @DisplayName("Good weather: Boolean AND Boolean")
@@ -32,7 +38,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan soft and hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + " and " + BOOLEAN_FALSE;
-        JasminBytecode code = COMPILER.compileString(srcCode, "trueAndFalse");
+        JasminBytecode code = this.c.compileString(srcCode, "trueAndFalse");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -44,7 +50,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan hard and soft
         srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN_FALSE + " and " + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "falseAndTrue");
+        code = this.c.compileString(srcCode, "falseAndTrue");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -60,7 +66,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan soft or hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + " or " + BOOLEAN_FALSE;
-        JasminBytecode code = COMPILER.compileString(srcCode, "trueOrFalse");
+        JasminBytecode code = this.c.compileString(srcCode, "trueOrFalse");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -72,7 +78,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan hard or soft
         srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN_FALSE + " or " + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "falseOrTrue");
+        code = this.c.compileString(srcCode, "falseOrTrue");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -88,7 +94,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan hard and soft or hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + " and " + BOOLEAN_FALSE + " or " + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "trueAndFalseOrTrue");
+        JasminBytecode code = this.c.compileString(srcCode, "trueAndFalseOrTrue");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -100,7 +106,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan hard and soft or soft
         srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + " and " + BOOLEAN_FALSE + " or " + BOOLEAN_FALSE;
-        code = COMPILER.compileString(srcCode, "trueAndFalseOrFalse");
+        code = this.c.compileString(srcCode, "trueAndFalseOrFalse");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -116,7 +122,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan hard or soft and hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + " or " + BOOLEAN_FALSE + " and " + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "trueOrFalseAndTrue");
+        JasminBytecode code = this.c.compileString(srcCode, "trueOrFalseAndTrue");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -128,7 +134,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan hard and soft or soft
         srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + " or " + BOOLEAN_FALSE + " and " + BOOLEAN_FALSE;
-        code = COMPILER.compileString(srcCode, "trueOrFalseAndFalse");
+        code = this.c.compileString(srcCode, "trueOrFalseAndFalse");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -144,7 +150,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96 > 69 and 69 < 96
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_2 + GT_SIGN + INTEGER_1 + " and " + INTEGER_1 + LT_SIGN + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "ANDWithInt");
+        JasminBytecode code = this.c.compileString(srcCode, "ANDWithInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -156,7 +162,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96 < 69 and 69 < 96
         srcCode =
                 MOAN_KEYWORD + " " + INTEGER_2 + LT_SIGN + INTEGER_1 + " and " + INTEGER_1 + LT_SIGN + INTEGER_2;
-        code = COMPILER.compileString(srcCode, "ANDWithInt");
+        code = this.c.compileString(srcCode, "ANDWithInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -172,7 +178,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96.69 > 69.96 and 69.96 < 96.69
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + GT_SIGN + FLOAT_1 + " and " + FLOAT_1 + LT_SIGN + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "ANDWithFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "ANDWithFloat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -184,7 +190,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96.69 < 69.96 and 69.96 < 96.69
         srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + LT_SIGN + FLOAT_1 + " and " + FLOAT_1 + LT_SIGN + FLOAT_2;
-        code = COMPILER.compileString(srcCode, "ANDWithFloat");
+        code = this.c.compileString(srcCode, "ANDWithFloat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -200,7 +206,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96.69 > 69.96 and 69 < 96
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + GT_SIGN + FLOAT_1 + " and " + INTEGER_1 + LT_SIGN + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "ANDWithFloatInt");
+        JasminBytecode code = this.c.compileString(srcCode, "ANDWithFloatInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -212,7 +218,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96.69 < 69.96 and 69 < 96
         srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + LT_SIGN + FLOAT_1 + " and " + INTEGER_1 + LT_SIGN + INTEGER_2;
-        code = COMPILER.compileString(srcCode, "ANDWithFloatInt");
+        code = this.c.compileString(srcCode, "ANDWithFloatInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -229,7 +235,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96 > 69 or 69 > 96
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_2 + GT_SIGN + INTEGER_1 + " or " + INTEGER_1 + GT_SIGN + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "ORWithInt");
+        JasminBytecode code = this.c.compileString(srcCode, "ORWithInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -241,7 +247,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96 < 69 or 69 > 96
         srcCode =
                 MOAN_KEYWORD + " " + INTEGER_2 + LT_SIGN + INTEGER_1 + " and " + INTEGER_1 + GT_SIGN + INTEGER_2;
-        code = COMPILER.compileString(srcCode, "ORWithInt");
+        code = this.c.compileString(srcCode, "ORWithInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -257,7 +263,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96.69 > 69.96 or 69.96 < 96.69
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + GT_SIGN + FLOAT_1 + " or " + FLOAT_1 + GT_SIGN + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "ANDWithFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "ANDWithFloat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -269,7 +275,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96.69 < 69.96 or 69.96 > 96.69
         srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + LT_SIGN + FLOAT_1 + " or " + FLOAT_1 + GT_SIGN + FLOAT_2;
-        code = COMPILER.compileString(srcCode, "ANDWithFloat");
+        code = this.c.compileString(srcCode, "ANDWithFloat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -285,7 +291,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96.69 > 69.96 or 69 > 96
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + GT_SIGN + FLOAT_1 + " or " + INTEGER_1 + GT_SIGN + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "ORWithFloatInt");
+        JasminBytecode code = this.c.compileString(srcCode, "ORWithFloatInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -297,7 +303,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 96.69 < 69.96 or 69 < 96
         srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + LT_SIGN + FLOAT_1 + " or " + INTEGER_1 + GT_SIGN + INTEGER_2;
-        code = COMPILER.compileString(srcCode, "ORWithFloatInt");
+        code = this.c.compileString(srcCode, "ORWithFloatInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -315,7 +321,7 @@ public class ChainedLogicExpressionTest extends TestBase{
                 MOAN_KEYWORD + " " + INTEGER_1 + EQUALS_SIGN + INTEGER_1 + " " +
                         FLOAT_2 + GT_SIGN + FLOAT_1 + " or " +
                         INTEGER_1 + GT_SIGN + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "ANDORWithFloatInt");
+        JasminBytecode code = this.c.compileString(srcCode, "ANDORWithFloatInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -329,7 +335,7 @@ public class ChainedLogicExpressionTest extends TestBase{
                 MOAN_KEYWORD + " " + INTEGER_1 + EQUALS_SIGN + INTEGER_1 + " and " +
                         FLOAT_2 + LE_SIGN + FLOAT_1 + " or " +
                         INTEGER_1 + GT_SIGN + INTEGER_2;
-        code = COMPILER.compileString(srcCode, "ANDORWithFloatInt");
+        code = this.c.compileString(srcCode, "ANDORWithFloatInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -345,7 +351,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan "shrek" and "fiona"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING_1 + "\" and \"" + STRING_2 + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringANDString");
+        JasminBytecode code = this.c.compileString(srcCode, "stringANDString");
         assertNull(code);
     }
 
@@ -355,7 +361,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan "shrek" or "fiona"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING_1 + "\" or \"" + STRING_2 + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringORString");
+        JasminBytecode code = this.c.compileString(srcCode, "stringORString");
         assertNull(code);
     }
 
@@ -365,7 +371,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 69.96 and 96.69
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + " and " + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatANDFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "floatANDFloat");
         assertNull(code);
     }
 
@@ -375,7 +381,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 69.96 or 96.69
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + " or " + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatORFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "floatORFloat");
         assertNull(code);
     }
 
@@ -385,7 +391,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 69 or 96
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + " or " + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intORInt");
+        JasminBytecode code = this.c.compileString(srcCode, "intORInt");
         assertNull(code);
     }
 
@@ -395,7 +401,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 69 and 96
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + " and " + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intAndInt");
+        JasminBytecode code = this.c.compileString(srcCode, "intAndInt");
         assertNull(code);
     }
 
@@ -405,7 +411,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 69 and 96.69
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + " and " + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intAndFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intAndFloat");
         assertNull(code);
     }
 
@@ -415,7 +421,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 69 and "fiona"
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + " and \"" + STRING_2 + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "intAndString");
+        JasminBytecode code = this.c.compileString(srcCode, "intAndString");
         assertNull(code);
     }
 
@@ -425,7 +431,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan "fiona" and 96.69
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING_2 + "\" and " + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intAndFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intAndFloat");
         assertNull(code);
     }
 
@@ -435,7 +441,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 69 or 96.69
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + " or " + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intOrFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intOrFloat");
         assertNull(code);
     }
 
@@ -445,7 +451,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan 69 or "fiona"
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + " or \"" + STRING_2 + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "intOrString");
+        JasminBytecode code = this.c.compileString(srcCode, "intOrString");
         assertNull(code);
     }
 
@@ -455,7 +461,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan "fiona" or 96.69
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING_2 + "\" or " + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intOrFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intOrFloat");
         assertNull(code);
     }
 
@@ -465,7 +471,7 @@ public class ChainedLogicExpressionTest extends TestBase{
         // moan "fiona" or 96.69 and 69
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING_2 + "\" or " + FLOAT_2 + " and " + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "ANDORStringFloatInt");
+        JasminBytecode code = this.c.compileString(srcCode, "ANDORStringFloatInt");
         assertNull(code);
     }
 }

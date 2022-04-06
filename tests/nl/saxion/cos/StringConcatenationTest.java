@@ -1,5 +1,6 @@
 package nl.saxion.cos;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,12 @@ public class StringConcatenationTest extends TestBase {
     private static final int INTEGER = 37;
     private static final float FLOAT = 42.37F;
 
-    private static final Compiler COMPILER = new Compiler();
+    private Compiler c = new Compiler();
+
+    @BeforeEach
+    void setUp() {
+        this.c = new Compiler();
+    }
 
     @Test
     @DisplayName("String + String concatenation")
@@ -27,7 +33,7 @@ public class StringConcatenationTest extends TestBase {
         // moan "shrek" + "shrek"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + ADD_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringConcat");
+        JasminBytecode code = this.c.compileString(srcCode, "stringConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -43,7 +49,7 @@ public class StringConcatenationTest extends TestBase {
         // moan 42.37 + "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT + ADD_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatStringConcat");
+        JasminBytecode code = this.c.compileString(srcCode, "floatStringConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -54,7 +60,7 @@ public class StringConcatenationTest extends TestBase {
 
         // moan "shrek" + 42.37
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + ADD_SIGN + FLOAT;
-        code = COMPILER.compileString(srcCode, "stringFloatConcat");
+        code = this.c.compileString(srcCode, "stringFloatConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -70,7 +76,7 @@ public class StringConcatenationTest extends TestBase {
         // moan hard + "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + ADD_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanStringConcat");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanStringConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -81,7 +87,7 @@ public class StringConcatenationTest extends TestBase {
 
         // moan "shrek" + hard
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + ADD_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "stringBooleanConcat");
+        code = this.c.compileString(srcCode, "stringBooleanConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -97,7 +103,7 @@ public class StringConcatenationTest extends TestBase {
         // moan 37 + "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER + ADD_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "intStringConcat");
+        JasminBytecode code = this.c.compileString(srcCode, "intStringConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -108,7 +114,7 @@ public class StringConcatenationTest extends TestBase {
 
         // moan "shrek" + 37
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + ADD_SIGN + INTEGER;
-        code = COMPILER.compileString(srcCode, "stringIntConcat");
+        code = this.c.compileString(srcCode, "stringIntConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -124,7 +130,7 @@ public class StringConcatenationTest extends TestBase {
         // moan 37 + "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + "\"" + SPECIAL_CHARS + "\"" + ADD_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "specialCharsStringConcat");
+        JasminBytecode code = this.c.compileString(srcCode, "specialCharsStringConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -135,7 +141,7 @@ public class StringConcatenationTest extends TestBase {
 
         // moan "shrek" + 37
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + ADD_SIGN + "\"" + SPECIAL_CHARS + "\"";
-        code = COMPILER.compileString(srcCode, "specialCharsIntConcat");
+        code = this.c.compileString(srcCode, "specialCharsIntConcat");
         assertNotNull(code);
 
         // Check that output matches what we expect
