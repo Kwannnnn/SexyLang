@@ -292,9 +292,9 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     @Override
     public Void visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
         if (this.types.get(ctx) == DataType.SAFE_WORD) {
-            // TODO: Ask Gerralt about getText() returning string containing " or '
             this.code.add("ldc \"" + ctx.left.getText().replace("\"", "")
                     + ctx.right.getText().replace("\"", "") + "\"");
+
             return null;
         }
 

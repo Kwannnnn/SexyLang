@@ -25,11 +25,10 @@ public class MethodVisitor extends SexyLangBaseVisitor<Void> {
     public Void visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
         StringBuilder types = new StringBuilder();
 
-        for (ParseTree arg : ctx.args().children) {
-            if (arg.getText().equals(",")) {
-                continue;
-            }
-            types.append(this.types.get(arg.getChild(0)).getDescriptor());
+        if (ctx.args() != null) {
+            ctx.args().argDeclaration().forEach((arg) ->
+                types.append(this.types.get(arg.type()).getDescriptor())
+            );
         }
 
         this.code.add(".method public static " + ctx.name.getText() + "(" + types + ")" + this.types.get(ctx.type()).getDescriptor());

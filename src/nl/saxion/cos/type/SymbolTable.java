@@ -3,6 +3,7 @@ package nl.saxion.cos.type;
 import nl.saxion.cos.DataType;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class SymbolTable {
 
@@ -16,11 +17,11 @@ public class SymbolTable {
     }
 
     public void addVariableSymbol(String name, DataType type) {
-        this.symbolTable.put(name, new VariableSymbol(name, ++lastUsedIndex, type));
+        this.symbolTable.put(name, new VariableSymbol(name, lastUsedIndex++, type));
     }
 
-    public void addMethodSymbol(String name, DataType returnType) {
-        this.symbolTable.put(name, new MethodSymbol(name, returnType));
+    public void addMethodSymbol(String name, List<Symbol> args, DataType returnType) {
+        this.symbolTable.put(name, new MethodSymbol(name, args, returnType));
     }
 
     public Symbol lookup(String name) {

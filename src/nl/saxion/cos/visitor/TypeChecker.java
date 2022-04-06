@@ -88,6 +88,12 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
     @Override
     public DataType visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
+        this.currentScope = this.currentScope.openScope();
+
+        if(ctx.args() != null) {
+            visit(ctx.args());
+        }
+
         DataType ejaculateType = visit(ctx.methodBlock().ejaculateStmt());
         DataType returnType = visit(ctx.type());
 
@@ -100,8 +106,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.scopes.put(ctx, this.currentScope);
 
         // Visit the parameters and the body in the new scope
-        this.currentScope = this.currentScope.openScope();
-        visitChildren(ctx);
+        visit(ctx.methodBlock());
         this.currentScope = this.currentScope.closeScope();
 
         return null;
