@@ -27,6 +27,20 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
+    public Void visitArrayValueChangeStmt(SexyLangParser.ArrayValueChangeStmtContext ctx) {
+        SymbolTable symbolTable = this.scopes.get(ctx);
+        ArraySymbol arraySymbol = (ArraySymbol) symbolTable.lookup(ctx.arrayAccess().IDENTIFIER().getText());
+        DataType elementType = getArrayElementType(arraySymbol.getType());
+
+        code.add("aload " + arraySymbol.getIndex());
+        visit(ctx.arrayAccess().index);
+        visit(ctx.expression());
+        code.add(elementType.getMnemonic() + "astore");
+
+        return null;
+    }
+
+    @Override
     public Void visitArrayAccessExpression(SexyLangParser.ArrayAccessExpressionContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
         ArraySymbol arraySymbol = (ArraySymbol) symbolTable.lookup(ctx.arrayAccess().IDENTIFIER().getText());

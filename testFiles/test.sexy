@@ -1,4 +1,35 @@
 insert bodyCount 0+1+1 in i
 
-insert SafeWordArray ["shrek", "fiona", "donkey"] in ass
-moan ass[i]
+insert SafeWordArray ["shrek", "fiona", "donkey"] in ass0
+moan "before "
+moanLoud ass0[i]
+moan "after "
+insert "donkey ass" in ass0[i]
+moanLoud ass0[i]
+
+moanLoud ""
+
+insert lengthArray [1.1, 2.2, 3.3] in ass1
+moan "before "
+moanLoud ass1[i]
+moan "after "
+insert 4.4 in ass1[i]
+moanLoud ass1[i]
+
+moanLoud ""
+
+insert bodyCountArray [1, 2, 3] in ass2
+moan "before "
+moanLoud ass2[i]
+moan "after "
+insert 4 in ass2[i]
+moanLoud ass2[i]
+
+moanLoud ""
+
+insert bulgeArray [hard, soft, hard] in ass3
+moan "before "
+moanLoud ass3[i]
+moan "after "
+insert soft in ass3[i]
+moanLoud ass3[i]

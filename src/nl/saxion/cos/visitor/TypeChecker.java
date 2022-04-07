@@ -31,6 +31,21 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     }
 
     @Override
+    public DataType visitArrayValueChangeStmt(SexyLangParser.ArrayValueChangeStmtContext ctx) {
+        DataType exprType = visit(ctx.expression());
+        DataType varType = visit(ctx.arrayAccess());
+
+        if (exprType != varType) {
+            throw new CompilerException("Type of variable does not match" +
+                    " the type of the given value!");
+        }
+
+        this.types.put(ctx, varType);
+        this.scopes.put(ctx, this.currentScope);
+        return null;
+    }
+
+    @Override
     public DataType visitArrayAccessExpression(SexyLangParser.ArrayAccessExpressionContext ctx) {
         DataType type = visit(ctx.arrayAccess());
         this.types.put(ctx, type);
