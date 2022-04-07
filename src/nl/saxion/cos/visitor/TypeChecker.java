@@ -168,7 +168,14 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         DataType type = visit(ctx.type());
 
-        this.currentScope.addVariableSymbol(name, type);
+        if (type.equals(DataType.BODY_COUNT)
+                | type.equals(DataType.LENGTH)
+                | type.equals(DataType.BULGE)
+                | type.equals(DataType.SAFE_WORD)) {
+            this.currentScope.addVariableSymbol(name, type);
+        } else {
+            this.currentScope.addArraySymbol(name, type);
+        }
         this.scopes.put(ctx, this.currentScope);
 
         return type;
@@ -519,11 +526,14 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
             throw new CompilerException("Variable with name " + ctx.IDENTIFIER().getText() + " does not exist.");
         }
 
-        if (!(symbol instanceof VariableSymbol)) {
+        if (symbol instanceof ArraySymbol == symbol instanceof VariableSymbol) {
             throw new CompilerException("Identifier used as variable but is not a variable!");
         }
 
-        DataType type = ((VariableSymbol) symbol).getType();
+        DataType type = symbol instanceof VariableSymbol ?
+                ((VariableSymbol) symbol).getType()
+                : ((ArraySymbol) symbol).getType();
+
         this.types.put(ctx, type);
         this.scopes.put(ctx, this.currentScope);
         return type;

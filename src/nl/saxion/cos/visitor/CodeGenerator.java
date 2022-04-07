@@ -217,8 +217,13 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     @Override
     public Void visitIdentifierExpression(SexyLangParser.IdentifierExpressionContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
-        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
-        this.code.add(variableSymbol.getType().getMnemonic() + "load " + variableSymbol.getIndex());
+        Symbol symbol = symbolTable.lookup(ctx.IDENTIFIER().getText());
+
+        if (symbol instanceof VariableSymbol) {
+            this.code.add(((VariableSymbol) symbol).getType().getMnemonic() + "load " + ((VariableSymbol) symbol).getIndex());
+        } else if (symbol instanceof ArraySymbol) {
+            this.code.add(((ArraySymbol) symbol).getType().getMnemonic() + "load " + ((ArraySymbol) symbol).getIndex());
+        }
 
         return null;
     }

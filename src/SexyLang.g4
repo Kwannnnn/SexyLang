@@ -45,7 +45,8 @@ statement
     ;
 
 blockStatement
-    : varDeclaration
+    : arrayValueChangeStmt
+    | varDeclaration
     | varAssignment
     | moanStmt
     | ifStmt

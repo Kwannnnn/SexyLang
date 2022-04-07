@@ -27,7 +27,7 @@ public class SymbolTable {
     }
 
     public void addArraySymbol(String name, DataType type) {
-        this.symbolTable.put(name, new ArraySymbol(name, ++lastUsedIndex, type));
+        this.symbolTable.put(name, new ArraySymbol(name, lastUsedIndex++, type));
     }
 
     public Symbol lookup(String name) {
