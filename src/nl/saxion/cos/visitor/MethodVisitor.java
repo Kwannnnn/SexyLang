@@ -23,7 +23,9 @@ public class MethodVisitor extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
-        MethodSymbol methodSymbol = (MethodSymbol) this.scopes.get(ctx).lookup(ctx.name.getText());
+        String methodName = ctx.name.getText();
+        SymbolTable scope = this.scopes.get(ctx);
+        MethodSymbol methodSymbol = (MethodSymbol) scope.lookup(methodName);
 //        StringBuilder types = new StringBuilder();
 //
 //        if (ctx.args() != null) {

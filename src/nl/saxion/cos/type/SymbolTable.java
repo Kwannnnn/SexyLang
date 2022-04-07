@@ -16,13 +16,13 @@ public class SymbolTable {
         this.symbolTable = new HashMap<>();
     }
 
-    public void addVariableSymbol(String name, DataType type) {
+    public void addSymbol(String name, DataType type) {
         this.symbolTable.put(name, new VariableSymbol(name, lastUsedIndex++, type));
     }
 
-    public void addMethodSymbol(String name,
-                                String args,
-                                DataType returnType) {
+    public void addSymbol(String name,
+                          List<DataType> args,
+                          DataType returnType) {
         this.symbolTable.put(name, new MethodSymbol(name, args, returnType));
     }
 
