@@ -1,11 +1,14 @@
 package nl.saxion.cos.visitor;
 
 import nl.saxion.cos.*;
+import nl.saxion.cos.type.ArraySymbol;
+import nl.saxion.cos.type.Symbol;
 import nl.saxion.cos.type.SymbolTable;
 import nl.saxion.cos.type.VariableSymbol;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
+import static nl.saxion.cos.SexyLangUtils.getArrayElementType;
 import static nl.saxion.cos.SexyLangUtils.getOperatorInstruction;
 
 public class CodeGenerator extends SexyLangBaseVisitor<Void> {
@@ -25,28 +28,22 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     @Override
     public Void visitArrayAccessExpression(SexyLangParser.ArrayAccessExpressionContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
-        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.arrayAccess().IDENTIFIER().getText());
+        ArraySymbol arraySymbol = (ArraySymbol) symbolTable.lookup(ctx.arrayAccess().IDENTIFIER().getText());
+        DataType elementType = getArrayElementType(arraySymbol.getType());
 
-        code.add("aload " + variableSymbol.getIndex());
-        code.add("ldc " + ctx.arrayAccess().index.getText());
-        code.add("iaload");
+        code.add("aload " + arraySymbol.getIndex());
+        visit(ctx.arrayAccess().index);
+        code.add(elementType.getMnemonic() + "aload");
 
         return null;
     }
 
-    // ugly ass solution
     @Override
     public Void visitBodyCountArrayLiteral(SexyLangParser.BodyCountArrayLiteralContext ctx) {
         int elementsCount = 0;
 
-        boolean bodyCountElementsExist = ctx.bodyCountElements() != null;
-        if (bodyCountElementsExist) {
-            elementsCount = ctx
-                    .getChild(1)
-                    .getChildCount();
-
-            // remove count for commas
-            if (elementsCount > 2) elementsCount = elementsCount / 2 + 1;
+        if (ctx.bodyCountElements() != null) {
+            elementsCount = ctx.bodyCountElements().bodyCountLiteral().size();
         }
 
         code.add("ldc " + elementsCount);
@@ -60,6 +57,81 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
                 code.add("ldc " + currentIndex++);
                 visit(child);
                 code.add("iastore");
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visitLengthArrayLiteral(SexyLangParser.LengthArrayLiteralContext ctx) {
+        int elementsCount = 0;
+
+        if (ctx.lengthArrayElements() != null) {
+            elementsCount = ctx.lengthArrayElements().lengthLiteral().size();
+        }
+
+        code.add("ldc " + elementsCount);
+        code.add("newarray float");
+
+        //populating the array
+        int currentIndex = 0;
+        for (ParseTree child : ctx.lengthArrayElements().children) {
+            if (child instanceof SexyLangParser.LengthLiteralContext) {
+                code.add("dup");
+                code.add("ldc " + currentIndex++);
+                visit(child);
+                code.add("fastore");
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visitBulgeArrayLiteral(SexyLangParser.BulgeArrayLiteralContext ctx) {
+        int elementsCount = 0;
+
+        if (ctx.bulgeArrayElements() != null) {
+            elementsCount = ctx.bulgeArrayElements().bulgeLiteral().size();
+        }
+
+        code.add("ldc " + elementsCount);
+        code.add("newarray int");
+
+        //populating the array
+        int currentIndex = 0;
+        for (ParseTree child : ctx.bulgeArrayElements().children) {
+            if (child instanceof SexyLangParser.BulgeLiteralContext) {
+                code.add("dup");
+                code.add("ldc " + currentIndex++);
+                visit(child);
+                code.add("iastore");
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Void visitSafeWordArrayLiteral(SexyLangParser.SafeWordArrayLiteralContext ctx) {
+        int elementsCount = 0;
+
+        if (ctx.safeWordArrayElements() != null) {
+            elementsCount = ctx.safeWordArrayElements().safeWordLiteral().size();
+        }
+
+        code.add("ldc " + elementsCount);
+        code.add("anewarray java/lang/String");
+
+        //populating the array
+        int currentIndex = 0;
+        for (ParseTree child : ctx.safeWordArrayElements().children) {
+            if (child instanceof SexyLangParser.SafeWordLiteralContext) {
+                code.add("dup");
+                code.add("ldc " + currentIndex++);
+                visit(child);
+                code.add("aastore");
             }
         }
 
@@ -96,9 +168,14 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     @Override
     public Void visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
-        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
+//        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
+        Symbol symbol = symbolTable.lookup(ctx.IDENTIFIER().getText());
         visit(ctx.expression());
-        this.code.add(variableSymbol.getType().getMnemonic() + "store " + variableSymbol.getIndex());
+        if (symbol instanceof VariableSymbol) {
+            this.code.add(((VariableSymbol) symbol).getType().getMnemonic() + "store " + ((VariableSymbol) symbol).getIndex());
+        } else if (symbol instanceof ArraySymbol) {
+            this.code.add(((ArraySymbol) symbol).getType().getMnemonic() + "store " + ((ArraySymbol) symbol).getIndex());
+        }
 
         return null;
     }
@@ -106,9 +183,13 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     @Override
     public Void visitVarDeclaration(SexyLangParser.VarDeclarationContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
-        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
-        visit(ctx.expression()); // Put something on the stack
-        this.code.add(variableSymbol.getType().getMnemonic() + "store " + variableSymbol.getIndex());
+        Symbol symbol = symbolTable.lookup(ctx.IDENTIFIER().getText());
+        visit(ctx.expression());
+        if (symbol instanceof VariableSymbol) {
+            this.code.add(((VariableSymbol) symbol).getType().getMnemonic() + "store " + ((VariableSymbol) symbol).getIndex());
+        } else if (symbol instanceof ArraySymbol) {
+            this.code.add(((ArraySymbol) symbol).getType().getMnemonic() + "store " + ((ArraySymbol) symbol).getIndex());
+        }
 
         return null;
     }

@@ -26,6 +26,16 @@ public final class SexyLangUtils {
         }
     }
 
+    public static DataType getArrayElementType(DataType arrayType) {
+        switch (arrayType) {
+            case BODY_COUNT_ARRAY: return DataType.BODY_COUNT;
+            case LENGTH_ARRAY: return DataType.LENGTH;
+            case BULGE_ARRAY: return DataType.BULGE;
+            case SAFE_WORD_ARRAY: return DataType.SAFE_WORD;
+            default: throw new CompilerException("Unsupported array type");
+        }
+    }
+
     public static DataType getDataType(int keywordIndex) {
         switch (keywordIndex) {
             case SexyLangLexer.BULGE: return DataType.BULGE;
@@ -33,6 +43,9 @@ public final class SexyLangUtils {
             case SexyLangLexer.LENGTH: return DataType.LENGTH;
             case SexyLangLexer.SAFEWORD: return DataType.SAFE_WORD;
             case SexyLangLexer.BODYCOUNT_ARRAY: return DataType.BODY_COUNT_ARRAY;
+            case SexyLangLexer.LENGTH_ARRAY: return DataType.LENGTH_ARRAY;
+            case SexyLangLexer.BULGE_ARRAY: return DataType.BULGE_ARRAY;
+            case SexyLangLexer.SAFEWORD_ARRAY: return DataType.SAFE_WORD_ARRAY;
             default: throw new CompilerException("Unsupported data type");
         }
     }

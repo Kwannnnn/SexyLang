@@ -5,6 +5,7 @@ import nl.saxion.cos.SexyLangBaseVisitor;
 import nl.saxion.cos.SexyLangLexer;
 import nl.saxion.cos.SexyLangParser;
 import nl.saxion.cos.exception.CompilerException;
+import nl.saxion.cos.type.ArraySymbol;
 import nl.saxion.cos.type.Symbol;
 import nl.saxion.cos.type.SymbolTable;
 import nl.saxion.cos.type.VariableSymbol;
@@ -16,12 +17,6 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     private final ParseTreeProperty<DataType> types;
     private final ParseTreeProperty<SymbolTable> scopes;
     private SymbolTable currentScope;
-
-    // TODO:
-    // TODO: Moan Statement
-    // TODO: Lube Statement
-    // TODO: Bed Activity Statement
-    // TODO: Params
 
     public TypeChecker(ParseTreeProperty<DataType> types,
                        ParseTreeProperty<SymbolTable> scopes) {
@@ -41,29 +36,50 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     @Override
     public DataType visitArrayAccess(SexyLangParser.ArrayAccessContext ctx) {
         String variableName = ctx.IDENTIFIER().getText();
-        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope
+        Symbol arraySymbol = this.currentScope
                 .lookup(variableName);
+        DataType indexType = visit(ctx.index);
 
         // Checks if a variable with the same name exist in the scope
-        if (variableSymbol == null) {
+        if (arraySymbol == null) {
             throw new CompilerException("Array '"+ variableName
                     + "' is not defined in current scope");
         }
 
-        DataType dataType;
-        switch (variableSymbol.getType()) {
-            case BODY_COUNT_ARRAY:
-                dataType = DataType.BODY_COUNT;
-                break;
-            default: dataType = DataType.EMPTY;
+        if (!(arraySymbol instanceof ArraySymbol)) {
+            throw new CompilerException("Variable '" + variableName
+                    + "' is not of type array");
         }
-        return dataType;
+
+        if (!indexType.equals(DataType.BODY_COUNT)) {
+            throw new CompilerException("Index must be of type bodyCount");
+        }
+
+        return getArrayElementType(((ArraySymbol) arraySymbol).getType());
     }
 
     @Override
     public DataType visitBodyCountArrayLiteralExpression(SexyLangParser.BodyCountArrayLiteralExpressionContext ctx) {
         this.types.put(ctx, DataType.BODY_COUNT_ARRAY);
         return DataType.BODY_COUNT_ARRAY;
+    }
+
+    @Override
+    public DataType visitLengthArrayLiteralExpression(SexyLangParser.LengthArrayLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.LENGTH_ARRAY);
+        return DataType.LENGTH_ARRAY;
+    }
+
+    @Override
+    public DataType visitBulgeArrayLiteralExpression(SexyLangParser.BulgeArrayLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.BULGE_ARRAY);
+        return DataType.BULGE_ARRAY;
+    }
+
+    @Override
+    public DataType visitSafeWordArrayLiteralExpression(SexyLangParser.SafeWordArrayLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.SAFE_WORD_ARRAY);
+        return DataType.SAFE_WORD_ARRAY;
     }
 
     @Override
@@ -148,6 +164,15 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                 break;
             case  SexyLangLexer.BODYCOUNT_ARRAY:
                 dataType = DataType.BODY_COUNT_ARRAY;
+                break;
+            case  SexyLangLexer.LENGTH_ARRAY:
+                dataType = DataType.LENGTH_ARRAY;
+                break;
+            case  SexyLangLexer.BULGE_ARRAY:
+                dataType = DataType.BULGE_ARRAY;
+                break;
+            case  SexyLangLexer.SAFEWORD_ARRAY:
+                dataType = DataType.SAFE_WORD_ARRAY;
                 break;
             default : dataType = DataType.EMPTY;
         }
@@ -264,7 +289,15 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                     " the type of the given value!");
         }
 
-        this.currentScope.addVariableSymbol(ctx.IDENTIFIER().getText(), varType);
+        if (exprType.equals(DataType.BODY_COUNT)
+                | exprType.equals(DataType.LENGTH)
+                | exprType.equals(DataType.BULGE)
+                | exprType.equals(DataType.SAFE_WORD)) {
+            this.currentScope.addVariableSymbol(variableName, varType);
+
+        } else {
+            this.currentScope.addArraySymbol(variableName, varType);
+        }
         this.scopes.put(ctx, this.currentScope);
         return null;
     }

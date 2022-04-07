@@ -1,4 +1,4 @@
-// Generated from /Users/kristiyan/Documents/Saxion/Y2/Q3/compilers-and-os/61/src/SexyLang.g4 by ANTLR 4.9.2
+// Generated from /Users/quan/Projects/compilers_and_operating_systems/src/SexyLang.g4 by ANTLR 4.9.2
 package nl.saxion.cos;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -17,52 +17,60 @@ public class SexyLangParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, EMPTY=3, BULGE=4, BODYCOUNT=5, BODYCOUNT_ARRAY=6, LENGTH=7, 
-		SAFEWORD=8, INSERT=9, IN=10, MOAN=11, MOANLOUD=12, BEDACTIVITY=13, EJACULATE=14, 
-		IF=15, ELSEIF=16, ELSE=17, LUBE=18, HARD=19, SOFT=20, L_PAREN=21, R_PAREN=22, 
-		L_CURLY=23, R_CURLY=24, L_SQUARE=25, R_SQUARE=26, COMMA=27, ADD=28, SUB=29, 
-		MUL=30, DIV=31, NEG=32, EQUAL=33, GT=34, LT=35, GE=36, LE=37, AND=38, 
-		OR=39, WHAT_LENGTH=40, STRING=41, IDENTIFIER=42, NUMBER=43, WS=44, COMMENT=45;
+		T__0=1, T__1=2, EMPTY=3, BULGE=4, BODYCOUNT=5, LENGTH=6, SAFEWORD=7, BODYCOUNT_ARRAY=8, 
+		LENGTH_ARRAY=9, BULGE_ARRAY=10, SAFEWORD_ARRAY=11, INSERT=12, IN=13, MOAN=14, 
+		MOANLOUD=15, BEDACTIVITY=16, EJACULATE=17, IF=18, ELSEIF=19, ELSE=20, 
+		LUBE=21, HARD=22, SOFT=23, L_PAREN=24, R_PAREN=25, L_CURLY=26, R_CURLY=27, 
+		L_SQUARE=28, R_SQUARE=29, COMMA=30, ADD=31, SUB=32, MUL=33, DIV=34, NEG=35, 
+		EQUAL=36, GT=37, LT=38, GE=39, LE=40, AND=41, OR=42, WHAT_LENGTH=43, STRING=44, 
+		IDENTIFIER=45, NUMBER=46, WS=47, COMMENT=48;
 	public static final int
 		RULE_program = 0, RULE_expression = 1, RULE_whatLengthCall = 2, RULE_bedActivityCall = 3, 
 		RULE_params = 4, RULE_statement = 5, RULE_blockStatement = 6, RULE_block = 7, 
-		RULE_methodBlock = 8, RULE_varDeclaration = 9, RULE_varAssignment = 10, 
-		RULE_moanStmt = 11, RULE_ejaculateStmt = 12, RULE_ifStmt = 13, RULE_elseIfStmt = 14, 
-		RULE_elseStmt = 15, RULE_lubeStmt = 16, RULE_bedActivityStmt = 17, RULE_args = 18, 
-		RULE_argDeclaration = 19, RULE_type = 20, RULE_bulgeLiteral = 21, RULE_safeWordLiteral = 22, 
-		RULE_bodyCountLiteral = 23, RULE_lengthLiteral = 24, RULE_bodyCountElements = 25, 
-		RULE_bodyCountArrayLiteral = 26, RULE_arrayAccess = 27;
+		RULE_methodBlock = 8, RULE_arrayValueChangeStmt = 9, RULE_varDeclaration = 10, 
+		RULE_varAssignment = 11, RULE_moanStmt = 12, RULE_ejaculateStmt = 13, 
+		RULE_ifStmt = 14, RULE_elseIfStmt = 15, RULE_elseStmt = 16, RULE_lubeStmt = 17, 
+		RULE_bedActivityStmt = 18, RULE_args = 19, RULE_argDeclaration = 20, RULE_type = 21, 
+		RULE_bulgeLiteral = 22, RULE_safeWordLiteral = 23, RULE_bodyCountLiteral = 24, 
+		RULE_lengthLiteral = 25, RULE_bodyCountElements = 26, RULE_bodyCountArrayLiteral = 27, 
+		RULE_lengthArrayElements = 28, RULE_lengthArrayLiteral = 29, RULE_bulgeArrayElements = 30, 
+		RULE_bulgeArrayLiteral = 31, RULE_safeWordArrayElements = 32, RULE_safeWordArrayLiteral = 33, 
+		RULE_arrayAccess = 34;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"program", "expression", "whatLengthCall", "bedActivityCall", "params", 
-			"statement", "blockStatement", "block", "methodBlock", "varDeclaration", 
-			"varAssignment", "moanStmt", "ejaculateStmt", "ifStmt", "elseIfStmt", 
-			"elseStmt", "lubeStmt", "bedActivityStmt", "args", "argDeclaration", 
+			"statement", "blockStatement", "block", "methodBlock", "arrayValueChangeStmt", 
+			"varDeclaration", "varAssignment", "moanStmt", "ejaculateStmt", "ifStmt", 
+			"elseIfStmt", "elseStmt", "lubeStmt", "bedActivityStmt", "args", "argDeclaration", 
 			"type", "bulgeLiteral", "safeWordLiteral", "bodyCountLiteral", "lengthLiteral", 
-			"bodyCountElements", "bodyCountArrayLiteral", "arrayAccess"
+			"bodyCountElements", "bodyCountArrayLiteral", "lengthArrayElements", 
+			"lengthArrayLiteral", "bulgeArrayElements", "bulgeArrayLiteral", "safeWordArrayElements", 
+			"safeWordArrayLiteral", "arrayAccess"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'0'", "'.'", "'empty'", "'bulge'", "'bodyCount'", "'bodyCountArray'", 
-			"'length'", "'SafeWord'", "'insert'", "'in'", "'moan'", "'moanLoud'", 
-			"'bedActivity'", "'ejaculate'", "'if'", "'else if'", "'else'", "'lube'", 
-			"'hard'", "'soft'", "'('", "')'", "'{'", "'}'", "'['", "']'", "','", 
-			"'+'", "'-'", "'*'", "'/'", "'!'", "'=='", "'>'", "'<'", "'>='", "'<='", 
-			"'and'", "'or'", "'whatLength'", null, null, null, null, "'3==D'"
+			null, "'0'", "'.'", "'empty'", "'bulge'", "'bodyCount'", "'length'", 
+			"'SafeWord'", "'bodyCountArray'", "'lengthArray'", "'bulgeArray'", "'SafeWordArray'", 
+			"'insert'", "'in'", "'moan'", "'moanLoud'", "'bedActivity'", "'ejaculate'", 
+			"'if'", "'else if'", "'else'", "'lube'", "'hard'", "'soft'", "'('", "')'", 
+			"'{'", "'}'", "'['", "']'", "','", "'+'", "'-'", "'*'", "'/'", "'!'", 
+			"'=='", "'>'", "'<'", "'>='", "'<='", "'and'", "'or'", "'whatLength'", 
+			null, null, null, null, "'3==D'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, "EMPTY", "BULGE", "BODYCOUNT", "BODYCOUNT_ARRAY", "LENGTH", 
-			"SAFEWORD", "INSERT", "IN", "MOAN", "MOANLOUD", "BEDACTIVITY", "EJACULATE", 
-			"IF", "ELSEIF", "ELSE", "LUBE", "HARD", "SOFT", "L_PAREN", "R_PAREN", 
-			"L_CURLY", "R_CURLY", "L_SQUARE", "R_SQUARE", "COMMA", "ADD", "SUB", 
-			"MUL", "DIV", "NEG", "EQUAL", "GT", "LT", "GE", "LE", "AND", "OR", "WHAT_LENGTH", 
-			"STRING", "IDENTIFIER", "NUMBER", "WS", "COMMENT"
+			null, null, null, "EMPTY", "BULGE", "BODYCOUNT", "LENGTH", "SAFEWORD", 
+			"BODYCOUNT_ARRAY", "LENGTH_ARRAY", "BULGE_ARRAY", "SAFEWORD_ARRAY", "INSERT", 
+			"IN", "MOAN", "MOANLOUD", "BEDACTIVITY", "EJACULATE", "IF", "ELSEIF", 
+			"ELSE", "LUBE", "HARD", "SOFT", "L_PAREN", "R_PAREN", "L_CURLY", "R_CURLY", 
+			"L_SQUARE", "R_SQUARE", "COMMA", "ADD", "SUB", "MUL", "DIV", "NEG", "EQUAL", 
+			"GT", "LT", "GE", "LE", "AND", "OR", "WHAT_LENGTH", "STRING", "IDENTIFIER", 
+			"NUMBER", "WS", "COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -148,12 +156,12 @@ public class SexyLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
+			setState(74);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << INSERT) | (1L << MOAN) | (1L << MOANLOUD) | (1L << BEDACTIVITY) | (1L << IF) | (1L << LUBE) | (1L << HARD) | (1L << SOFT) | (1L << L_PAREN) | (1L << L_SQUARE) | (1L << SUB) | (1L << NEG) | (1L << WHAT_LENGTH) | (1L << STRING) | (1L << IDENTIFIER) | (1L << NUMBER))) != 0)) {
 				{
-				setState(58);
+				setState(72);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__0:
@@ -168,7 +176,7 @@ public class SexyLangParser extends Parser {
 				case IDENTIFIER:
 				case NUMBER:
 					{
-					setState(56);
+					setState(70);
 					expression(0);
 					}
 					break;
@@ -179,7 +187,7 @@ public class SexyLangParser extends Parser {
 				case IF:
 				case LUBE:
 					{
-					setState(57);
+					setState(71);
 					statement();
 					}
 					break;
@@ -187,11 +195,11 @@ public class SexyLangParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(62);
+				setState(76);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(63);
+			setState(77);
 			match(EOF);
 			}
 		}
@@ -239,6 +247,17 @@ public class SexyLangParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class SafeWordArrayLiteralExpressionContext extends ExpressionContext {
+		public SafeWordArrayLiteralContext safeWordArrayLiteral() {
+			return getRuleContext(SafeWordArrayLiteralContext.class,0);
+		}
+		public SafeWordArrayLiteralExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitSafeWordArrayLiteralExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class GroupExpressionContext extends ExpressionContext {
 		public TerminalNode L_PAREN() { return getToken(SexyLangParser.L_PAREN, 0); }
 		public ExpressionContext expression() {
@@ -260,6 +279,17 @@ public class SexyLangParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitBodyCountArrayLiteralExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class LengthArrayLiteralExpressionContext extends ExpressionContext {
+		public LengthArrayLiteralContext lengthArrayLiteral() {
+			return getRuleContext(LengthArrayLiteralContext.class,0);
+		}
+		public LengthArrayLiteralExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitLengthArrayLiteralExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -318,6 +348,17 @@ public class SexyLangParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitBulgeLiteralExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BulgeArrayLiteralExpressionContext extends ExpressionContext {
+		public BulgeArrayLiteralContext bulgeArrayLiteral() {
+			return getRuleContext(BulgeArrayLiteralContext.class,0);
+		}
+		public BulgeArrayLiteralExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitBulgeArrayLiteralExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -435,7 +476,7 @@ public class SexyLangParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81);
+			setState(98);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
@@ -444,11 +485,11 @@ public class SexyLangParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(66);
+				setState(80);
 				match(L_PAREN);
-				setState(67);
+				setState(81);
 				expression(0);
-				setState(68);
+				setState(82);
 				match(R_PAREN);
 				}
 				break;
@@ -457,10 +498,10 @@ public class SexyLangParser extends Parser {
 				_localctx = new NegationExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(70);
+				setState(84);
 				match(NEG);
-				setState(71);
-				expression(14);
+				setState(85);
+				expression(17);
 				}
 				break;
 			case 3:
@@ -468,7 +509,7 @@ public class SexyLangParser extends Parser {
 				_localctx = new WhatLengthCallExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(72);
+				setState(86);
 				whatLengthCall();
 				}
 				break;
@@ -477,7 +518,7 @@ public class SexyLangParser extends Parser {
 				_localctx = new BedActivitCallExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(73);
+				setState(87);
 				bedActivityCall();
 				}
 				break;
@@ -486,7 +527,7 @@ public class SexyLangParser extends Parser {
 				_localctx = new BulgeLiteralExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(74);
+				setState(88);
 				bulgeLiteral();
 				}
 				break;
@@ -495,7 +536,7 @@ public class SexyLangParser extends Parser {
 				_localctx = new BodyCountLiteralExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(75);
+				setState(89);
 				bodyCountLiteral();
 				}
 				break;
@@ -504,7 +545,7 @@ public class SexyLangParser extends Parser {
 				_localctx = new SafeWordLiteralExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(76);
+				setState(90);
 				safeWordLiteral();
 				}
 				break;
@@ -513,7 +554,7 @@ public class SexyLangParser extends Parser {
 				_localctx = new LengthLiteralExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(77);
+				setState(91);
 				lengthLiteral();
 				}
 				break;
@@ -522,31 +563,58 @@ public class SexyLangParser extends Parser {
 				_localctx = new BodyCountArrayLiteralExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(78);
+				setState(92);
 				bodyCountArrayLiteral();
 				}
 				break;
 			case 10:
 				{
-				_localctx = new ArrayAccessExpressionContext(_localctx);
+				_localctx = new LengthArrayLiteralExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(79);
-				arrayAccess();
+				setState(93);
+				lengthArrayLiteral();
 				}
 				break;
 			case 11:
 				{
+				_localctx = new BulgeArrayLiteralExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(94);
+				bulgeArrayLiteral();
+				}
+				break;
+			case 12:
+				{
+				_localctx = new SafeWordArrayLiteralExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(95);
+				safeWordArrayLiteral();
+				}
+				break;
+			case 13:
+				{
+				_localctx = new ArrayAccessExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(96);
+				arrayAccess();
+				}
+				break;
+			case 14:
+				{
 				_localctx = new IdentifierExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(80);
+				setState(97);
 				match(IDENTIFIER);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(97);
+			setState(114);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -554,7 +622,7 @@ public class SexyLangParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(95);
+					setState(112);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
@@ -562,9 +630,9 @@ public class SexyLangParser extends Parser {
 						_localctx = new MulDivExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						((MulDivExpressionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(83);
-						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(84);
+						setState(100);
+						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
+						setState(101);
 						((MulDivExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==MUL || _la==DIV) ) {
@@ -575,8 +643,8 @@ public class SexyLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(85);
-						((MulDivExpressionContext)_localctx).right = expression(14);
+						setState(102);
+						((MulDivExpressionContext)_localctx).right = expression(17);
 						}
 						break;
 					case 2:
@@ -584,9 +652,9 @@ public class SexyLangParser extends Parser {
 						_localctx = new AddSubExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						((AddSubExpressionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(86);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(87);
+						setState(103);
+						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
+						setState(104);
 						((AddSubExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==ADD || _la==SUB) ) {
@@ -597,8 +665,8 @@ public class SexyLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(88);
-						((AddSubExpressionContext)_localctx).right = expression(13);
+						setState(105);
+						((AddSubExpressionContext)_localctx).right = expression(16);
 						}
 						break;
 					case 3:
@@ -606,9 +674,9 @@ public class SexyLangParser extends Parser {
 						_localctx = new LogicExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						((LogicExpressionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(89);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(90);
+						setState(106);
+						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
+						setState(107);
 						((LogicExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EQUAL) | (1L << GT) | (1L << LT) | (1L << GE) | (1L << LE))) != 0)) ) {
@@ -619,8 +687,8 @@ public class SexyLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(91);
-						((LogicExpressionContext)_localctx).right = expression(12);
+						setState(108);
+						((LogicExpressionContext)_localctx).right = expression(15);
 						}
 						break;
 					case 4:
@@ -628,9 +696,9 @@ public class SexyLangParser extends Parser {
 						_localctx = new ChainedLogicExpressionContext(new ExpressionContext(_parentctx, _parentState));
 						((ChainedLogicExpressionContext)_localctx).left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(92);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(93);
+						setState(109);
+						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
+						setState(110);
 						((ChainedLogicExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==AND || _la==OR) ) {
@@ -641,14 +709,14 @@ public class SexyLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(94);
-						((ChainedLogicExpressionContext)_localctx).right = expression(11);
+						setState(111);
+						((ChainedLogicExpressionContext)_localctx).right = expression(14);
 						}
 						break;
 					}
 					} 
 				}
-				setState(99);
+				setState(116);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
@@ -686,11 +754,11 @@ public class SexyLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(100);
+			setState(117);
 			match(WHAT_LENGTH);
-			setState(101);
+			setState(118);
 			match(L_PAREN);
-			setState(102);
+			setState(119);
 			match(R_PAREN);
 			}
 		}
@@ -731,21 +799,21 @@ public class SexyLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104);
+			setState(121);
 			((BedActivityCallContext)_localctx).name = match(IDENTIFIER);
-			setState(105);
+			setState(122);
 			match(L_PAREN);
-			setState(107);
+			setState(124);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << HARD) | (1L << SOFT) | (1L << L_PAREN) | (1L << L_SQUARE) | (1L << SUB) | (1L << NEG) | (1L << WHAT_LENGTH) | (1L << STRING) | (1L << IDENTIFIER) | (1L << NUMBER))) != 0)) {
 				{
-				setState(106);
+				setState(123);
 				params();
 				}
 			}
 
-			setState(109);
+			setState(126);
 			match(R_PAREN);
 			}
 		}
@@ -789,21 +857,21 @@ public class SexyLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(111);
+			setState(128);
 			expression(0);
-			setState(116);
+			setState(133);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(112);
+				setState(129);
 				match(COMMA);
-				setState(113);
+				setState(130);
 				expression(0);
 				}
 				}
-				setState(118);
+				setState(135);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -821,6 +889,9 @@ public class SexyLangParser extends Parser {
 	}
 
 	public static class StatementContext extends ParserRuleContext {
+		public ArrayValueChangeStmtContext arrayValueChangeStmt() {
+			return getRuleContext(ArrayValueChangeStmtContext.class,0);
+		}
 		public VarDeclarationContext varDeclaration() {
 			return getRuleContext(VarDeclarationContext.class,0);
 		}
@@ -854,48 +925,55 @@ public class SexyLangParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_statement);
 		try {
-			setState(125);
+			setState(143);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(119);
-				varDeclaration();
+				setState(136);
+				arrayValueChangeStmt();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(120);
-				varAssignment();
+				setState(137);
+				varDeclaration();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(121);
-				moanStmt();
+				setState(138);
+				varAssignment();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(122);
-				ifStmt();
+				setState(139);
+				moanStmt();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(123);
-				lubeStmt();
+				setState(140);
+				ifStmt();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(124);
+				setState(141);
+				lubeStmt();
+				}
+				break;
+			case 7:
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(142);
 				bedActivityStmt();
 				}
 				break;
@@ -943,41 +1021,41 @@ public class SexyLangParser extends Parser {
 		BlockStatementContext _localctx = new BlockStatementContext(_ctx, getState());
 		enterRule(_localctx, 12, RULE_blockStatement);
 		try {
-			setState(132);
+			setState(150);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(127);
+				setState(145);
 				varDeclaration();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(128);
+				setState(146);
 				varAssignment();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(129);
+				setState(147);
 				moanStmt();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(130);
+				setState(148);
 				ifStmt();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(131);
+				setState(149);
 				lubeStmt();
 				}
 				break;
@@ -1027,14 +1105,14 @@ public class SexyLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(134);
+			setState(152);
 			match(L_CURLY);
-			setState(139);
+			setState(157);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << INSERT) | (1L << MOAN) | (1L << MOANLOUD) | (1L << IF) | (1L << LUBE) | (1L << HARD) | (1L << SOFT) | (1L << L_PAREN) | (1L << L_SQUARE) | (1L << SUB) | (1L << NEG) | (1L << WHAT_LENGTH) | (1L << STRING) | (1L << IDENTIFIER) | (1L << NUMBER))) != 0)) {
 				{
-				setState(137);
+				setState(155);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__0:
@@ -1049,7 +1127,7 @@ public class SexyLangParser extends Parser {
 				case IDENTIFIER:
 				case NUMBER:
 					{
-					setState(135);
+					setState(153);
 					expression(0);
 					}
 					break;
@@ -1059,7 +1137,7 @@ public class SexyLangParser extends Parser {
 				case IF:
 				case LUBE:
 					{
-					setState(136);
+					setState(154);
 					blockStatement();
 					}
 					break;
@@ -1067,11 +1145,11 @@ public class SexyLangParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(141);
+				setState(159);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(142);
+			setState(160);
 			match(R_CURLY);
 			}
 		}
@@ -1122,14 +1200,14 @@ public class SexyLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(144);
+			setState(162);
 			match(L_CURLY);
-			setState(149);
+			setState(167);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << INSERT) | (1L << MOAN) | (1L << MOANLOUD) | (1L << IF) | (1L << LUBE) | (1L << HARD) | (1L << SOFT) | (1L << L_PAREN) | (1L << L_SQUARE) | (1L << SUB) | (1L << NEG) | (1L << WHAT_LENGTH) | (1L << STRING) | (1L << IDENTIFIER) | (1L << NUMBER))) != 0)) {
 				{
-				setState(147);
+				setState(165);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__0:
@@ -1144,7 +1222,7 @@ public class SexyLangParser extends Parser {
 				case IDENTIFIER:
 				case NUMBER:
 					{
-					setState(145);
+					setState(163);
 					expression(0);
 					}
 					break;
@@ -1154,7 +1232,7 @@ public class SexyLangParser extends Parser {
 				case IF:
 				case LUBE:
 					{
-					setState(146);
+					setState(164);
 					blockStatement();
 					}
 					break;
@@ -1162,14 +1240,62 @@ public class SexyLangParser extends Parser {
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(151);
+				setState(169);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(152);
+			setState(170);
 			ejaculateStmt();
-			setState(153);
+			setState(171);
 			match(R_CURLY);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ArrayValueChangeStmtContext extends ParserRuleContext {
+		public Token command;
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode IN() { return getToken(SexyLangParser.IN, 0); }
+		public ArrayAccessContext arrayAccess() {
+			return getRuleContext(ArrayAccessContext.class,0);
+		}
+		public TerminalNode INSERT() { return getToken(SexyLangParser.INSERT, 0); }
+		public ArrayValueChangeStmtContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_arrayValueChangeStmt; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitArrayValueChangeStmt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ArrayValueChangeStmtContext arrayValueChangeStmt() throws RecognitionException {
+		ArrayValueChangeStmtContext _localctx = new ArrayValueChangeStmtContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_arrayValueChangeStmt);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(173);
+			((ArrayValueChangeStmtContext)_localctx).command = match(INSERT);
+			setState(174);
+			expression(0);
+			setState(175);
+			match(IN);
+			setState(176);
+			arrayAccess();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1209,19 +1335,19 @@ public class SexyLangParser extends Parser {
 
 	public final VarDeclarationContext varDeclaration() throws RecognitionException {
 		VarDeclarationContext _localctx = new VarDeclarationContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_varDeclaration);
+		enterRule(_localctx, 20, RULE_varDeclaration);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(155);
+			setState(178);
 			((VarDeclarationContext)_localctx).command = match(INSERT);
-			setState(156);
+			setState(179);
 			((VarDeclarationContext)_localctx).varType = type();
-			setState(157);
+			setState(180);
 			expression(0);
-			setState(158);
+			setState(181);
 			match(IN);
-			setState(159);
+			setState(182);
 			((VarDeclarationContext)_localctx).varName = match(IDENTIFIER);
 			}
 		}
@@ -1258,17 +1384,17 @@ public class SexyLangParser extends Parser {
 
 	public final VarAssignmentContext varAssignment() throws RecognitionException {
 		VarAssignmentContext _localctx = new VarAssignmentContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_varAssignment);
+		enterRule(_localctx, 22, RULE_varAssignment);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(161);
+			setState(184);
 			((VarAssignmentContext)_localctx).command = match(INSERT);
-			setState(162);
+			setState(185);
 			expression(0);
-			setState(163);
+			setState(186);
 			match(IN);
-			setState(164);
+			setState(187);
 			((VarAssignmentContext)_localctx).varName = match(IDENTIFIER);
 			}
 		}
@@ -1303,12 +1429,12 @@ public class SexyLangParser extends Parser {
 
 	public final MoanStmtContext moanStmt() throws RecognitionException {
 		MoanStmtContext _localctx = new MoanStmtContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_moanStmt);
+		enterRule(_localctx, 24, RULE_moanStmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(166);
+			setState(189);
 			((MoanStmtContext)_localctx).command = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !(_la==MOAN || _la==MOANLOUD) ) {
@@ -1319,7 +1445,7 @@ public class SexyLangParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(167);
+			setState(190);
 			expression(0);
 			}
 		}
@@ -1353,19 +1479,19 @@ public class SexyLangParser extends Parser {
 
 	public final EjaculateStmtContext ejaculateStmt() throws RecognitionException {
 		EjaculateStmtContext _localctx = new EjaculateStmtContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_ejaculateStmt);
+		enterRule(_localctx, 26, RULE_ejaculateStmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(169);
+			setState(192);
 			((EjaculateStmtContext)_localctx).command = match(EJACULATE);
-			setState(171);
+			setState(194);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << HARD) | (1L << SOFT) | (1L << L_PAREN) | (1L << L_SQUARE) | (1L << SUB) | (1L << NEG) | (1L << WHAT_LENGTH) | (1L << STRING) | (1L << IDENTIFIER) | (1L << NUMBER))) != 0)) {
 				{
-				setState(170);
+				setState(193);
 				expression(0);
 				}
 			}
@@ -1417,41 +1543,41 @@ public class SexyLangParser extends Parser {
 
 	public final IfStmtContext ifStmt() throws RecognitionException {
 		IfStmtContext _localctx = new IfStmtContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_ifStmt);
+		enterRule(_localctx, 28, RULE_ifStmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(173);
+			setState(196);
 			((IfStmtContext)_localctx).command = match(IF);
-			setState(174);
+			setState(197);
 			match(L_PAREN);
-			setState(175);
+			setState(198);
 			((IfStmtContext)_localctx).condition = expression(0);
-			setState(176);
+			setState(199);
 			match(R_PAREN);
-			setState(177);
+			setState(200);
 			block();
-			setState(181);
+			setState(204);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==ELSEIF) {
 				{
 				{
-				setState(178);
+				setState(201);
 				elseIfStmt();
 				}
 				}
-				setState(183);
+				setState(206);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(185);
+			setState(208);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ELSE) {
 				{
-				setState(184);
+				setState(207);
 				elseStmt();
 				}
 			}
@@ -1494,19 +1620,19 @@ public class SexyLangParser extends Parser {
 
 	public final ElseIfStmtContext elseIfStmt() throws RecognitionException {
 		ElseIfStmtContext _localctx = new ElseIfStmtContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_elseIfStmt);
+		enterRule(_localctx, 30, RULE_elseIfStmt);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(187);
+			setState(210);
 			((ElseIfStmtContext)_localctx).command = match(ELSEIF);
-			setState(188);
+			setState(211);
 			match(L_PAREN);
-			setState(189);
+			setState(212);
 			((ElseIfStmtContext)_localctx).condition = expression(0);
-			setState(190);
+			setState(213);
 			match(R_PAREN);
-			setState(191);
+			setState(214);
 			block();
 			}
 		}
@@ -1540,13 +1666,13 @@ public class SexyLangParser extends Parser {
 
 	public final ElseStmtContext elseStmt() throws RecognitionException {
 		ElseStmtContext _localctx = new ElseStmtContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_elseStmt);
+		enterRule(_localctx, 32, RULE_elseStmt);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(193);
+			setState(216);
 			((ElseStmtContext)_localctx).command = match(ELSE);
-			setState(194);
+			setState(217);
 			block();
 			}
 		}
@@ -1584,15 +1710,15 @@ public class SexyLangParser extends Parser {
 
 	public final LubeStmtContext lubeStmt() throws RecognitionException {
 		LubeStmtContext _localctx = new LubeStmtContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_lubeStmt);
+		enterRule(_localctx, 34, RULE_lubeStmt);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(196);
+			setState(219);
 			((LubeStmtContext)_localctx).command = match(LUBE);
-			setState(197);
+			setState(220);
 			((LubeStmtContext)_localctx).condition = expression(0);
-			setState(198);
+			setState(221);
 			block();
 			}
 		}
@@ -1635,32 +1761,32 @@ public class SexyLangParser extends Parser {
 
 	public final BedActivityStmtContext bedActivityStmt() throws RecognitionException {
 		BedActivityStmtContext _localctx = new BedActivityStmtContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_bedActivityStmt);
+		enterRule(_localctx, 36, RULE_bedActivityStmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(200);
+			setState(223);
 			match(BEDACTIVITY);
-			setState(201);
+			setState(224);
 			((BedActivityStmtContext)_localctx).name = match(IDENTIFIER);
-			setState(202);
+			setState(225);
 			type();
-			setState(203);
+			setState(226);
 			match(L_PAREN);
-			setState(205);
+			setState(228);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EMPTY) | (1L << BULGE) | (1L << BODYCOUNT) | (1L << BODYCOUNT_ARRAY) | (1L << LENGTH) | (1L << SAFEWORD))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EMPTY) | (1L << BULGE) | (1L << BODYCOUNT) | (1L << LENGTH) | (1L << SAFEWORD) | (1L << BODYCOUNT_ARRAY) | (1L << LENGTH_ARRAY) | (1L << BULGE_ARRAY) | (1L << SAFEWORD_ARRAY))) != 0)) {
 				{
-				setState(204);
+				setState(227);
 				args();
 				}
 			}
 
-			setState(207);
+			setState(230);
 			match(R_PAREN);
-			setState(208);
+			setState(231);
 			methodBlock();
 			}
 		}
@@ -1699,26 +1825,26 @@ public class SexyLangParser extends Parser {
 
 	public final ArgsContext args() throws RecognitionException {
 		ArgsContext _localctx = new ArgsContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_args);
+		enterRule(_localctx, 38, RULE_args);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(210);
+			setState(233);
 			argDeclaration();
-			setState(215);
+			setState(238);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(211);
+				setState(234);
 				match(COMMA);
-				setState(212);
+				setState(235);
 				argDeclaration();
 				}
 				}
-				setState(217);
+				setState(240);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1754,13 +1880,13 @@ public class SexyLangParser extends Parser {
 
 	public final ArgDeclarationContext argDeclaration() throws RecognitionException {
 		ArgDeclarationContext _localctx = new ArgDeclarationContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_argDeclaration);
+		enterRule(_localctx, 40, RULE_argDeclaration);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(218);
+			setState(241);
 			type();
-			setState(219);
+			setState(242);
 			((ArgDeclarationContext)_localctx).name = match(IDENTIFIER);
 			}
 		}
@@ -1782,6 +1908,9 @@ public class SexyLangParser extends Parser {
 		public TerminalNode LENGTH() { return getToken(SexyLangParser.LENGTH, 0); }
 		public TerminalNode SAFEWORD() { return getToken(SexyLangParser.SAFEWORD, 0); }
 		public TerminalNode BODYCOUNT_ARRAY() { return getToken(SexyLangParser.BODYCOUNT_ARRAY, 0); }
+		public TerminalNode LENGTH_ARRAY() { return getToken(SexyLangParser.LENGTH_ARRAY, 0); }
+		public TerminalNode BULGE_ARRAY() { return getToken(SexyLangParser.BULGE_ARRAY, 0); }
+		public TerminalNode SAFEWORD_ARRAY() { return getToken(SexyLangParser.SAFEWORD_ARRAY, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1795,14 +1924,14 @@ public class SexyLangParser extends Parser {
 
 	public final TypeContext type() throws RecognitionException {
 		TypeContext _localctx = new TypeContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_type);
+		enterRule(_localctx, 42, RULE_type);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(221);
+			setState(244);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EMPTY) | (1L << BULGE) | (1L << BODYCOUNT) | (1L << BODYCOUNT_ARRAY) | (1L << LENGTH) | (1L << SAFEWORD))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EMPTY) | (1L << BULGE) | (1L << BODYCOUNT) | (1L << LENGTH) | (1L << SAFEWORD) | (1L << BODYCOUNT_ARRAY) | (1L << LENGTH_ARRAY) | (1L << BULGE_ARRAY) | (1L << SAFEWORD_ARRAY))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1839,12 +1968,12 @@ public class SexyLangParser extends Parser {
 
 	public final BulgeLiteralContext bulgeLiteral() throws RecognitionException {
 		BulgeLiteralContext _localctx = new BulgeLiteralContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_bulgeLiteral);
+		enterRule(_localctx, 44, RULE_bulgeLiteral);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(223);
+			setState(246);
 			_la = _input.LA(1);
 			if ( !(_la==HARD || _la==SOFT) ) {
 			_errHandler.recoverInline(this);
@@ -1882,11 +2011,11 @@ public class SexyLangParser extends Parser {
 
 	public final SafeWordLiteralContext safeWordLiteral() throws RecognitionException {
 		SafeWordLiteralContext _localctx = new SafeWordLiteralContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_safeWordLiteral);
+		enterRule(_localctx, 46, RULE_safeWordLiteral);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(225);
+			setState(248);
 			match(STRING);
 			}
 		}
@@ -1917,16 +2046,16 @@ public class SexyLangParser extends Parser {
 
 	public final BodyCountLiteralContext bodyCountLiteral() throws RecognitionException {
 		BodyCountLiteralContext _localctx = new BodyCountLiteralContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_bodyCountLiteral);
+		enterRule(_localctx, 48, RULE_bodyCountLiteral);
 		int _la;
 		try {
-			setState(232);
+			setState(255);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(227);
+				setState(250);
 				match(T__0);
 				}
 				break;
@@ -1934,17 +2063,17 @@ public class SexyLangParser extends Parser {
 			case NUMBER:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(229);
+				setState(252);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==SUB) {
 					{
-					setState(228);
+					setState(251);
 					match(SUB);
 					}
 				}
 
-				setState(231);
+				setState(254);
 				match(NUMBER);
 				}
 				break;
@@ -1981,21 +2110,21 @@ public class SexyLangParser extends Parser {
 
 	public final LengthLiteralContext lengthLiteral() throws RecognitionException {
 		LengthLiteralContext _localctx = new LengthLiteralContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_lengthLiteral);
+		enterRule(_localctx, 50, RULE_lengthLiteral);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(234);
+			setState(257);
 			bodyCountLiteral();
-			setState(237);
+			setState(260);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
 			case 1:
 				{
-				setState(235);
+				setState(258);
 				match(T__1);
-				setState(236);
+				setState(259);
 				_la = _input.LA(1);
 				if ( !(_la==T__0 || _la==NUMBER) ) {
 				_errHandler.recoverInline(this);
@@ -2045,26 +2174,26 @@ public class SexyLangParser extends Parser {
 
 	public final BodyCountElementsContext bodyCountElements() throws RecognitionException {
 		BodyCountElementsContext _localctx = new BodyCountElementsContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_bodyCountElements);
+		enterRule(_localctx, 52, RULE_bodyCountElements);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(239);
+			setState(262);
 			bodyCountLiteral();
-			setState(244);
+			setState(267);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(240);
+				setState(263);
 				match(COMMA);
-				setState(241);
+				setState(264);
 				bodyCountLiteral();
 				}
 				}
-				setState(246);
+				setState(269);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2100,24 +2229,357 @@ public class SexyLangParser extends Parser {
 
 	public final BodyCountArrayLiteralContext bodyCountArrayLiteral() throws RecognitionException {
 		BodyCountArrayLiteralContext _localctx = new BodyCountArrayLiteralContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_bodyCountArrayLiteral);
+		enterRule(_localctx, 54, RULE_bodyCountArrayLiteral);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(247);
+			setState(270);
 			match(L_SQUARE);
-			setState(249);
+			setState(272);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << SUB) | (1L << NUMBER))) != 0)) {
 				{
-				setState(248);
+				setState(271);
 				bodyCountElements();
 				}
 			}
 
-			setState(251);
+			setState(274);
+			match(R_SQUARE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class LengthArrayElementsContext extends ParserRuleContext {
+		public List<LengthLiteralContext> lengthLiteral() {
+			return getRuleContexts(LengthLiteralContext.class);
+		}
+		public LengthLiteralContext lengthLiteral(int i) {
+			return getRuleContext(LengthLiteralContext.class,i);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(SexyLangParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(SexyLangParser.COMMA, i);
+		}
+		public LengthArrayElementsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_lengthArrayElements; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitLengthArrayElements(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final LengthArrayElementsContext lengthArrayElements() throws RecognitionException {
+		LengthArrayElementsContext _localctx = new LengthArrayElementsContext(_ctx, getState());
+		enterRule(_localctx, 56, RULE_lengthArrayElements);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(276);
+			lengthLiteral();
+			setState(281);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==COMMA) {
+				{
+				{
+				setState(277);
+				match(COMMA);
+				setState(278);
+				lengthLiteral();
+				}
+				}
+				setState(283);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class LengthArrayLiteralContext extends ParserRuleContext {
+		public TerminalNode L_SQUARE() { return getToken(SexyLangParser.L_SQUARE, 0); }
+		public TerminalNode R_SQUARE() { return getToken(SexyLangParser.R_SQUARE, 0); }
+		public LengthArrayElementsContext lengthArrayElements() {
+			return getRuleContext(LengthArrayElementsContext.class,0);
+		}
+		public LengthArrayLiteralContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_lengthArrayLiteral; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitLengthArrayLiteral(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final LengthArrayLiteralContext lengthArrayLiteral() throws RecognitionException {
+		LengthArrayLiteralContext _localctx = new LengthArrayLiteralContext(_ctx, getState());
+		enterRule(_localctx, 58, RULE_lengthArrayLiteral);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(284);
+			match(L_SQUARE);
+			setState(286);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << SUB) | (1L << NUMBER))) != 0)) {
+				{
+				setState(285);
+				lengthArrayElements();
+				}
+			}
+
+			setState(288);
+			match(R_SQUARE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BulgeArrayElementsContext extends ParserRuleContext {
+		public List<BulgeLiteralContext> bulgeLiteral() {
+			return getRuleContexts(BulgeLiteralContext.class);
+		}
+		public BulgeLiteralContext bulgeLiteral(int i) {
+			return getRuleContext(BulgeLiteralContext.class,i);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(SexyLangParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(SexyLangParser.COMMA, i);
+		}
+		public BulgeArrayElementsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_bulgeArrayElements; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitBulgeArrayElements(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final BulgeArrayElementsContext bulgeArrayElements() throws RecognitionException {
+		BulgeArrayElementsContext _localctx = new BulgeArrayElementsContext(_ctx, getState());
+		enterRule(_localctx, 60, RULE_bulgeArrayElements);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(290);
+			bulgeLiteral();
+			setState(295);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==COMMA) {
+				{
+				{
+				setState(291);
+				match(COMMA);
+				setState(292);
+				bulgeLiteral();
+				}
+				}
+				setState(297);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BulgeArrayLiteralContext extends ParserRuleContext {
+		public TerminalNode L_SQUARE() { return getToken(SexyLangParser.L_SQUARE, 0); }
+		public TerminalNode R_SQUARE() { return getToken(SexyLangParser.R_SQUARE, 0); }
+		public BulgeArrayElementsContext bulgeArrayElements() {
+			return getRuleContext(BulgeArrayElementsContext.class,0);
+		}
+		public BulgeArrayLiteralContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_bulgeArrayLiteral; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitBulgeArrayLiteral(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final BulgeArrayLiteralContext bulgeArrayLiteral() throws RecognitionException {
+		BulgeArrayLiteralContext _localctx = new BulgeArrayLiteralContext(_ctx, getState());
+		enterRule(_localctx, 62, RULE_bulgeArrayLiteral);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(298);
+			match(L_SQUARE);
+			setState(300);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==HARD || _la==SOFT) {
+				{
+				setState(299);
+				bulgeArrayElements();
+				}
+			}
+
+			setState(302);
+			match(R_SQUARE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class SafeWordArrayElementsContext extends ParserRuleContext {
+		public List<SafeWordLiteralContext> safeWordLiteral() {
+			return getRuleContexts(SafeWordLiteralContext.class);
+		}
+		public SafeWordLiteralContext safeWordLiteral(int i) {
+			return getRuleContext(SafeWordLiteralContext.class,i);
+		}
+		public List<TerminalNode> COMMA() { return getTokens(SexyLangParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(SexyLangParser.COMMA, i);
+		}
+		public SafeWordArrayElementsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_safeWordArrayElements; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitSafeWordArrayElements(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final SafeWordArrayElementsContext safeWordArrayElements() throws RecognitionException {
+		SafeWordArrayElementsContext _localctx = new SafeWordArrayElementsContext(_ctx, getState());
+		enterRule(_localctx, 64, RULE_safeWordArrayElements);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(304);
+			safeWordLiteral();
+			setState(309);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==COMMA) {
+				{
+				{
+				setState(305);
+				match(COMMA);
+				setState(306);
+				safeWordLiteral();
+				}
+				}
+				setState(311);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class SafeWordArrayLiteralContext extends ParserRuleContext {
+		public TerminalNode L_SQUARE() { return getToken(SexyLangParser.L_SQUARE, 0); }
+		public TerminalNode R_SQUARE() { return getToken(SexyLangParser.R_SQUARE, 0); }
+		public SafeWordArrayElementsContext safeWordArrayElements() {
+			return getRuleContext(SafeWordArrayElementsContext.class,0);
+		}
+		public SafeWordArrayLiteralContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_safeWordArrayLiteral; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitSafeWordArrayLiteral(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final SafeWordArrayLiteralContext safeWordArrayLiteral() throws RecognitionException {
+		SafeWordArrayLiteralContext _localctx = new SafeWordArrayLiteralContext(_ctx, getState());
+		enterRule(_localctx, 66, RULE_safeWordArrayLiteral);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(312);
+			match(L_SQUARE);
+			setState(314);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==STRING) {
+				{
+				setState(313);
+				safeWordArrayElements();
+				}
+			}
+
+			setState(316);
 			match(R_SQUARE);
 			}
 		}
@@ -2133,11 +2595,13 @@ public class SexyLangParser extends Parser {
 	}
 
 	public static class ArrayAccessContext extends ParserRuleContext {
-		public Token index;
+		public ExpressionContext index;
 		public TerminalNode IDENTIFIER() { return getToken(SexyLangParser.IDENTIFIER, 0); }
 		public TerminalNode L_SQUARE() { return getToken(SexyLangParser.L_SQUARE, 0); }
 		public TerminalNode R_SQUARE() { return getToken(SexyLangParser.R_SQUARE, 0); }
-		public TerminalNode NUMBER() { return getToken(SexyLangParser.NUMBER, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
 		public ArrayAccessContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2151,27 +2615,17 @@ public class SexyLangParser extends Parser {
 
 	public final ArrayAccessContext arrayAccess() throws RecognitionException {
 		ArrayAccessContext _localctx = new ArrayAccessContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_arrayAccess);
-		int _la;
+		enterRule(_localctx, 68, RULE_arrayAccess);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(253);
+			setState(318);
 			match(IDENTIFIER);
-			setState(254);
+			setState(319);
 			match(L_SQUARE);
-			setState(255);
-			((ArrayAccessContext)_localctx).index = _input.LT(1);
-			_la = _input.LA(1);
-			if ( !(_la==T__0 || _la==NUMBER) ) {
-				((ArrayAccessContext)_localctx).index = (Token)_errHandler.recoverInline(this);
-			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
-			setState(256);
+			setState(320);
+			((ArrayAccessContext)_localctx).index = expression(0);
+			setState(321);
 			match(R_SQUARE);
 			}
 		}
@@ -2196,104 +2650,129 @@ public class SexyLangParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 13);
+			return precpred(_ctx, 16);
 		case 1:
-			return precpred(_ctx, 12);
+			return precpred(_ctx, 15);
 		case 2:
-			return precpred(_ctx, 11);
+			return precpred(_ctx, 14);
 		case 3:
-			return precpred(_ctx, 10);
+			return precpred(_ctx, 13);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3/\u0105\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\62\u0146\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\3\2\3\2\7\2=\n\2\f\2\16\2@\13"+
-		"\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\5\3T\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3b\n\3"+
-		"\f\3\16\3e\13\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\5\5n\n\5\3\5\3\5\3\6\3\6\3"+
-		"\6\7\6u\n\6\f\6\16\6x\13\6\3\7\3\7\3\7\3\7\3\7\3\7\5\7\u0080\n\7\3\b\3"+
-		"\b\3\b\3\b\3\b\5\b\u0087\n\b\3\t\3\t\3\t\7\t\u008c\n\t\f\t\16\t\u008f"+
-		"\13\t\3\t\3\t\3\n\3\n\3\n\7\n\u0096\n\n\f\n\16\n\u0099\13\n\3\n\3\n\3"+
-		"\n\3\13\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\16"+
-		"\3\16\5\16\u00ae\n\16\3\17\3\17\3\17\3\17\3\17\3\17\7\17\u00b6\n\17\f"+
-		"\17\16\17\u00b9\13\17\3\17\5\17\u00bc\n\17\3\20\3\20\3\20\3\20\3\20\3"+
-		"\20\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\5\23\u00d0"+
-		"\n\23\3\23\3\23\3\23\3\24\3\24\3\24\7\24\u00d8\n\24\f\24\16\24\u00db\13"+
-		"\24\3\25\3\25\3\25\3\26\3\26\3\27\3\27\3\30\3\30\3\31\3\31\5\31\u00e8"+
-		"\n\31\3\31\5\31\u00eb\n\31\3\32\3\32\3\32\5\32\u00f0\n\32\3\33\3\33\3"+
-		"\33\7\33\u00f5\n\33\f\33\16\33\u00f8\13\33\3\34\3\34\5\34\u00fc\n\34\3"+
-		"\34\3\34\3\35\3\35\3\35\3\35\3\35\3\35\2\3\4\36\2\4\6\b\n\f\16\20\22\24"+
-		"\26\30\32\34\36 \"$&(*,.\60\62\64\668\2\n\3\2 !\3\2\36\37\3\2#\'\3\2("+
-		")\3\2\r\16\3\2\5\n\3\2\25\26\4\2\3\3--\2\u0111\2>\3\2\2\2\4S\3\2\2\2\6"+
-		"f\3\2\2\2\bj\3\2\2\2\nq\3\2\2\2\f\177\3\2\2\2\16\u0086\3\2\2\2\20\u0088"+
-		"\3\2\2\2\22\u0092\3\2\2\2\24\u009d\3\2\2\2\26\u00a3\3\2\2\2\30\u00a8\3"+
-		"\2\2\2\32\u00ab\3\2\2\2\34\u00af\3\2\2\2\36\u00bd\3\2\2\2 \u00c3\3\2\2"+
-		"\2\"\u00c6\3\2\2\2$\u00ca\3\2\2\2&\u00d4\3\2\2\2(\u00dc\3\2\2\2*\u00df"+
-		"\3\2\2\2,\u00e1\3\2\2\2.\u00e3\3\2\2\2\60\u00ea\3\2\2\2\62\u00ec\3\2\2"+
-		"\2\64\u00f1\3\2\2\2\66\u00f9\3\2\2\28\u00ff\3\2\2\2:=\5\4\3\2;=\5\f\7"+
-		"\2<:\3\2\2\2<;\3\2\2\2=@\3\2\2\2><\3\2\2\2>?\3\2\2\2?A\3\2\2\2@>\3\2\2"+
-		"\2AB\7\2\2\3B\3\3\2\2\2CD\b\3\1\2DE\7\27\2\2EF\5\4\3\2FG\7\30\2\2GT\3"+
-		"\2\2\2HI\7\"\2\2IT\5\4\3\20JT\5\6\4\2KT\5\b\5\2LT\5,\27\2MT\5\60\31\2"+
-		"NT\5.\30\2OT\5\62\32\2PT\5\66\34\2QT\58\35\2RT\7,\2\2SC\3\2\2\2SH\3\2"+
-		"\2\2SJ\3\2\2\2SK\3\2\2\2SL\3\2\2\2SM\3\2\2\2SN\3\2\2\2SO\3\2\2\2SP\3\2"+
-		"\2\2SQ\3\2\2\2SR\3\2\2\2Tc\3\2\2\2UV\f\17\2\2VW\t\2\2\2Wb\5\4\3\20XY\f"+
-		"\16\2\2YZ\t\3\2\2Zb\5\4\3\17[\\\f\r\2\2\\]\t\4\2\2]b\5\4\3\16^_\f\f\2"+
-		"\2_`\t\5\2\2`b\5\4\3\raU\3\2\2\2aX\3\2\2\2a[\3\2\2\2a^\3\2\2\2be\3\2\2"+
-		"\2ca\3\2\2\2cd\3\2\2\2d\5\3\2\2\2ec\3\2\2\2fg\7*\2\2gh\7\27\2\2hi\7\30"+
-		"\2\2i\7\3\2\2\2jk\7,\2\2km\7\27\2\2ln\5\n\6\2ml\3\2\2\2mn\3\2\2\2no\3"+
-		"\2\2\2op\7\30\2\2p\t\3\2\2\2qv\5\4\3\2rs\7\35\2\2su\5\4\3\2tr\3\2\2\2"+
-		"ux\3\2\2\2vt\3\2\2\2vw\3\2\2\2w\13\3\2\2\2xv\3\2\2\2y\u0080\5\24\13\2"+
-		"z\u0080\5\26\f\2{\u0080\5\30\r\2|\u0080\5\34\17\2}\u0080\5\"\22\2~\u0080"+
-		"\5$\23\2\177y\3\2\2\2\177z\3\2\2\2\177{\3\2\2\2\177|\3\2\2\2\177}\3\2"+
-		"\2\2\177~\3\2\2\2\u0080\r\3\2\2\2\u0081\u0087\5\24\13\2\u0082\u0087\5"+
-		"\26\f\2\u0083\u0087\5\30\r\2\u0084\u0087\5\34\17\2\u0085\u0087\5\"\22"+
-		"\2\u0086\u0081\3\2\2\2\u0086\u0082\3\2\2\2\u0086\u0083\3\2\2\2\u0086\u0084"+
-		"\3\2\2\2\u0086\u0085\3\2\2\2\u0087\17\3\2\2\2\u0088\u008d\7\31\2\2\u0089"+
-		"\u008c\5\4\3\2\u008a\u008c\5\16\b\2\u008b\u0089\3\2\2\2\u008b\u008a\3"+
-		"\2\2\2\u008c\u008f\3\2\2\2\u008d\u008b\3\2\2\2\u008d\u008e\3\2\2\2\u008e"+
-		"\u0090\3\2\2\2\u008f\u008d\3\2\2\2\u0090\u0091\7\32\2\2\u0091\21\3\2\2"+
-		"\2\u0092\u0097\7\31\2\2\u0093\u0096\5\4\3\2\u0094\u0096\5\16\b\2\u0095"+
-		"\u0093\3\2\2\2\u0095\u0094\3\2\2\2\u0096\u0099\3\2\2\2\u0097\u0095\3\2"+
-		"\2\2\u0097\u0098\3\2\2\2\u0098\u009a\3\2\2\2\u0099\u0097\3\2\2\2\u009a"+
-		"\u009b\5\32\16\2\u009b\u009c\7\32\2\2\u009c\23\3\2\2\2\u009d\u009e\7\13"+
-		"\2\2\u009e\u009f\5*\26\2\u009f\u00a0\5\4\3\2\u00a0\u00a1\7\f\2\2\u00a1"+
-		"\u00a2\7,\2\2\u00a2\25\3\2\2\2\u00a3\u00a4\7\13\2\2\u00a4\u00a5\5\4\3"+
-		"\2\u00a5\u00a6\7\f\2\2\u00a6\u00a7\7,\2\2\u00a7\27\3\2\2\2\u00a8\u00a9"+
-		"\t\6\2\2\u00a9\u00aa\5\4\3\2\u00aa\31\3\2\2\2\u00ab\u00ad\7\20\2\2\u00ac"+
-		"\u00ae\5\4\3\2\u00ad\u00ac\3\2\2\2\u00ad\u00ae\3\2\2\2\u00ae\33\3\2\2"+
-		"\2\u00af\u00b0\7\21\2\2\u00b0\u00b1\7\27\2\2\u00b1\u00b2\5\4\3\2\u00b2"+
-		"\u00b3\7\30\2\2\u00b3\u00b7\5\20\t\2\u00b4\u00b6\5\36\20\2\u00b5\u00b4"+
-		"\3\2\2\2\u00b6\u00b9\3\2\2\2\u00b7\u00b5\3\2\2\2\u00b7\u00b8\3\2\2\2\u00b8"+
-		"\u00bb\3\2\2\2\u00b9\u00b7\3\2\2\2\u00ba\u00bc\5 \21\2\u00bb\u00ba\3\2"+
-		"\2\2\u00bb\u00bc\3\2\2\2\u00bc\35\3\2\2\2\u00bd\u00be\7\22\2\2\u00be\u00bf"+
-		"\7\27\2\2\u00bf\u00c0\5\4\3\2\u00c0\u00c1\7\30\2\2\u00c1\u00c2\5\20\t"+
-		"\2\u00c2\37\3\2\2\2\u00c3\u00c4\7\23\2\2\u00c4\u00c5\5\20\t\2\u00c5!\3"+
-		"\2\2\2\u00c6\u00c7\7\24\2\2\u00c7\u00c8\5\4\3\2\u00c8\u00c9\5\20\t\2\u00c9"+
-		"#\3\2\2\2\u00ca\u00cb\7\17\2\2\u00cb\u00cc\7,\2\2\u00cc\u00cd\5*\26\2"+
-		"\u00cd\u00cf\7\27\2\2\u00ce\u00d0\5&\24\2\u00cf\u00ce\3\2\2\2\u00cf\u00d0"+
-		"\3\2\2\2\u00d0\u00d1\3\2\2\2\u00d1\u00d2\7\30\2\2\u00d2\u00d3\5\22\n\2"+
-		"\u00d3%\3\2\2\2\u00d4\u00d9\5(\25\2\u00d5\u00d6\7\35\2\2\u00d6\u00d8\5"+
-		"(\25\2\u00d7\u00d5\3\2\2\2\u00d8\u00db\3\2\2\2\u00d9\u00d7\3\2\2\2\u00d9"+
-		"\u00da\3\2\2\2\u00da\'\3\2\2\2\u00db\u00d9\3\2\2\2\u00dc\u00dd\5*\26\2"+
-		"\u00dd\u00de\7,\2\2\u00de)\3\2\2\2\u00df\u00e0\t\7\2\2\u00e0+\3\2\2\2"+
-		"\u00e1\u00e2\t\b\2\2\u00e2-\3\2\2\2\u00e3\u00e4\7+\2\2\u00e4/\3\2\2\2"+
-		"\u00e5\u00eb\7\3\2\2\u00e6\u00e8\7\37\2\2\u00e7\u00e6\3\2\2\2\u00e7\u00e8"+
-		"\3\2\2\2\u00e8\u00e9\3\2\2\2\u00e9\u00eb\7-\2\2\u00ea\u00e5\3\2\2\2\u00ea"+
-		"\u00e7\3\2\2\2\u00eb\61\3\2\2\2\u00ec\u00ef\5\60\31\2\u00ed\u00ee\7\4"+
-		"\2\2\u00ee\u00f0\t\t\2\2\u00ef\u00ed\3\2\2\2\u00ef\u00f0\3\2\2\2\u00f0"+
-		"\63\3\2\2\2\u00f1\u00f6\5\60\31\2\u00f2\u00f3\7\35\2\2\u00f3\u00f5\5\60"+
-		"\31\2\u00f4\u00f2\3\2\2\2\u00f5\u00f8\3\2\2\2\u00f6\u00f4\3\2\2\2\u00f6"+
-		"\u00f7\3\2\2\2\u00f7\65\3\2\2\2\u00f8\u00f6\3\2\2\2\u00f9\u00fb\7\33\2"+
-		"\2\u00fa\u00fc\5\64\33\2\u00fb\u00fa\3\2\2\2\u00fb\u00fc\3\2\2\2\u00fc"+
-		"\u00fd\3\2\2\2\u00fd\u00fe\7\34\2\2\u00fe\67\3\2\2\2\u00ff\u0100\7,\2"+
-		"\2\u0100\u0101\7\33\2\2\u0101\u0102\t\t\2\2\u0102\u0103\7\34\2\2\u0103"+
-		"9\3\2\2\2\31<>Sacmv\177\u0086\u008b\u008d\u0095\u0097\u00ad\u00b7\u00bb"+
-		"\u00cf\u00d9\u00e7\u00ea\u00ef\u00f6\u00fb";
+		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \4!"+
+		"\t!\4\"\t\"\4#\t#\4$\t$\3\2\3\2\7\2K\n\2\f\2\16\2N\13\2\3\2\3\2\3\3\3"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\5\3e\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3s\n\3\f\3"+
+		"\16\3v\13\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\5\5\177\n\5\3\5\3\5\3\6\3\6\3"+
+		"\6\7\6\u0086\n\6\f\6\16\6\u0089\13\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7\u0092"+
+		"\n\7\3\b\3\b\3\b\3\b\3\b\5\b\u0099\n\b\3\t\3\t\3\t\7\t\u009e\n\t\f\t\16"+
+		"\t\u00a1\13\t\3\t\3\t\3\n\3\n\3\n\7\n\u00a8\n\n\f\n\16\n\u00ab\13\n\3"+
+		"\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3"+
+		"\r\3\r\3\r\3\16\3\16\3\16\3\17\3\17\5\17\u00c5\n\17\3\20\3\20\3\20\3\20"+
+		"\3\20\3\20\7\20\u00cd\n\20\f\20\16\20\u00d0\13\20\3\20\5\20\u00d3\n\20"+
+		"\3\21\3\21\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\24"+
+		"\3\24\3\24\3\24\3\24\5\24\u00e7\n\24\3\24\3\24\3\24\3\25\3\25\3\25\7\25"+
+		"\u00ef\n\25\f\25\16\25\u00f2\13\25\3\26\3\26\3\26\3\27\3\27\3\30\3\30"+
+		"\3\31\3\31\3\32\3\32\5\32\u00ff\n\32\3\32\5\32\u0102\n\32\3\33\3\33\3"+
+		"\33\5\33\u0107\n\33\3\34\3\34\3\34\7\34\u010c\n\34\f\34\16\34\u010f\13"+
+		"\34\3\35\3\35\5\35\u0113\n\35\3\35\3\35\3\36\3\36\3\36\7\36\u011a\n\36"+
+		"\f\36\16\36\u011d\13\36\3\37\3\37\5\37\u0121\n\37\3\37\3\37\3 \3 \3 \7"+
+		" \u0128\n \f \16 \u012b\13 \3!\3!\5!\u012f\n!\3!\3!\3\"\3\"\3\"\7\"\u0136"+
+		"\n\"\f\"\16\"\u0139\13\"\3#\3#\5#\u013d\n#\3#\3#\3$\3$\3$\3$\3$\3$\2\3"+
+		"\4%\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@B"+
+		"DF\2\n\3\2#$\3\2!\"\3\2&*\3\2+,\3\2\20\21\3\2\5\r\3\2\30\31\4\2\3\3\60"+
+		"\60\2\u0155\2L\3\2\2\2\4d\3\2\2\2\6w\3\2\2\2\b{\3\2\2\2\n\u0082\3\2\2"+
+		"\2\f\u0091\3\2\2\2\16\u0098\3\2\2\2\20\u009a\3\2\2\2\22\u00a4\3\2\2\2"+
+		"\24\u00af\3\2\2\2\26\u00b4\3\2\2\2\30\u00ba\3\2\2\2\32\u00bf\3\2\2\2\34"+
+		"\u00c2\3\2\2\2\36\u00c6\3\2\2\2 \u00d4\3\2\2\2\"\u00da\3\2\2\2$\u00dd"+
+		"\3\2\2\2&\u00e1\3\2\2\2(\u00eb\3\2\2\2*\u00f3\3\2\2\2,\u00f6\3\2\2\2."+
+		"\u00f8\3\2\2\2\60\u00fa\3\2\2\2\62\u0101\3\2\2\2\64\u0103\3\2\2\2\66\u0108"+
+		"\3\2\2\28\u0110\3\2\2\2:\u0116\3\2\2\2<\u011e\3\2\2\2>\u0124\3\2\2\2@"+
+		"\u012c\3\2\2\2B\u0132\3\2\2\2D\u013a\3\2\2\2F\u0140\3\2\2\2HK\5\4\3\2"+
+		"IK\5\f\7\2JH\3\2\2\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2MO\3\2\2\2"+
+		"NL\3\2\2\2OP\7\2\2\3P\3\3\2\2\2QR\b\3\1\2RS\7\32\2\2ST\5\4\3\2TU\7\33"+
+		"\2\2Ue\3\2\2\2VW\7%\2\2We\5\4\3\23Xe\5\6\4\2Ye\5\b\5\2Ze\5.\30\2[e\5\62"+
+		"\32\2\\e\5\60\31\2]e\5\64\33\2^e\58\35\2_e\5<\37\2`e\5@!\2ae\5D#\2be\5"+
+		"F$\2ce\7/\2\2dQ\3\2\2\2dV\3\2\2\2dX\3\2\2\2dY\3\2\2\2dZ\3\2\2\2d[\3\2"+
+		"\2\2d\\\3\2\2\2d]\3\2\2\2d^\3\2\2\2d_\3\2\2\2d`\3\2\2\2da\3\2\2\2db\3"+
+		"\2\2\2dc\3\2\2\2et\3\2\2\2fg\f\22\2\2gh\t\2\2\2hs\5\4\3\23ij\f\21\2\2"+
+		"jk\t\3\2\2ks\5\4\3\22lm\f\20\2\2mn\t\4\2\2ns\5\4\3\21op\f\17\2\2pq\t\5"+
+		"\2\2qs\5\4\3\20rf\3\2\2\2ri\3\2\2\2rl\3\2\2\2ro\3\2\2\2sv\3\2\2\2tr\3"+
+		"\2\2\2tu\3\2\2\2u\5\3\2\2\2vt\3\2\2\2wx\7-\2\2xy\7\32\2\2yz\7\33\2\2z"+
+		"\7\3\2\2\2{|\7/\2\2|~\7\32\2\2}\177\5\n\6\2~}\3\2\2\2~\177\3\2\2\2\177"+
+		"\u0080\3\2\2\2\u0080\u0081\7\33\2\2\u0081\t\3\2\2\2\u0082\u0087\5\4\3"+
+		"\2\u0083\u0084\7 \2\2\u0084\u0086\5\4\3\2\u0085\u0083\3\2\2\2\u0086\u0089"+
+		"\3\2\2\2\u0087\u0085\3\2\2\2\u0087\u0088\3\2\2\2\u0088\13\3\2\2\2\u0089"+
+		"\u0087\3\2\2\2\u008a\u0092\5\24\13\2\u008b\u0092\5\26\f\2\u008c\u0092"+
+		"\5\30\r\2\u008d\u0092\5\32\16\2\u008e\u0092\5\36\20\2\u008f\u0092\5$\23"+
+		"\2\u0090\u0092\5&\24\2\u0091\u008a\3\2\2\2\u0091\u008b\3\2\2\2\u0091\u008c"+
+		"\3\2\2\2\u0091\u008d\3\2\2\2\u0091\u008e\3\2\2\2\u0091\u008f\3\2\2\2\u0091"+
+		"\u0090\3\2\2\2\u0092\r\3\2\2\2\u0093\u0099\5\26\f\2\u0094\u0099\5\30\r"+
+		"\2\u0095\u0099\5\32\16\2\u0096\u0099\5\36\20\2\u0097\u0099\5$\23\2\u0098"+
+		"\u0093\3\2\2\2\u0098\u0094\3\2\2\2\u0098\u0095\3\2\2\2\u0098\u0096\3\2"+
+		"\2\2\u0098\u0097\3\2\2\2\u0099\17\3\2\2\2\u009a\u009f\7\34\2\2\u009b\u009e"+
+		"\5\4\3\2\u009c\u009e\5\16\b\2\u009d\u009b\3\2\2\2\u009d\u009c\3\2\2\2"+
+		"\u009e\u00a1\3\2\2\2\u009f\u009d\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0\u00a2"+
+		"\3\2\2\2\u00a1\u009f\3\2\2\2\u00a2\u00a3\7\35\2\2\u00a3\21\3\2\2\2\u00a4"+
+		"\u00a9\7\34\2\2\u00a5\u00a8\5\4\3\2\u00a6\u00a8\5\16\b\2\u00a7\u00a5\3"+
+		"\2\2\2\u00a7\u00a6\3\2\2\2\u00a8\u00ab\3\2\2\2\u00a9\u00a7\3\2\2\2\u00a9"+
+		"\u00aa\3\2\2\2\u00aa\u00ac\3\2\2\2\u00ab\u00a9\3\2\2\2\u00ac\u00ad\5\34"+
+		"\17\2\u00ad\u00ae\7\35\2\2\u00ae\23\3\2\2\2\u00af\u00b0\7\16\2\2\u00b0"+
+		"\u00b1\5\4\3\2\u00b1\u00b2\7\17\2\2\u00b2\u00b3\5F$\2\u00b3\25\3\2\2\2"+
+		"\u00b4\u00b5\7\16\2\2\u00b5\u00b6\5,\27\2\u00b6\u00b7\5\4\3\2\u00b7\u00b8"+
+		"\7\17\2\2\u00b8\u00b9\7/\2\2\u00b9\27\3\2\2\2\u00ba\u00bb\7\16\2\2\u00bb"+
+		"\u00bc\5\4\3\2\u00bc\u00bd\7\17\2\2\u00bd\u00be\7/\2\2\u00be\31\3\2\2"+
+		"\2\u00bf\u00c0\t\6\2\2\u00c0\u00c1\5\4\3\2\u00c1\33\3\2\2\2\u00c2\u00c4"+
+		"\7\23\2\2\u00c3\u00c5\5\4\3\2\u00c4\u00c3\3\2\2\2\u00c4\u00c5\3\2\2\2"+
+		"\u00c5\35\3\2\2\2\u00c6\u00c7\7\24\2\2\u00c7\u00c8\7\32\2\2\u00c8\u00c9"+
+		"\5\4\3\2\u00c9\u00ca\7\33\2\2\u00ca\u00ce\5\20\t\2\u00cb\u00cd\5 \21\2"+
+		"\u00cc\u00cb\3\2\2\2\u00cd\u00d0\3\2\2\2\u00ce\u00cc\3\2\2\2\u00ce\u00cf"+
+		"\3\2\2\2\u00cf\u00d2\3\2\2\2\u00d0\u00ce\3\2\2\2\u00d1\u00d3\5\"\22\2"+
+		"\u00d2\u00d1\3\2\2\2\u00d2\u00d3\3\2\2\2\u00d3\37\3\2\2\2\u00d4\u00d5"+
+		"\7\25\2\2\u00d5\u00d6\7\32\2\2\u00d6\u00d7\5\4\3\2\u00d7\u00d8\7\33\2"+
+		"\2\u00d8\u00d9\5\20\t\2\u00d9!\3\2\2\2\u00da\u00db\7\26\2\2\u00db\u00dc"+
+		"\5\20\t\2\u00dc#\3\2\2\2\u00dd\u00de\7\27\2\2\u00de\u00df\5\4\3\2\u00df"+
+		"\u00e0\5\20\t\2\u00e0%\3\2\2\2\u00e1\u00e2\7\22\2\2\u00e2\u00e3\7/\2\2"+
+		"\u00e3\u00e4\5,\27\2\u00e4\u00e6\7\32\2\2\u00e5\u00e7\5(\25\2\u00e6\u00e5"+
+		"\3\2\2\2\u00e6\u00e7\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00e9\7\33\2\2"+
+		"\u00e9\u00ea\5\22\n\2\u00ea\'\3\2\2\2\u00eb\u00f0\5*\26\2\u00ec\u00ed"+
+		"\7 \2\2\u00ed\u00ef\5*\26\2\u00ee\u00ec\3\2\2\2\u00ef\u00f2\3\2\2\2\u00f0"+
+		"\u00ee\3\2\2\2\u00f0\u00f1\3\2\2\2\u00f1)\3\2\2\2\u00f2\u00f0\3\2\2\2"+
+		"\u00f3\u00f4\5,\27\2\u00f4\u00f5\7/\2\2\u00f5+\3\2\2\2\u00f6\u00f7\t\7"+
+		"\2\2\u00f7-\3\2\2\2\u00f8\u00f9\t\b\2\2\u00f9/\3\2\2\2\u00fa\u00fb\7."+
+		"\2\2\u00fb\61\3\2\2\2\u00fc\u0102\7\3\2\2\u00fd\u00ff\7\"\2\2\u00fe\u00fd"+
+		"\3\2\2\2\u00fe\u00ff\3\2\2\2\u00ff\u0100\3\2\2\2\u0100\u0102\7\60\2\2"+
+		"\u0101\u00fc\3\2\2\2\u0101\u00fe\3\2\2\2\u0102\63\3\2\2\2\u0103\u0106"+
+		"\5\62\32\2\u0104\u0105\7\4\2\2\u0105\u0107\t\t\2\2\u0106\u0104\3\2\2\2"+
+		"\u0106\u0107\3\2\2\2\u0107\65\3\2\2\2\u0108\u010d\5\62\32\2\u0109\u010a"+
+		"\7 \2\2\u010a\u010c\5\62\32\2\u010b\u0109\3\2\2\2\u010c\u010f\3\2\2\2"+
+		"\u010d\u010b\3\2\2\2\u010d\u010e\3\2\2\2\u010e\67\3\2\2\2\u010f\u010d"+
+		"\3\2\2\2\u0110\u0112\7\36\2\2\u0111\u0113\5\66\34\2\u0112\u0111\3\2\2"+
+		"\2\u0112\u0113\3\2\2\2\u0113\u0114\3\2\2\2\u0114\u0115\7\37\2\2\u0115"+
+		"9\3\2\2\2\u0116\u011b\5\64\33\2\u0117\u0118\7 \2\2\u0118\u011a\5\64\33"+
+		"\2\u0119\u0117\3\2\2\2\u011a\u011d\3\2\2\2\u011b\u0119\3\2\2\2\u011b\u011c"+
+		"\3\2\2\2\u011c;\3\2\2\2\u011d\u011b\3\2\2\2\u011e\u0120\7\36\2\2\u011f"+
+		"\u0121\5:\36\2\u0120\u011f\3\2\2\2\u0120\u0121\3\2\2\2\u0121\u0122\3\2"+
+		"\2\2\u0122\u0123\7\37\2\2\u0123=\3\2\2\2\u0124\u0129\5.\30\2\u0125\u0126"+
+		"\7 \2\2\u0126\u0128\5.\30\2\u0127\u0125\3\2\2\2\u0128\u012b\3\2\2\2\u0129"+
+		"\u0127\3\2\2\2\u0129\u012a\3\2\2\2\u012a?\3\2\2\2\u012b\u0129\3\2\2\2"+
+		"\u012c\u012e\7\36\2\2\u012d\u012f\5> \2\u012e\u012d\3\2\2\2\u012e\u012f"+
+		"\3\2\2\2\u012f\u0130\3\2\2\2\u0130\u0131\7\37\2\2\u0131A\3\2\2\2\u0132"+
+		"\u0137\5\60\31\2\u0133\u0134\7 \2\2\u0134\u0136\5\60\31\2\u0135\u0133"+
+		"\3\2\2\2\u0136\u0139\3\2\2\2\u0137\u0135\3\2\2\2\u0137\u0138\3\2\2\2\u0138"+
+		"C\3\2\2\2\u0139\u0137\3\2\2\2\u013a\u013c\7\36\2\2\u013b\u013d\5B\"\2"+
+		"\u013c\u013b\3\2\2\2\u013c\u013d\3\2\2\2\u013d\u013e\3\2\2\2\u013e\u013f"+
+		"\7\37\2\2\u013fE\3\2\2\2\u0140\u0141\7/\2\2\u0141\u0142\7\36\2\2\u0142"+
+		"\u0143\5\4\3\2\u0143\u0144\7\37\2\2\u0144G\3\2\2\2\37JLdrt~\u0087\u0091"+
+		"\u0098\u009d\u009f\u00a7\u00a9\u00c4\u00ce\u00d2\u00e6\u00f0\u00fe\u0101"+
+		"\u0106\u010d\u0112\u011b\u0120\u0129\u012e\u0137\u013c";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

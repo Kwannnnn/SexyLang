@@ -1,4 +1,4 @@
-// Generated from /Users/kristiyan/Documents/Saxion/Y2/Q3/compilers-and-os/61/src/SexyLang.g4 by ANTLR 4.9.2
+// Generated from /Users/quan/Projects/compilers_and_operating_systems/src/SexyLang.g4 by ANTLR 4.9.2
 package nl.saxion.cos;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -31,6 +31,13 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLengthLiteralExpression(SexyLangParser.LengthLiteralExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code SafeWordArrayLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSafeWordArrayLiteralExpression(SexyLangParser.SafeWordArrayLiteralExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code GroupExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
@@ -44,6 +51,13 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBodyCountArrayLiteralExpression(SexyLangParser.BodyCountArrayLiteralExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LengthArrayLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLengthArrayLiteralExpression(SexyLangParser.LengthArrayLiteralExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code IdentifierExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
@@ -72,6 +86,13 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBulgeLiteralExpression(SexyLangParser.BulgeLiteralExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BulgeArrayLiteralExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBulgeArrayLiteralExpression(SexyLangParser.BulgeArrayLiteralExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LogicExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
@@ -163,6 +184,12 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMethodBlock(SexyLangParser.MethodBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#arrayValueChangeStmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayValueChangeStmt(SexyLangParser.ArrayValueChangeStmtContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#varDeclaration}.
 	 * @param ctx the parse tree
@@ -271,6 +298,42 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBodyCountArrayLiteral(SexyLangParser.BodyCountArrayLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#lengthArrayElements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLengthArrayElements(SexyLangParser.LengthArrayElementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#lengthArrayLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLengthArrayLiteral(SexyLangParser.LengthArrayLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#bulgeArrayElements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBulgeArrayElements(SexyLangParser.BulgeArrayElementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#bulgeArrayLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBulgeArrayLiteral(SexyLangParser.BulgeArrayLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#safeWordArrayElements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSafeWordArrayElements(SexyLangParser.SafeWordArrayElementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SexyLangParser#safeWordArrayLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSafeWordArrayLiteral(SexyLangParser.SafeWordArrayLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#arrayAccess}.
 	 * @param ctx the parse tree

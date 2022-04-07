@@ -17,6 +17,9 @@ expression
     | safeWordLiteral                                                   #SafeWordLiteralExpression
     | lengthLiteral                                                     #LengthLiteralExpression
     | bodyCountArrayLiteral                                             #BodyCountArrayLiteralExpression
+    | lengthArrayLiteral                                                #LengthArrayLiteralExpression
+    | bulgeArrayLiteral                                                 #BulgeArrayLiteralExpression
+    | safeWordArrayLiteral                                              #SafeWordArrayLiteralExpression
     | arrayAccess                                                       #ArrayAccessExpression
     | IDENTIFIER                                                        #IdentifierExpression
     ;
@@ -32,7 +35,8 @@ expression
 
 // STATEMENTS
 statement
-    : varDeclaration
+    : arrayValueChangeStmt
+    | varDeclaration
     | varAssignment
     | moanStmt
     | ifStmt
@@ -56,6 +60,7 @@ methodBlock
     : L_CURLY (expression | blockStatement)* ejaculateStmt R_CURLY
     ;
 
+arrayValueChangeStmt: command=INSERT expression IN arrayAccess;
 varDeclaration: command=INSERT varType=type expression IN varName=IDENTIFIER;
 varAssignment: command=INSERT expression IN varName=IDENTIFIER;
 moanStmt: command=(MOAN | MOANLOUD) expression;
@@ -83,6 +88,9 @@ type
     | LENGTH
     | SAFEWORD
     | BODYCOUNT_ARRAY
+    | LENGTH_ARRAY
+    | BULGE_ARRAY
+    | SAFEWORD_ARRAY
     ;
 
 bulgeLiteral
@@ -97,16 +105,29 @@ bodyCountElements: bodyCountLiteral (COMMA bodyCountLiteral)*;
 bodyCountArrayLiteral: L_SQUARE bodyCountElements? R_SQUARE;
 // insert bodyCountArray [6, 9] in ass
 
-arrayAccess: IDENTIFIER L_SQUARE index=('0' | NUMBER) R_SQUARE;
+lengthArrayElements: lengthLiteral (COMMA lengthLiteral)*;
+lengthArrayLiteral: L_SQUARE lengthArrayElements? R_SQUARE;
+
+bulgeArrayElements: bulgeLiteral (COMMA bulgeLiteral)*;
+bulgeArrayLiteral: L_SQUARE bulgeArrayElements? R_SQUARE;
+
+safeWordArrayElements: safeWordLiteral (COMMA safeWordLiteral)*;
+safeWordArrayLiteral: L_SQUARE safeWordArrayElements? R_SQUARE;
+
+arrayAccess: IDENTIFIER L_SQUARE index=expression R_SQUARE;
 
 // KEYWORDS
 // Types
 EMPTY:          'empty';
 BULGE:          'bulge';
 BODYCOUNT:      'bodyCount';
-BODYCOUNT_ARRAY:'bodyCountArray';
 LENGTH:         'length';
 SAFEWORD:       'SafeWord';
+BODYCOUNT_ARRAY:'bodyCountArray';
+LENGTH_ARRAY:   'lengthArray';
+BULGE_ARRAY:    'bulgeArray';
+SAFEWORD_ARRAY: 'SafeWordArray';
+
 // Reserved for methods
 INSERT:         'insert';
 IN:             'in';

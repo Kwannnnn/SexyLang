@@ -24,6 +24,10 @@ public class SymbolTable {
         this.symbolTable.put(name, new MethodSymbol(name, args, returnType));
     }
 
+    public void addArraySymbol(String name, DataType type) {
+        this.symbolTable.put(name, new ArraySymbol(name, ++lastUsedIndex, type));
+    }
+
     public Symbol lookup(String name) {
         Symbol symbol = this.symbolTable.get(name);
 
