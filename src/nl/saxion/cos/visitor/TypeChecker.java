@@ -131,7 +131,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.currentScope = this.currentScope.closeScope();
 
         // Store the function name in current scope
-        this.currentScope.addSymbol(
+        this.currentScope.addMethodSymbol(
                 ctx.IDENTIFIER().getText(),
                 argTypes,
                 returnType
@@ -153,7 +153,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         DataType type = visit(ctx.type());
 
-        this.currentScope.addSymbol(name, type);
+        this.currentScope.addVariableSymbol(name, type);
         this.scopes.put(ctx, this.currentScope);
 
         return type;
