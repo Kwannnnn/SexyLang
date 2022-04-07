@@ -72,7 +72,7 @@ lubeStmt: command=LUBE condition=expression block;
 bedActivityStmt: BEDACTIVITY name=IDENTIFIER type L_PAREN args? R_PAREN methodBlock;
 
 args
-    : argDeclaration (',' argDeclaration)*
+    : argDeclaration (COMMA argDeclaration)*
     ;
 
 argDeclaration

@@ -1,5 +1,6 @@
 package nl.saxion.cos;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,12 @@ public class LogicExpressionTest extends TestBase {
     public static final float FLOAT_1 = 42.37F;
     public static final float FLOAT_2 = 37.42F;
 
-    private static final Compiler COMPILER = new Compiler();
+    private Compiler c;
+
+    @BeforeEach
+    void setUp() {
+        this.c = new Compiler();
+    }
 
     @Test
     @DisplayName("Bad Weather: !Int is not allowed")
@@ -33,7 +39,7 @@ public class LogicExpressionTest extends TestBase {
         // moan !37
         String srcCode =
                 MOAN_KEYWORD + " " + NEG_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intNEG");
+        JasminBytecode code = this.c.compileString(srcCode, "intNEG");
         assertNull(code);
     }
 
@@ -43,7 +49,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 > hard
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GT_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGTBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "intGTBoolean");
         assertNull(code);
     }
 
@@ -53,7 +59,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 < hard
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + LT_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLTBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "intLTBoolean");
         assertNull(code);
     }
 
@@ -63,7 +69,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 >= hard
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GE_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGEBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "intGEBoolean");
         assertNull(code);
     }
 
@@ -73,7 +79,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 <= hard
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + LE_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLEBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "intLEBoolean");
         assertNull(code);
     }
 
@@ -83,7 +89,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 == hard
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + EQUALS_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intEQUALSBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "intEQUALSBoolean");
         assertNull(code);
     }
 
@@ -93,7 +99,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 > 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GT_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGTFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intGTFloat");
         assertNull(code);
     }
 
@@ -103,7 +109,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 < 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + LT_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLTFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intLTFloat");
         assertNull(code);
     }
 
@@ -113,7 +119,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 >= 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GE_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGEFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intGEFloat");
         assertNull(code);
     }
 
@@ -123,7 +129,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 == 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + EQUALS_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intEQUALSFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intEQUALSFloat");
         assertNull(code);
     }
 
@@ -133,7 +139,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 > "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GT_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGTString");
+        JasminBytecode code = this.c.compileString(srcCode, "intGTString");
         assertNull(code);
     }
 
@@ -143,7 +149,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 < "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + LT_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLTString");
+        JasminBytecode code = this.c.compileString(srcCode, "intLTString");
         assertNull(code);
     }
 
@@ -153,7 +159,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 >= "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GE_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGEString");
+        JasminBytecode code = this.c.compileString(srcCode, "intGEString");
         assertNull(code);
     }
 
@@ -163,7 +169,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 <= "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + LE_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLEString");
+        JasminBytecode code = this.c.compileString(srcCode, "intLEString");
         assertNull(code);
     }
 
@@ -173,7 +179,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 == "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + EQUALS_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "intEQUALSString");
+        JasminBytecode code = this.c.compileString(srcCode, "intEQUALSString");
         assertNull(code);
     }
 
@@ -183,7 +189,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42 > 37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_2 + GT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGTint_true");
+        JasminBytecode code = this.c.compileString(srcCode, "intGTint_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -199,7 +205,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 > 37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGTint_false");
+        JasminBytecode code = this.c.compileString(srcCode, "intGTint_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -215,7 +221,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 < 42
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + LT_SIGN + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLTint_true");
+        JasminBytecode code = this.c.compileString(srcCode, "intLTint_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -231,7 +237,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 < 37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + LT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLTint_false");
+        JasminBytecode code = this.c.compileString(srcCode, "intLTint_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -247,7 +253,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 <= 37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + LE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLEint_true");
+        JasminBytecode code = this.c.compileString(srcCode, "intLEint_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -263,7 +269,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42 <= 37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_2 + LE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intLEint_false");
+        JasminBytecode code = this.c.compileString(srcCode, "intLEint_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -279,7 +285,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 >= 37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGEint_true");
+        JasminBytecode code = this.c.compileString(srcCode, "intGEint_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -295,7 +301,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 >= 42
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + GE_SIGN + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intGEint_false");
+        JasminBytecode code = this.c.compileString(srcCode, "intGEint_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -311,7 +317,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 == 37
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + EQUALS_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intEQUALSint_true");
+        JasminBytecode code = this.c.compileString(srcCode, "intEQUALSint_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -327,7 +333,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37 == 42
         String srcCode =
                 MOAN_KEYWORD + " " + INTEGER_1 + EQUALS_SIGN + INTEGER_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intEQUALSint_false");
+        JasminBytecode code = this.c.compileString(srcCode, "intEQUALSint_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -344,7 +350,7 @@ public class LogicExpressionTest extends TestBase {
         // moan !42.37
         String srcCode =
                 MOAN_KEYWORD + " " + NEG_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatNEG");
+        JasminBytecode code = this.c.compileString(srcCode, "floatNEG");
         assertNull(code);
     }
 
@@ -354,7 +360,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 > 37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + GT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGTint");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGTint");
         assertNull(code);
     }
 
@@ -364,7 +370,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 < 37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLTint");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLTint");
         assertNull(code);
     }
 
@@ -374,7 +380,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 >= 37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + GE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGEint");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGEint");
         assertNull(code);
     }
 
@@ -384,7 +390,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 <= 37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLEint");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLEint");
         assertNull(code);
     }
 
@@ -394,7 +400,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 == 37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + EQUALS_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatEQUALint");
+        JasminBytecode code = this.c.compileString(srcCode, "floatEQUALint");
         assertNull(code);
     }
 
@@ -404,7 +410,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 > hard
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + GT_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGTboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGTboolean");
         assertNull(code);
     }
 
@@ -414,7 +420,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 < hard
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LT_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLTboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLTboolean");
         assertNull(code);
     }
 
@@ -424,7 +430,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 >= hard
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + GE_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGEboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGEboolean");
         assertNull(code);
     }
 
@@ -434,7 +440,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 <= hard
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LE_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLEboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLEboolean");
         assertNull(code);
     }
 
@@ -444,7 +450,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 == hard
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + EQUALS_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatEQUALBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "floatEQUALBoolean");
         assertNull(code);
     }
 
@@ -454,7 +460,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 > "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + GT_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGTString");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGTString");
         assertNull(code);
     }
 
@@ -464,7 +470,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 < "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LT_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLTString");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLTString");
         assertNull(code);
     }
 
@@ -474,7 +480,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 >= "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + GE_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGEString");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGEString");
         assertNull(code);
     }
 
@@ -484,7 +490,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 <= "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LE_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLEString");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLEString");
         assertNull(code);
     }
 
@@ -494,7 +500,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 == "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + EQUALS_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatEQUALstring");
+        JasminBytecode code = this.c.compileString(srcCode, "floatEQUALstring");
         assertNull(code);
     }
 
@@ -504,7 +510,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 > 37.42
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + GT_SIGN + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGTfloat_true");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGTfloat_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -520,7 +526,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37.42 > 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + GT_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGTfloat_false");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGTfloat_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -536,7 +542,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37.42 < 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + LT_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLTfloat_true");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLTfloat_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -552,7 +558,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 < 37.42
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LT_SIGN + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLTfloat_false");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLTfloat_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -568,7 +574,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 <= 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LE_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLEfloat_true");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLEfloat_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -584,7 +590,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 <= 37.42
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + LE_SIGN + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatLEfloat_false");
+        JasminBytecode code = this.c.compileString(srcCode, "floatLEfloat_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -600,7 +606,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 >= 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + GE_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGEfloat_ture");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGEfloat_ture");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -616,7 +622,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 37.42 >= 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_2 + GE_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatGEfloat_false");
+        JasminBytecode code = this.c.compileString(srcCode, "floatGEfloat_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -631,7 +637,7 @@ public class LogicExpressionTest extends TestBase {
     void float_EQUALS_float() throws Exception {
         // moan 42.37 == 42.37
         String srcCode = MOAN_KEYWORD + " " + FLOAT_1 + EQUALS_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatEQUALSfloat_ture");
+        JasminBytecode code = this.c.compileString(srcCode, "floatEQUALSfloat_ture");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -647,7 +653,7 @@ public class LogicExpressionTest extends TestBase {
         // moan 42.37 == 37.42
         String srcCode =
                 MOAN_KEYWORD + " " + FLOAT_1 + EQUALS_SIGN + FLOAT_2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatEQUALSfloat_false");
+        JasminBytecode code = this.c.compileString(srcCode, "floatEQUALSfloat_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -664,7 +670,7 @@ public class LogicExpressionTest extends TestBase {
         // moan !"shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + NEG_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringNEG");
+        JasminBytecode code = this.c.compileString(srcCode, "stringNEG");
         assertNull(code);
     }
 
@@ -674,7 +680,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" > 42.37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + GT_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringGTfloat");
+        JasminBytecode code = this.c.compileString(srcCode, "stringGTfloat");
         assertNull(code);
     }
 
@@ -684,7 +690,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" < 42.37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + LT_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringLTfloat");
+        JasminBytecode code = this.c.compileString(srcCode, "stringLTfloat");
         assertNull(code);
     }
 
@@ -694,7 +700,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" >= 42.37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + GE_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringGEfloat");
+        JasminBytecode code = this.c.compileString(srcCode, "stringGEfloat");
         assertNull(code);
     }
 
@@ -704,7 +710,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" <= 42.37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + LE_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringLEfloat");
+        JasminBytecode code = this.c.compileString(srcCode, "stringLEfloat");
         assertNull(code);
     }
 
@@ -714,7 +720,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" == 42.37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + EQUALS_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringEQUALSfloat");
+        JasminBytecode code = this.c.compileString(srcCode, "stringEQUALSfloat");
         assertNull(code);
     }
 
@@ -724,7 +730,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" > 37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + GT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringGTint");
+        JasminBytecode code = this.c.compileString(srcCode, "stringGTint");
         assertNull(code);
     }
 
@@ -734,7 +740,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" < 37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + LT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringLTint");
+        JasminBytecode code = this.c.compileString(srcCode, "stringLTint");
         assertNull(code);
     }
 
@@ -744,7 +750,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" >= 37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + GE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringGEint");
+        JasminBytecode code = this.c.compileString(srcCode, "stringGEint");
         assertNull(code);
     }
 
@@ -754,7 +760,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" <= 37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + LE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringLEint");
+        JasminBytecode code = this.c.compileString(srcCode, "stringLEint");
         assertNull(code);
     }
 
@@ -764,7 +770,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" == 37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + EQUALS_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringEQUALSInt");
+        JasminBytecode code = this.c.compileString(srcCode, "stringEQUALSInt");
         assertNull(code);
     }
 
@@ -774,7 +780,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" > hard
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + GT_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringGTboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "stringGTboolean");
         assertNull(code);
     }
 
@@ -784,7 +790,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" < hard
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + LT_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringLTboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "stringLTboolean");
         assertNull(code);
     }
 
@@ -794,7 +800,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" >= hard
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + GE_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringGEboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "stringGEboolean");
         assertNull(code);
     }
 
@@ -804,7 +810,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" <= hard
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + LE_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringLEboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "stringLEboolean");
         assertNull(code);
     }
 
@@ -814,7 +820,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" == hard
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + EQUALS_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringEQUALSBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "stringEQUALSBoolean");
         assertNull(code);
     }
 
@@ -824,7 +830,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" > "shrek"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + GT_SIGN + " \"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringGTstring");
+        JasminBytecode code = this.c.compileString(srcCode, "stringGTstring");
         assertNull(code);
     }
 
@@ -834,7 +840,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" < "shrek"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + LT_SIGN + " \"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringLTstring");
+        JasminBytecode code = this.c.compileString(srcCode, "stringLTstring");
         assertNull(code);
     }
 
@@ -844,7 +850,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" >= "shrek"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + GE_SIGN + " \"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringGEstring");
+        JasminBytecode code = this.c.compileString(srcCode, "stringGEstring");
         assertNull(code);
     }
 
@@ -854,7 +860,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" <= "shrek"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + LE_SIGN + " \"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringLEstring");
+        JasminBytecode code = this.c.compileString(srcCode, "stringLEstring");
         assertNull(code);
     }
 
@@ -864,7 +870,7 @@ public class LogicExpressionTest extends TestBase {
         // moan "shrek" == "shrek"
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + EQUALS_SIGN + " \"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringEQUALSString");
+        JasminBytecode code = this.c.compileString(srcCode, "stringEQUALSString");
         assertNull(code);
 
 //        // Check that output matches what we expect
@@ -881,7 +887,7 @@ public class LogicExpressionTest extends TestBase {
         // moan !hard
         String srcCode =
                 MOAN_KEYWORD + " " + NEG_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanNEG");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanNEG");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -897,7 +903,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard > hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + GT_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGTboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanGTboolean");
         assertNull(code);
     }
 
@@ -907,7 +913,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard < hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + LT_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLTboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanLTboolean");
         assertNull(code);
     }
 
@@ -917,7 +923,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard >= hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + GE_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGEboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanGEboolean");
         assertNull(code);
     }
 
@@ -927,7 +933,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard <= hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + LE_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLEboolean");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanLEboolean");
         assertNull(code);
     }
 
@@ -937,7 +943,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard == hard
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + EQUALS_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanEQUALSboolean_true");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanEQUALSboolean_true");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -953,7 +959,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard == soft
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + EQUALS_SIGN + BOOLEAN_FALSE;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanEQUALSboolean_false");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanEQUALSboolean_false");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -969,7 +975,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard > 37
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + GT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGTInt");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanGTInt");
         assertNull(code);
     }
 
@@ -979,7 +985,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard < 37
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + LT_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLTInt");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanLTInt");
         assertNull(code);
     }
 
@@ -989,7 +995,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard >= 37
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + GE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGEInt");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanGEInt");
         assertNull(code);
     }
 
@@ -999,7 +1005,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard <= 37
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + LE_SIGN + INTEGER_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLEInt");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanLEInt");
         assertNull(code);
     }
 
@@ -1009,7 +1015,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard > 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + GT_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGTFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanGTFloat");
         assertNull(code);
     }
 
@@ -1019,7 +1025,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard < 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + LT_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLTFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanLTFloat");
         assertNull(code);
     }
 
@@ -1029,7 +1035,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard >= 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + GE_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGEFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanGEFloat");
         assertNull(code);
     }
 
@@ -1039,7 +1045,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard <= 42.37
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + LE_SIGN + FLOAT_1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLEFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanLEFloat");
         assertNull(code);
     }
 
@@ -1049,7 +1055,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard > "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + GT_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGTString");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanGTString");
         assertNull(code);
     }
 
@@ -1059,7 +1065,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard < "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + LT_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLTString");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanLTString");
         assertNull(code);
     }
 
@@ -1069,7 +1075,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard >= "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + GE_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanGEString");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanGEString");
         assertNull(code);
     }
 
@@ -1079,7 +1085,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard <= "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + LE_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanLEString");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanLEString");
         assertNull(code);
     }
 
@@ -1089,7 +1095,7 @@ public class LogicExpressionTest extends TestBase {
         // moan hard == "shrek"
         String srcCode =
                 MOAN_KEYWORD + " " + BOOLEAN + EQUALS_SIGN + "\"" + STRING + "\"";
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanEQUALSString");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanEQUALSString");
         assertNull(code);
     }
 }

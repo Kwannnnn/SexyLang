@@ -1,5 +1,6 @@
 package nl.saxion.cos;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,12 @@ public class IfStatementTest extends TestBase {
     public static final String STRING_1 = "shrek";
     public static final String STRING_2 = "fiona";
 
-    private static final Compiler COMPILER = new Compiler();
+    private Compiler c;
+
+    @BeforeEach
+    void setUp() {
+        this.c = new Compiler();
+    }
 
     @Test
     @DisplayName("Good Weather: if TRUE should execute block")
@@ -31,7 +37,7 @@ public class IfStatementTest extends TestBase {
                 IF_KEYWORD + "(" + BOOLEAN_TRUE + ")" + "{" +
                 MOAN_KEYWORD + " \"" + STRING_1 + "\"" +
                 "}";
-        JasminBytecode code = COMPILER.compileString(srcCode, "ifTrue");
+        JasminBytecode code = this.c.compileString(srcCode, "ifTrue");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -51,7 +57,7 @@ public class IfStatementTest extends TestBase {
                 IF_KEYWORD + "(" + BOOLEAN_FALSE + ")" + "{" +
                         MOAN_KEYWORD + " \"" + STRING_1 + "\"" +
                         "}";
-        JasminBytecode code = COMPILER.compileString(srcCode, "ifFalse");
+        JasminBytecode code = this.c.compileString(srcCode, "ifFalse");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -75,7 +81,7 @@ public class IfStatementTest extends TestBase {
                         "}" + ELSE_KEYWORD + "{" +
                         MOAN_KEYWORD + " \"" + STRING_2 + "\"" +
                         "}";
-        JasminBytecode code = COMPILER.compileString(srcCode, "ifFalseTriggersElse");
+        JasminBytecode code = this.c.compileString(srcCode, "ifFalseTriggersElse");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -99,7 +105,7 @@ public class IfStatementTest extends TestBase {
                         "}" + ELSE_KEYWORD + "{" +
                         MOAN_KEYWORD + " \"" + STRING_2 + "\"" +
                         "}";
-        JasminBytecode code = COMPILER.compileString(srcCode, "ifTrueSkipsElse");
+        JasminBytecode code = this.c.compileString(srcCode, "ifTrueSkipsElse");
         assertNotNull(code);
 
         // Check that output matches what we expect

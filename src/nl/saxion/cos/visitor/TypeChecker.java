@@ -6,10 +6,15 @@ import nl.saxion.cos.SexyLangLexer;
 import nl.saxion.cos.SexyLangParser;
 import nl.saxion.cos.exception.CompilerException;
 import nl.saxion.cos.type.ArraySymbol;
+import nl.saxion.cos.type.MethodSymbol;
 import nl.saxion.cos.type.Symbol;
 import nl.saxion.cos.type.SymbolTable;
 import nl.saxion.cos.type.VariableSymbol;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static nl.saxion.cos.SexyLangUtils.*;
 
@@ -104,26 +109,34 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
     @Override
     public DataType visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
-        this.currentScope = this.currentScope.openScope();
+        DataType returnType = visit(ctx.type());
+        List<DataType> argTypes = new ArrayList<>();
 
+        this.currentScope = this.currentScope.openScope();
+        // Check if there are any args and visit them
         if(ctx.args() != null) {
-            visit(ctx.args());
+            ctx.args().argDeclaration().forEach(arg -> {
+                argTypes.add(visit(arg));
+            });
         }
 
         DataType ejaculateType = visit(ctx.methodBlock().ejaculateStmt());
-        DataType returnType = visit(ctx.type());
 
         if (ejaculateType != returnType ) {
             throw new CompilerException("Return type does not match function type");
         }
 
-        // Store the function name in current scope
-        this.currentScope.addVariableSymbol(ctx.IDENTIFIER().getText(), returnType);
-        this.scopes.put(ctx, this.currentScope);
-
         // Visit the parameters and the body in the new scope
         visit(ctx.methodBlock());
         this.currentScope = this.currentScope.closeScope();
+
+        // Store the function name in current scope
+        this.currentScope.addSymbol(
+                ctx.IDENTIFIER().getText(),
+                argTypes,
+                returnType
+        );
+        this.scopes.put(ctx, this.currentScope);
 
         return null;
     }
@@ -140,10 +153,10 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         DataType type = visit(ctx.type());
 
-        this.currentScope.addVariableSymbol(name, type);
+        this.currentScope.addSymbol(name, type);
         this.scopes.put(ctx, this.currentScope);
 
-        return null;
+        return type;
     }
 
     @Override
@@ -426,19 +439,22 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     public DataType visitBedActivityCall(SexyLangParser.BedActivityCallContext ctx) {
         // TODO: Method symbol
         String name = ctx.name.getText();
-        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope.lookup(ctx.name.getText());
+        MethodSymbol methodSymbol = (MethodSymbol) this.currentScope.lookup(name);
 
-        // TODO: TypeCheck the properties
-        // TODO: Check the properties against the method signature
+        AtomicInteger index = new AtomicInteger();
+        ctx.params().expression().forEach(e -> {
+            if (visit(e) != methodSymbol.getDataTypeAtIndex(index.getAndIncrement())) {
+                throw new CompilerException("Illegal argument type");
+            }
+        });
 
-        if (variableSymbol == null) {
-            throw new CompilerException("Bed activity '" + name + " has not" +
-                    "been defined");
+        if (methodSymbol == null) {
+            throw new CompilerException("Cannot resolve bed activity '" + name + "'.");
         }
 
         this.scopes.put(ctx, this.currentScope);
 
-        return variableSymbol.getType();
+        return methodSymbol.getReturnType();
     }
 
     /**

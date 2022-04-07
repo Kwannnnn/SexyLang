@@ -1,5 +1,6 @@
 package nl.saxion.cos;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,13 @@ public class ArithmeticsTest extends TestBase {
     public static final float FLOAT = 42.37F;
     public static final String BOOLEAN = "hard";
 
-    private static final Compiler COMPILER = new Compiler();
+    private Compiler c;
+
+    @BeforeEach
+
+    void setUp() {
+        this.c = new Compiler();
+    }
 
     // STRINGS
     @Test
@@ -30,25 +37,25 @@ public class ArithmeticsTest extends TestBase {
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + SUB_SIGN + INTEGER;
         // String - Int should not be allowed
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringMinInt");
+        JasminBytecode code = this.c.compileString(srcCode, "stringMinInt");
         assertNull(code, "Subtraction of strings and integers should not be allowed");
 
         // moan "shrek" - hard
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + SUB_SIGN + BOOLEAN;
         // String - Boolean should not be allowed
-        code = COMPILER.compileString(srcCode, "stringMinBoolean");
+        code = this.c.compileString(srcCode, "stringMinBoolean");
         assertNull(code, "Subtraction of strings and booleans should not be allowed");
 
         // moan "shrek" - "shrek"
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + SUB_SIGN + "\"" + STRING + "\"";
         // String - String should not be allowed
-        code = COMPILER.compileString(srcCode, "stringMinString");
+        code = this.c.compileString(srcCode, "stringMinString");
         assertNull(code, "Subtraction of strings should not be allowed");
 
         // moan "shrek" - 42.37
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + SUB_SIGN + FLOAT;
         // String - Float should not be allowed
-        code = COMPILER.compileString(srcCode, "stringMinFloat");
+        code = this.c.compileString(srcCode, "stringMinFloat");
         assertNull(code, "Subtraction of strings and floats should not be allowed");
     }
 
@@ -59,25 +66,25 @@ public class ArithmeticsTest extends TestBase {
         // moan "shrek" * 37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + MUL_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringMinInt");
+        JasminBytecode code = this.c.compileString(srcCode, "stringMinInt");
         assertNull(code, "Multiplication of strings and integers should not be allowed");
 
         // String * Boolean should not be allowed
         // moan "shrek" * hard
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + MUL_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "stringMinBoolean");
+        code = this.c.compileString(srcCode, "stringMinBoolean");
         assertNull(code, "Multiplication of strings and booleans should not be allowed");
 
         // String * String should not be allowed
         // moan "shrek" * "shrek"
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + MUL_SIGN + "\"" + STRING + "\"";
-        code = COMPILER.compileString(srcCode, "stringMinString");
+        code = this.c.compileString(srcCode, "stringMinString");
         assertNull(code, "Multiplication of strings should not be allowed");
 
         // String * Float should not be allowed
         // moan "shrek" * 42.37
         srcCode = MOAN_KEYWORD + " \"" + STRING + "\"" + MUL_SIGN + FLOAT;
-        code = COMPILER.compileString(MOAN_KEYWORD + " \"shrek\" * 42.37", "stringMinFloat");
+        code = this.c.compileString(srcCode, "stringMinFloat");
         assertNull(code, "Multiplication of strings and floats should not be allowed");
     }
 
@@ -88,28 +95,28 @@ public class ArithmeticsTest extends TestBase {
         // moan "shrek" / 37
         String srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + DIV_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "stringDivInt");
+        JasminBytecode code = this.c.compileString(srcCode, "stringDivInt");
         assertNull(code, "Division of strings and integers should not be allowed");
 
         // String / Boolean should not be allowed
         // moan "shrek" / hard
         srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + DIV_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "stringDivBoolean");
+        code = this.c.compileString(srcCode, "stringDivBoolean");
         assertNull(code, "Division of strings and booleans should not be allowed");
 
         // String / String should not be allowed
         // moan "shrek" / "shrek"
         srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + DIV_SIGN + "\"" + STRING + "\"";
-        code = COMPILER.compileString(srcCode, "stringDivString");
+        code = this.c.compileString(srcCode, "stringDivString");
         assertNull(code, "Division of strings should not be allowed");
 
         // String / Float should not be allowed
         // moan "shrek" / 42.37
         srcCode =
                 MOAN_KEYWORD + " \"" + STRING + "\"" + DIV_SIGN + FLOAT;
-        code = COMPILER.compileString(srcCode, "stringDivFloat");
+        code = this.c.compileString(srcCode, "stringDivFloat");
         assertNull(code, "Division of strings and floats should not be allowed");
     }
 
@@ -120,19 +127,19 @@ public class ArithmeticsTest extends TestBase {
         // Boolean + Boolean should not be allowed
         // moan hard + hard
         String srcCode = MOAN_KEYWORD + " " + BOOLEAN + ADD_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanPlusBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanPlusBoolean");
         assertNull(code);
 
         // Boolean + Integer should not be allowed
         // moan hard + 37
         srcCode = MOAN_KEYWORD + " " + BOOLEAN + ADD_SIGN + INTEGER;
-        code = COMPILER.compileString(srcCode, "booleanPlusInteger");
+        code = this.c.compileString(srcCode, "booleanPlusInteger");
         assertNull(code);
 
         // Boolean + Float should not be allowed
         // moan hard + 42.37
         srcCode = MOAN_KEYWORD + " " + BOOLEAN + ADD_SIGN + FLOAT;
-        code = COMPILER.compileString(srcCode, "booleanPlusFloat");
+        code = this.c.compileString(srcCode, "booleanPlusFloat");
         assertNull(code);
     }
 
@@ -142,19 +149,19 @@ public class ArithmeticsTest extends TestBase {
         // Boolean - Boolean should not be allowed
         // moan hard - hard
         String srcCode = MOAN_KEYWORD + " " + BOOLEAN + SUB_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanMinBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanMinBoolean");
         assertNull(code);
 
         // Boolean - Integer should not be allowed
         // moan hard - 37
         srcCode = MOAN_KEYWORD + " " + BOOLEAN + SUB_SIGN + INTEGER;
-        code = COMPILER.compileString(srcCode, "booleanMinInteger");
+        code = this.c.compileString(srcCode, "booleanMinInteger");
         assertNull(code);
 
         // Boolean - Float should not be allowed
         // moan hard - 42.37
         srcCode = MOAN_KEYWORD + " " + BOOLEAN + SUB_SIGN + FLOAT;
-        code = COMPILER.compileString(srcCode, "booleanMinFloat");
+        code = this.c.compileString(srcCode, "booleanMinFloat");
         assertNull(code);
     }
 
@@ -164,19 +171,19 @@ public class ArithmeticsTest extends TestBase {
         // Boolean * Boolean should not be allowed
         // moan hard * hard
         String srcCode = MOAN_KEYWORD + " " + BOOLEAN + MUL_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanMulBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanMulBoolean");
         assertNull(code);
 
         // Boolean * Integer should not be allowed
         // moan hard * 37
         srcCode = MOAN_KEYWORD + " " + BOOLEAN + MUL_SIGN + INTEGER;
-        code = COMPILER.compileString(srcCode, "booleanMulInteger");
+        code = this.c.compileString(srcCode, "booleanMulInteger");
         assertNull(code);
 
         // Boolean * Float should not be allowed
         // moan hard * 42.37
         srcCode = MOAN_KEYWORD + " " + BOOLEAN + MUL_SIGN + FLOAT;
-        code = COMPILER.compileString(srcCode, "booleanMulFloat");
+        code = this.c.compileString(srcCode, "booleanMulFloat");
         assertNull(code);
     }
 
@@ -186,19 +193,19 @@ public class ArithmeticsTest extends TestBase {
         // Boolean / Boolean should not be allowed
         // moan hard / hard
         String srcCode = MOAN_KEYWORD + " " + BOOLEAN + DIV_SIGN + BOOLEAN;
-        JasminBytecode code = COMPILER.compileString(srcCode, "booleanDivBoolean");
+        JasminBytecode code = this.c.compileString(srcCode, "booleanDivBoolean");
         assertNull(code);
 
         // Boolean / Integer should not be allowed
         // moan hard / 37
         srcCode = MOAN_KEYWORD + " " + BOOLEAN + DIV_SIGN + INTEGER;
-        code = COMPILER.compileString(srcCode, "booleanDivInteger");
+        code = this.c.compileString(srcCode, "booleanDivInteger");
         assertNull(code);
 
         // Boolean / Float should not be allowed
         // moan hard / 42.37
         srcCode = MOAN_KEYWORD + " " + BOOLEAN + DIV_SIGN + FLOAT;
-        code = COMPILER.compileString(srcCode, "booleanDivFloat");
+        code = this.c.compileString(srcCode, "booleanDivFloat");
         assertNull(code);
     }
 
@@ -208,7 +215,7 @@ public class ArithmeticsTest extends TestBase {
     void float_ADD() throws Exception {
         // moan 42.37 + 42.37
         String srcCode = MOAN_KEYWORD + " " + FLOAT + ADD_SIGN + FLOAT;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatPlusFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "floatPlusFloat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -223,7 +230,7 @@ public class ArithmeticsTest extends TestBase {
     void float_MIN() throws Exception {
         // moan 42.37 + 42.37
         String srcCode = MOAN_KEYWORD + " " + FLOAT + SUB_SIGN + FLOAT;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatMinFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "floatMinFloat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -238,7 +245,7 @@ public class ArithmeticsTest extends TestBase {
     void float_MUL() throws Exception {
         // moan 42.37 * 42.37
         String srcCode = MOAN_KEYWORD + " " + FLOAT + MUL_SIGN + FLOAT;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatMulFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "floatMulFloat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -253,7 +260,7 @@ public class ArithmeticsTest extends TestBase {
     void float_DIV() throws Exception {
         // moan 42.37 / 42.37
         String srcCode = MOAN_KEYWORD + " " + FLOAT + DIV_SIGN + FLOAT;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatDivFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "floatDivFloat");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -269,13 +276,13 @@ public class ArithmeticsTest extends TestBase {
         // Float + Int should not be allowed
         // moan 42.37 + 37
         String srcCode = MOAN_KEYWORD + " " + FLOAT + ADD_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatPlusInt");
+        JasminBytecode code = this.c.compileString(srcCode, "floatPlusInt");
         assertNull(code, "Addition of floats and integers should not be allowed");
 
         // Float + Boolean should not be allowed
         // moan 42.37 + hard
         srcCode = MOAN_KEYWORD + " " + FLOAT + ADD_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "floatPlusBoolean");
+        code = this.c.compileString(srcCode, "floatPlusBoolean");
         assertNull(code, "Addition of floats and booleans should not be allowed");
     }
 
@@ -285,19 +292,19 @@ public class ArithmeticsTest extends TestBase {
         // Float - Int should not be allowed
         // moan 42.37 - 37
         String srcCode = MOAN_KEYWORD + " " + FLOAT + SUB_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatMinInt");
+        JasminBytecode code = this.c.compileString(srcCode, "floatMinInt");
         assertNull(code, "Subtraction of floats and integers should not be allowed");
 
         // Float - Boolean should not be allowed
         // moan 42.37 - hard
         srcCode = MOAN_KEYWORD + " " + FLOAT + SUB_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "floatMinBoolean");
+        code = this.c.compileString(srcCode, "floatMinBoolean");
         assertNull(code, "Subtraction of floats and booleans should not be allowed");
 
         // Float - String should not be allowed
         // moan 42.37 - "shrek"
         srcCode = MOAN_KEYWORD + " " + FLOAT + SUB_SIGN + "\"" + STRING + "\"";
-        code = COMPILER.compileString(srcCode, "floatMinString");
+        code = this.c.compileString(srcCode, "floatMinString");
         assertNull(code, "Subtraction of floats and strings should not be allowed");
     }
 
@@ -307,19 +314,19 @@ public class ArithmeticsTest extends TestBase {
         // Float * Int should not be allowed
         // moan 42.37 * 37
         String srcCode = MOAN_KEYWORD + " " + FLOAT + MUL_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatMulInt");
+        JasminBytecode code = this.c.compileString(srcCode, "floatMulInt");
         assertNull(code, "Multiplication of floats and integers should not be allowed");
 
         // Float * Boolean should not be allowed
         // moan 42.37 * hard
         srcCode = MOAN_KEYWORD + " " + FLOAT + MUL_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "floatMulBoolean");
+        code = this.c.compileString(srcCode, "floatMulBoolean");
         assertNull(code, "Multiplication of floats and booleans should not be allowed");
 
         // Float * String should not be allowed
         // moan 42.37 * "shrek"
         srcCode = MOAN_KEYWORD + " " + FLOAT + MUL_SIGN + "\"" + STRING + "\"";
-        code = COMPILER.compileString(srcCode, "floatMulString");
+        code = this.c.compileString(srcCode, "floatMulString");
         assertNull(code, "Multiplication of floats and strings should not be allowed");
     }
 
@@ -329,19 +336,19 @@ public class ArithmeticsTest extends TestBase {
         // Float / Int should not be allowed
         // moan 42.37 / 37
         String srcCode = MOAN_KEYWORD + " " + FLOAT + DIV_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "floatDivInt");
+        JasminBytecode code = this.c.compileString(srcCode, "floatDivInt");
         assertNull(code, "Division of floats and integers should not be allowed");
 
         // Float / Boolean should not be allowed
         // moan 42.37 / hard
         srcCode = MOAN_KEYWORD + " " + FLOAT + DIV_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "floatDivBoolean");
+        code = this.c.compileString(srcCode, "floatDivBoolean");
         assertNull(code, "Division of floats and booleans should not be allowed");
 
         // Float / String should not be allowed
         // moan 42.37 / "shrek"
         srcCode = MOAN_KEYWORD + " " + FLOAT + DIV_SIGN + "\"" + STRING + "\"";
-        code = COMPILER.compileString(srcCode, "floatDivString");
+        code = this.c.compileString(srcCode, "floatDivString");
         assertNull(code, "Division of floats and strings should not be allowed");
     }
 
@@ -351,7 +358,7 @@ public class ArithmeticsTest extends TestBase {
     void int_ADD() throws Exception {
         // moan 37 + 37
         String srcCode = MOAN_KEYWORD + " " + INTEGER + ADD_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intPlusInt");
+        JasminBytecode code = this.c.compileString(srcCode, "intPlusInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -366,7 +373,7 @@ public class ArithmeticsTest extends TestBase {
     void int_SUB() throws Exception {
         // moan 37 - 37
         String srcCode = MOAN_KEYWORD + " " + INTEGER + SUB_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intMinInt");
+        JasminBytecode code = this.c.compileString(srcCode, "intMinInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -381,7 +388,7 @@ public class ArithmeticsTest extends TestBase {
     void int_MUL() throws Exception {
         // moan 37 * 37
         String srcCode = MOAN_KEYWORD + " " + INTEGER + MUL_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intMulInt");
+        JasminBytecode code = this.c.compileString(srcCode, "intMulInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -396,7 +403,7 @@ public class ArithmeticsTest extends TestBase {
     void int_DIV() throws Exception {
         // moan 37 / 37
         String srcCode = MOAN_KEYWORD + " " + INTEGER + DIV_SIGN + INTEGER;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intDivInt");
+        JasminBytecode code = this.c.compileString(srcCode, "intDivInt");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -412,13 +419,13 @@ public class ArithmeticsTest extends TestBase {
         // Int + Float should not be allowed
         // moan 37 + 42.37
         String srcCode = MOAN_KEYWORD + " " + INTEGER + ADD_SIGN + FLOAT;
-        JasminBytecode code = COMPILER.compileString(srcCode, "integerPlusFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "integerPlusFloat");
         assertNull(code, "Addition of integers and floats should not be allowed");
 
         // Float + Boolean should not be allowed
         // moan 37 + hard
         srcCode = MOAN_KEYWORD + " " + INTEGER + ADD_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "integerPlusBoolean");
+        code = this.c.compileString(srcCode, "integerPlusBoolean");
         assertNull(code, "Addition of integers and booleans should not be allowed");
     }
 
@@ -428,19 +435,19 @@ public class ArithmeticsTest extends TestBase {
         // Int - Float should not be allowed
         // moan 37 - 42.37
         String srcCode = MOAN_KEYWORD + " " + INTEGER + SUB_SIGN + FLOAT;
-        JasminBytecode code = COMPILER.compileString(srcCode, "integerMinFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "integerMinFloat");
         assertNull(code, "Subtraction of integers and floats should not be allowed");
 
         // Int - Boolean should not be allowed
         // moan 37 - hard
         srcCode = MOAN_KEYWORD + " " + INTEGER + SUB_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "integerMinBoolean");
+        code = this.c.compileString(srcCode, "integerMinBoolean");
         assertNull(code, "Subtraction of integers and booleans should not be allowed");
 
         // Int - String should not be allowed
         // moan 37 - "shrek"
         srcCode = MOAN_KEYWORD + " " + INTEGER + SUB_SIGN + "\"" + STRING + "\"";
-        code = COMPILER.compileString(srcCode, "integerMinString");
+        code = this.c.compileString(srcCode, "integerMinString");
         assertNull(code, "Subtraction of integers and strings should not be allowed");
     }
 
@@ -450,19 +457,19 @@ public class ArithmeticsTest extends TestBase {
         // Int * Float should not be allowed
         // moan 37 * 42.37
         String srcCode = MOAN_KEYWORD + " " + INTEGER + MUL_SIGN + FLOAT;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intMulFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intMulFloat");
         assertNull(code, "Multiplication of integers and floats should not be allowed");
 
         // Int * Boolean should not be allowed
         // moan 37 * hard
         srcCode = MOAN_KEYWORD + " " + INTEGER + MUL_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "intMulBoolean");
+        code = this.c.compileString(srcCode, "intMulBoolean");
         assertNull(code, "Multiplication of integers and booleans should not be allowed");
 
         // Int * String should not be allowed
         // moan 37 * "shrek"
         srcCode = MOAN_KEYWORD + " " + INTEGER + MUL_SIGN + "\"" + STRING + "\"";
-        code = COMPILER.compileString(srcCode, "intMulString");
+        code = this.c.compileString(srcCode, "intMulString");
         assertNull(code, "Multiplication of integers and strings should not be allowed");
     }
 
@@ -472,19 +479,19 @@ public class ArithmeticsTest extends TestBase {
         // Int / Float should not be allowed
         // moan 37 / 42.37
         String srcCode = MOAN_KEYWORD + " " + INTEGER + DIV_SIGN + FLOAT;
-        JasminBytecode code = COMPILER.compileString(srcCode, "intDivFloat");
+        JasminBytecode code = this.c.compileString(srcCode, "intDivFloat");
         assertNull(code, "Division of integers and floats should not be allowed");
 
         // Int / Boolean should not be allowed
         // moan 37 / hard
         srcCode = MOAN_KEYWORD + " " + INTEGER + DIV_SIGN + BOOLEAN;
-        code = COMPILER.compileString(srcCode, "intDivBoolean");
+        code = this.c.compileString(srcCode, "intDivBoolean");
         assertNull(code, "Division of integers and booleans should not be allowed");
 
         // Int / String should not be allowed
         // moan 37 / "shrek"
         srcCode = MOAN_KEYWORD + " " + INTEGER + DIV_SIGN + "\"" + STRING + "\"";
-        code = COMPILER.compileString(srcCode, "intDivString");
+        code = this.c.compileString(srcCode, "intDivString");
         assertNull(code, "Division of integers and strings should not be allowed");
     }
 
@@ -492,7 +499,7 @@ public class ArithmeticsTest extends TestBase {
     @DisplayName("Operand precedence: PAREN -> MUL / DIV -> ADD / SUB")
     void operandPrecedence() throws Exception {
         // Int / Float should not be allowed
-        JasminBytecode code = COMPILER.compileString(MOAN_KEYWORD + " ((37 + 37) + 3 * 7 - 1) + 1", "operatorPrecedence");
+        JasminBytecode code = this.c.compileString(MOAN_KEYWORD + " ((37 + 37) + 3 * 7 - 1) + 1", "operatorPrecedence");
         assertNotNull(code);
 
         // Check that output matches what we expect

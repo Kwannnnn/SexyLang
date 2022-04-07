@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class SexyLangUtils {
+    public static final String CLASS_NAME = "SexyClass";
     public static final Set<DataType> COMPARABLE_DATA_TYPES = new HashSet<DataType>() {{
         add(DataType.BODY_COUNT);
         add(DataType.LENGTH);

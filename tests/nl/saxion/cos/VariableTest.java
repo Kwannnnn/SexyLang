@@ -1,5 +1,6 @@
 package nl.saxion.cos;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,12 @@ public class VariableTest extends TestBase {
     private static final int INTEGER_2 = 42;
     private static final float FLOAT = 37.42F;
 
-    private static final Compiler COMPILER = new Compiler();
+    private Compiler c;
+
+    @BeforeEach
+    void setUp() {
+        this.c = new Compiler();
+    }
 
     @Test
     @DisplayName("Good Weather: Boolean Variable Declaration")
@@ -36,7 +42,7 @@ public class VariableTest extends TestBase {
         String srcCode =
                 INSERT_KEYWORD + " " + BULGE_KEYWORD + " " + HARD_KEYWORD + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "bulgeVarDeclaration");
+        JasminBytecode code = this.c.compileString(srcCode, "bulgeVarDeclaration");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -54,7 +60,7 @@ public class VariableTest extends TestBase {
         String srcCode =
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "integerVarDeclaration");
+        JasminBytecode code = this.c.compileString(srcCode, "integerVarDeclaration");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -72,7 +78,7 @@ public class VariableTest extends TestBase {
         String srcCode =
                 INSERT_KEYWORD + " " + LENGTH_KEYWORD + " " + FLOAT + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode,"floatVarDeclaration");
+        JasminBytecode code = this.c.compileString(srcCode,"floatVarDeclaration");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -90,7 +96,7 @@ public class VariableTest extends TestBase {
         String srcCode =
                 INSERT_KEYWORD + " " + SAFEWORD_KEYWORD + " \"" + STRING + "\" " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode,"stringVarDeclaration");
+        JasminBytecode code = this.c.compileString(srcCode,"stringVarDeclaration");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -110,7 +116,7 @@ public class VariableTest extends TestBase {
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT2 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1 + ADD_SIGN + VAR_IDENT2;
-        JasminBytecode code = COMPILER.compileString(srcCode, "varArithmetics");
+        JasminBytecode code = this.c.compileString(srcCode, "varArithmetics");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -129,7 +135,7 @@ public class VariableTest extends TestBase {
         String srcCode =
                 INSERT_KEYWORD + " " + BULGE_KEYWORD + " \"" + STRING + "\" " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "bulgeVarMismatch");
+        JasminBytecode code = this.c.compileString(srcCode, "bulgeVarMismatch");
         assertNull(code);
     }
 
@@ -143,7 +149,7 @@ public class VariableTest extends TestBase {
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "tokenExistsInScope");
+        JasminBytecode code = this.c.compileString(srcCode, "tokenExistsInScope");
         assertNull(code);
     }
 
@@ -157,7 +163,7 @@ public class VariableTest extends TestBase {
                 INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 INSERT_KEYWORD + " " + INTEGER_2 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "varArithmetics");
+        JasminBytecode code = this.c.compileString(srcCode, "varArithmetics");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -177,7 +183,7 @@ public class VariableTest extends TestBase {
                 INSERT_KEYWORD + " " + SAFEWORD_KEYWORD + " \"" + STRING + "\" " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 INSERT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "varAssignmentMismatch");
+        JasminBytecode code = this.c.compileString(srcCode, "varAssignmentMismatch");
         assertNull(code);
     }
 
@@ -190,7 +196,7 @@ public class VariableTest extends TestBase {
         String srcCode =
                 INSERT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "varIdNotFound");
+        JasminBytecode code = this.c.compileString(srcCode, "varIdNotFound");
         assertNull(code);
     }
 
@@ -199,7 +205,7 @@ public class VariableTest extends TestBase {
     void badWeather_token_not_found() throws Exception {
         // moan var1
         String srcCode = MOAN_KEYWORD + " " + VAR_IDENT1;
-        JasminBytecode code = COMPILER.compileString(srcCode, "varIdNotFound");
+        JasminBytecode code = this.c.compileString(srcCode, "varIdNotFound");
         assertNull(code);
     }
 }

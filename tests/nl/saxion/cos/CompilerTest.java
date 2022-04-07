@@ -1,5 +1,6 @@
 package nl.saxion.cos;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
@@ -24,13 +25,17 @@ import static org.junit.jupiter.api.Assertions.*;
  * error. You can of course add that yourself.
  */
 class CompilerTest extends TestBase {
+	private Compiler c;
 
+	@BeforeEach
+	void setUp() {
+		c = new Compiler();
+	}
 
 	@Test
 	void checkByteCode() throws Exception {
 		// Compile the file testFiles/hello.exlang
-		Compiler c = new Compiler();
-		JasminBytecode code = c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
+		JasminBytecode code = this.c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
 		assertNotNull(code);
 
 		// Check that the bytecode matches what we expect
@@ -54,8 +59,7 @@ class CompilerTest extends TestBase {
 	@Test
 	void checkByteCode2() throws Exception {
 		// Compile the file testFiles/helloSexy.sexy
-		Compiler c = new Compiler();
-		JasminBytecode code = c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
+		JasminBytecode code = this.c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
 		assertNotNull(code);
 
 		// Check that the bytecode matches what we expect
@@ -67,16 +71,14 @@ class CompilerTest extends TestBase {
 	void syntaxErrorsAreFound() throws Exception {
 		// Try to compile a file with syntax errors. The compiler should detect this and should
 		// return null.
-		Compiler c = new Compiler();
-		JasminBytecode code = c.compileString("dfsgkjs;", "HelloWorld");
+		JasminBytecode code = this.c.compileString("dfsgkjs;", "HelloWorld");
 		assertNull(code);
 	}
 
 	@Test
 	void checkOutputFile() throws Exception {
 		// Compile and assemble testFiles/helloSexy.sexy
-		Compiler c = new Compiler();
-		JasminBytecode code = c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
+		JasminBytecode code = this.c.compileFile("testFiles/helloSexy.sexy", "HelloWorld");
 		assertNotNull(code);
 
 		// Check that output matches what we expect
@@ -89,8 +91,7 @@ class CompilerTest extends TestBase {
 	@Test
 	void checkOutputString() throws Exception {
 		// Compile and assemble the string 'hello; hi;'
-		Compiler c = new Compiler();
-		JasminBytecode code = c.compileString("moanLoud \"Hello Sexy\"", "HelloWorld");
+		JasminBytecode code = this.c.compileString("moanLoud \"Hello Sexy\"", "HelloWorld");
 		assertNotNull(code);
 
 		// Check that output matches what we expect
