@@ -197,19 +197,21 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
             case SexyLangLexer.SAFEWORD:
                 dataType = DataType.SAFE_WORD;
                 break;
-            case  SexyLangLexer.BODYCOUNT_ARRAY:
+            case SexyLangLexer.BODYCOUNT_ARRAY:
                 dataType = DataType.BODY_COUNT_ARRAY;
                 break;
-            case  SexyLangLexer.LENGTH_ARRAY:
+            case SexyLangLexer.LENGTH_ARRAY:
                 dataType = DataType.LENGTH_ARRAY;
                 break;
-            case  SexyLangLexer.BULGE_ARRAY:
+            case SexyLangLexer.BULGE_ARRAY:
                 dataType = DataType.BULGE_ARRAY;
                 break;
-            case  SexyLangLexer.SAFEWORD_ARRAY:
+            case SexyLangLexer.SAFEWORD_ARRAY:
                 dataType = DataType.SAFE_WORD_ARRAY;
                 break;
-            default : dataType = DataType.EMPTY;
+            default:
+                dataType = DataType.EMPTY;
+                break;
         }
         this.types.put(ctx, dataType);
         return dataType;
