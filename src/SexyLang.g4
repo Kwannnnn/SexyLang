@@ -124,10 +124,10 @@ BULGE:          'bulge';
 BODYCOUNT:      'bodyCount';
 LENGTH:         'length';
 SAFEWORD:       'SafeWord';
-BODYCOUNT_ARRAY:'bodyCountArray';
-LENGTH_ARRAY:   'lengthArray';
-BULGE_ARRAY:    'bulgeArray';
-SAFEWORD_ARRAY: 'SafeWordArray';
+BODYCOUNT_ARRAY:'bodyCounts';
+LENGTH_ARRAY:   'lengths';
+BULGE_ARRAY:    'bulges';
+SAFEWORD_ARRAY: 'SafeWords';
 
 // Reserved for methods
 INSERT:         'insert';
