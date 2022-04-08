@@ -472,12 +472,18 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         String name = ctx.name.getText();
         MethodSymbol methodSymbol = (MethodSymbol) this.currentScope.lookup(name);
 
-        AtomicInteger index = new AtomicInteger();
-        ctx.params().expression().forEach(e -> {
-            if (visit(e) != methodSymbol.getDataTypeAtIndex(index.getAndIncrement())) {
-                throw new CompilerException("Illegal argument type");
+        if (ctx.params() != null) {
+            if (methodSymbol.getArgs().size() != ctx.params().expression().size()) {
+                throw new CompilerException("Cannot resolve bed activity '" + name + "'");
             }
-        });
+
+            AtomicInteger index = new AtomicInteger();
+            ctx.params().expression().forEach(e -> {
+                if (visit(e) != methodSymbol.getDataTypeAtIndex(index.getAndIncrement())) {
+                    throw new CompilerException("Illegal argument type");
+                }
+            });
+        }
 
         if (methodSymbol == null) {
             throw new CompilerException("Cannot resolve bed activity '" + name + "'.");

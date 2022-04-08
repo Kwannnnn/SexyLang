@@ -29,6 +29,10 @@ public class MethodSymbol extends Symbol {
                 + this.returnType.getDescriptor();
     }
 
+    public List<DataType> getArgs() {
+        return this.args;
+    }
+
     public DataType getDataTypeAtIndex(int index) {
         // TODO: Use an optional
         if (index < 0 || index >= this.args.size()) {
