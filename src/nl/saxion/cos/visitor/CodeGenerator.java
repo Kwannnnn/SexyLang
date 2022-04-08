@@ -397,6 +397,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
+        //TODO: use StringBuilder
         if (this.types.get(ctx) == DataType.SAFE_WORD) {
             this.code.add("ldc \"" + ctx.left.getText().replace("\"", "")
                     + ctx.right.getText().replace("\"", "") + "\"");

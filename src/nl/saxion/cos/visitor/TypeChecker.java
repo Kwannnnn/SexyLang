@@ -454,12 +454,21 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return DataType.BULGE;
     }
 
+    @Override
+    public DataType visitBedActivityCallExpression(SexyLangParser.BedActivityCallExpressionContext ctx) {
+        // TODO: why visit the label if we already visited the expression
+        DataType type = visit(ctx.bedActivityCall());
+
+        this.types.put(ctx, type);
+        return type;
+    }
+
     /**
      * Function Call Expression
      */
+
     @Override
     public DataType visitBedActivityCall(SexyLangParser.BedActivityCallContext ctx) {
-        // TODO: Method symbol
         String name = ctx.name.getText();
         MethodSymbol methodSymbol = (MethodSymbol) this.currentScope.lookup(name);
 
@@ -475,7 +484,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         }
 
         this.scopes.put(ctx, this.currentScope);
-
+        this.types.put(ctx, methodSymbol.getReturnType());
         return methodSymbol.getReturnType();
     }
 

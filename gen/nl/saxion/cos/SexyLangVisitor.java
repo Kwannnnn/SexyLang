@@ -17,6 +17,13 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(SexyLangParser.ProgramContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code BedActivityCallExpression}
+	 * labeled alternative in {@link SexyLangParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBedActivityCallExpression(SexyLangParser.BedActivityCallExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code BodyCountLiteralExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.
 	 * @param ctx the parse tree
@@ -114,13 +121,6 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitWhatLengthCallExpression(SexyLangParser.WhatLengthCallExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code BedActivitCallExpression}
-	 * labeled alternative in {@link SexyLangParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBedActivitCallExpression(SexyLangParser.BedActivitCallExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code NegationExpression}
 	 * labeled alternative in {@link SexyLangParser#expression}.

@@ -225,6 +225,17 @@ public class SexyLangParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	public static class BedActivityCallExpressionContext extends ExpressionContext {
+		public BedActivityCallContext bedActivityCall() {
+			return getRuleContext(BedActivityCallContext.class,0);
+		}
+		public BedActivityCallExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitBedActivityCallExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class BodyCountLiteralExpressionContext extends ExpressionContext {
 		public BodyCountLiteralContext bodyCountLiteral() {
 			return getRuleContext(BodyCountLiteralContext.class,0);
@@ -406,17 +417,6 @@ public class SexyLangParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class BedActivitCallExpressionContext extends ExpressionContext {
-		public BedActivityCallContext bedActivityCall() {
-			return getRuleContext(BedActivityCallContext.class,0);
-		}
-		public BedActivitCallExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SexyLangVisitor ) return ((SexyLangVisitor<? extends T>)visitor).visitBedActivitCallExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class NegationExpressionContext extends ExpressionContext {
 		public TerminalNode NEG() { return getToken(SexyLangParser.NEG, 0); }
 		public ExpressionContext expression() {
@@ -515,7 +515,7 @@ public class SexyLangParser extends Parser {
 				break;
 			case 4:
 				{
-				_localctx = new BedActivitCallExpressionContext(_localctx);
+				_localctx = new BedActivityCallExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(87);
