@@ -22,10 +22,10 @@ public class BedActivityCallTest extends TestBase {
     void void_no_args() throws Exception {
         JasminBytecode code = this.c.compileString(
                 "bedActivity intercourse empty () {" +
-                        "moanLoud \"Hello sexy\"" +
-                        "ejaculate" +
-                        "}" +
-                        "intercourse()", "void_no_args");
+                        " moanLoud \"Hello sexy\"" +
+                        " ejaculate" +
+                        " }" +
+                        " intercourse()", "void_no_args");
         assertNotNull(code);
 
         // Check that output matches what we expect
@@ -40,10 +40,10 @@ public class BedActivityCallTest extends TestBase {
     void void_one_arg() throws Exception {
         JasminBytecode code = this.c.compileString(
                 "bedActivity intercourse empty (SafeWord safeWord) {" +
-                        "moanLoud safeWord" +
-                        "ejaculate" +
-                        "}" +
-                        "intercourse(\"shrek\")", "void_one_arg");
+                        " moanLoud safeWord" +
+                        " ejaculate" +
+                        " }" +
+                        " intercourse(\"shrek\") ", "void_one_arg");
         assertNotNull(code);
 
         // Check that output matches what we expect
