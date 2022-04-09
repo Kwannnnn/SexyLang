@@ -180,7 +180,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         SymbolTable symbolTable = this.scopes.get(ctx);
         String methodName = ctx.name.getText();
         MethodSymbol methodSymbol = (MethodSymbol) symbolTable.lookup(methodName);
-        this.code.add("invokestatic test/" + methodSymbol.getSignature());
+        this.code.add("invokestatic " + code.getClassName() + "/" + methodSymbol.getSignature());
 
         return null;
     }
