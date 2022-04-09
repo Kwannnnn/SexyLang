@@ -474,6 +474,10 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         String name = ctx.name.getText();
         MethodSymbol methodSymbol = (MethodSymbol) this.currentScope.lookup(name);
 
+        if (methodSymbol == null) {
+            throw new CompilerException("Cannot resolve bed activity '" + name + "'.");
+        }
+
         if (ctx.params() != null) {
             if (methodSymbol.getArgs().size() != ctx.params().expression().size()) {
                 throw new CompilerException("Cannot resolve bed activity '" + name + "'");
@@ -485,10 +489,6 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                     throw new CompilerException("Illegal argument type");
                 }
             });
-        }
-
-        if (methodSymbol == null) {
-            throw new CompilerException("Cannot resolve bed activity '" + name + "'.");
         }
 
         this.scopes.put(ctx, this.currentScope);
