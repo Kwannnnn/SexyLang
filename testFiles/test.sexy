@@ -1,6 +1,5 @@
-bedActivity intercourse empty () {
-    moanLoud "hello"
-    ejaculate
+insert bodyCount 3 in rounds
+lube (rounds > 0) {
+    moanLoud "Another round baby!"
+    insert rounds - 1 in rounds
 }
-
-intercourse()
