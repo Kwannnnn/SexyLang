@@ -14,6 +14,7 @@ public class DataTypeFactory {
             case SexyLangLexer.LENGTH_ARRAY: return DataType.LENGTH_ARRAY;
             case SexyLangLexer.BULGE_ARRAY: return DataType.BULGE_ARRAY;
             case SexyLangLexer.SAFEWORD_ARRAY: return DataType.SAFE_WORD_ARRAY;
+            case SexyLangLexer.EMPTY: return DataType.EMPTY;
             default: throw new CompilerException("Unsupported data type");
         }
     }

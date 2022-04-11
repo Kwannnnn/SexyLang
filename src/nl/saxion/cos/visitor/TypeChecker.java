@@ -31,316 +31,9 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.currentScope = new SymbolTable();
     }
 
-    @Override
-    public DataType visitArrayValueChangeStmt(SexyLangParser.ArrayValueChangeStmtContext ctx) {
-        DataType exprType = visit(ctx.expression());
-        DataType varType = visit(ctx.arrayAccess());
+    // region 1. Expressions
 
-        if (exprType != varType) {
-            throw new CompilerException("Type of variable does not match" +
-                    " the type of the given value!");
-        }
-
-        this.types.put(ctx, varType);
-        this.scopes.put(ctx, this.currentScope);
-        return null;
-    }
-
-    @Override
-    public DataType visitArrayAccessExpression(SexyLangParser.ArrayAccessExpressionContext ctx) {
-        DataType type = visit(ctx.arrayAccess());
-        this.types.put(ctx, type);
-        this.scopes.put(ctx, this.currentScope);
-        return type;
-    }
-
-    @Override
-    public DataType visitArrayAccess(SexyLangParser.ArrayAccessContext ctx) {
-        String variableName = ctx.IDENTIFIER().getText();
-        Symbol arraySymbol = this.currentScope
-                .lookup(variableName);
-        DataType indexType = visit(ctx.index);
-
-        // Checks if a variable with the same name exist in the scope
-        if (arraySymbol == null) {
-            throw new CompilerException("Array '"+ variableName
-                    + "' is not defined in current scope");
-        }
-
-        if (!(arraySymbol instanceof ArraySymbol)) {
-            throw new CompilerException("Variable '" + variableName
-                    + "' is not of type array");
-        }
-
-        if (!indexType.equals(DataType.BODY_COUNT)) {
-            throw new CompilerException("Index must be of type bodyCount");
-        }
-
-        return getArrayElementType(((ArraySymbol) arraySymbol).getType());
-    }
-
-    @Override
-    public DataType visitBodyCountArrayLiteralExpression(SexyLangParser.BodyCountArrayLiteralExpressionContext ctx) {
-        this.types.put(ctx, DataType.BODY_COUNT_ARRAY);
-        return DataType.BODY_COUNT_ARRAY;
-    }
-
-    @Override
-    public DataType visitLengthArrayLiteralExpression(SexyLangParser.LengthArrayLiteralExpressionContext ctx) {
-        this.types.put(ctx, DataType.LENGTH_ARRAY);
-        return DataType.LENGTH_ARRAY;
-    }
-
-    @Override
-    public DataType visitBulgeArrayLiteralExpression(SexyLangParser.BulgeArrayLiteralExpressionContext ctx) {
-        this.types.put(ctx, DataType.BULGE_ARRAY);
-        return DataType.BULGE_ARRAY;
-    }
-
-    @Override
-    public DataType visitSafeWordArrayLiteralExpression(SexyLangParser.SafeWordArrayLiteralExpressionContext ctx) {
-        this.types.put(ctx, DataType.SAFE_WORD_ARRAY);
-        return DataType.SAFE_WORD_ARRAY;
-    }
-
-    @Override
-    public DataType visitWhatLengthCallExpression(SexyLangParser.WhatLengthCallExpressionContext ctx) {
-        this.types.put(ctx, DataType.LENGTH);
-        return DataType.LENGTH;
-    }
-
-    @Override
-    public DataType visitBlockStatement(SexyLangParser.BlockStatementContext ctx) {
-        visitChildren(ctx);
-
-        return null;
-    }
-
-    @Override
-    public DataType visitMethodBlock(SexyLangParser.MethodBlockContext ctx) {
-        visitChildren(ctx);
-
-        return null;
-    }
-
-    @Override
-    public DataType visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
-        DataType returnType = visit(ctx.type());
-        List<DataType> argTypes = new ArrayList<>();
-
-        this.currentScope = this.currentScope.openScope();
-        // Check if there are any args and visit them
-        if(ctx.parameterList() != null) {
-            ctx.parameterList().parameterDeclaration().forEach(arg -> {
-                argTypes.add(visit(arg));
-            });
-        }
-
-        DataType ejaculateType = visit(ctx.methodBlock().ejaculateStmt());
-
-        if (ejaculateType != returnType ) {
-            throw new CompilerException("Return type does not match function type");
-        }
-
-        // Visit the parameters and the body in the new scope
-        visit(ctx.methodBlock());
-        this.currentScope = this.currentScope.closeScope();
-
-        // Store the function name in current scope
-        this.currentScope.addMethodSymbol(
-                ctx.IDENTIFIER().getText(),
-                argTypes,
-                returnType
-        );
-        this.scopes.put(ctx, this.currentScope);
-
-        return null;
-    }
-
-    @Override
-    public DataType visitParameterDeclaration(SexyLangParser.ParameterDeclarationContext ctx) {
-        String name = ctx.name.getText();
-        Symbol symbol = this.currentScope.lookup(name);
-
-        if (symbol != null) {
-            throw  new CompilerException("Variable '" + name + "' is already" +
-                    " defined in the scope.");
-        }
-
-        DataType type = visit(ctx.type());
-
-        if (type.equals(DataType.BODY_COUNT)
-                | type.equals(DataType.LENGTH)
-                | type.equals(DataType.BULGE)
-                | type.equals(DataType.SAFE_WORD)) {
-            this.currentScope.addVariableSymbol(name, type);
-        } else {
-            // TODO: This should be else if, otherwise it is not safe
-            this.currentScope.addArraySymbol(name, type);
-        }
-        this.scopes.put(ctx, this.currentScope);
-
-        return type;
-    }
-
-    @Override
-    public DataType visitType(SexyLangParser.TypeContext ctx) {
-        DataType dataType;
-        switch (ctx.getStart().getType()) {
-            case SexyLangLexer.BULGE:
-                dataType = DataType.BULGE;
-                break;
-            case SexyLangLexer.BODYCOUNT:
-                dataType = DataType.BODY_COUNT;
-                break;
-            case SexyLangLexer.LENGTH:
-                dataType = DataType.LENGTH;
-                break;
-            case SexyLangLexer.SAFEWORD:
-                dataType = DataType.SAFE_WORD;
-                break;
-            case SexyLangLexer.BODYCOUNT_ARRAY:
-                dataType = DataType.BODY_COUNT_ARRAY;
-                break;
-            case SexyLangLexer.LENGTH_ARRAY:
-                dataType = DataType.LENGTH_ARRAY;
-                break;
-            case SexyLangLexer.BULGE_ARRAY:
-                dataType = DataType.BULGE_ARRAY;
-                break;
-            case SexyLangLexer.SAFEWORD_ARRAY:
-                dataType = DataType.SAFE_WORD_ARRAY;
-                break;
-            default:
-                dataType = DataType.EMPTY;
-                break;
-        }
-        this.types.put(ctx, dataType);
-        return dataType;
-    }
-
-    @Override
-    public DataType visitEjaculateStmt(SexyLangParser.EjaculateStmtContext ctx) {
-        DataType returnType = ctx.expression() != null
-                ? visit(ctx.expression())
-                : DataType.EMPTY;
-
-        this.types.put(ctx, returnType);
-        return returnType;
-    }
-
-    @Override
-    public DataType visitLubeStmt(SexyLangParser.LubeStmtContext ctx) {
-        DataType conditionType = visit(ctx.condition);
-
-        if (conditionType != DataType.BULGE) {
-            throw new CompilerException("Lube statement condition must be of type boolean");
-        }
-
-        this.currentScope = this.currentScope.openScope();
-        visit(ctx.block());
-        this.currentScope = this.currentScope.closeScope();
-
-        return null;
-    }
-
-    @Override
-    public DataType visitIfStmt(SexyLangParser.IfStmtContext ctx) {
-        DataType conditionType = visit(ctx.condition);
-
-        if (conditionType != DataType.BULGE) {
-            throw new CompilerException("If statement condition must be of type boolean");
-        }
-
-        this.currentScope = this.currentScope.openScope();
-        visitChildren(ctx);
-        this.currentScope = this.currentScope.closeScope();
-
-        return null;
-    }
-
-    @Override
-    public DataType visitElseIfStmt(SexyLangParser.ElseIfStmtContext ctx) {
-        DataType conditionType = visit(ctx.condition);
-
-        if (conditionType != DataType.BULGE) {
-            throw new CompilerException("Condition must be of type boolean");
-        }
-
-        this.currentScope = this.currentScope.openScope();
-        visit(ctx.block());
-        this.currentScope = this.currentScope.closeScope();
-
-        return null;
-    }
-
-    /**
-     * Variable Assignment
-     */
-    @Override
-    public DataType visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
-        String variableName = ctx.IDENTIFIER().getText();
-        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope
-                .lookup(variableName);
-
-        // Checks if a variable with the same name exist in the scope
-        if (variableSymbol == null) {
-            throw new CompilerException("Variable '"+ variableName
-                    + "' is not defined in current scope");
-        }
-
-        DataType varType = variableSymbol.getType();
-        DataType exprType = visit(ctx.expression());
-
-        // Check if type is specified during the declaration
-        if (exprType != varType) {
-            throw new CompilerException("Type of variable does not match" +
-                    " the type of the given value!");
-        }
-
-        this.types.put(ctx, variableSymbol.getType());
-        this.scopes.put(ctx, this.currentScope);
-        return null;
-    }
-
-    /**
-     * Variable Declaration
-     */
-    @Override
-    public DataType visitVarDeclaration(SexyLangParser.VarDeclarationContext ctx) {
-        String variableName = ctx.IDENTIFIER().getText();
-        Symbol variableSymbol = this.currentScope.lookup(variableName);
-
-        // Checks if a variable with the same name exist in the scope
-        if (variableSymbol != null) {
-            throw new CompilerException("Variable '"+ variableName
-                    + "' is already defined in the scope");
-        }
-
-        DataType exprType = visit(ctx.expression());
-        int varTypeIndex = ctx.varType.start.getType();
-
-        DataTypeFactory dataTypeFactory = new DataTypeFactory();
-        DataType varType = dataTypeFactory.createDataType(varTypeIndex);
-        // Check if the type of the expression that is saved in the variable is
-        // the same as the declared type
-        if (exprType != varType) {
-            throw new CompilerException("Type of variable does not match" +
-                    " the type of the given value!");
-        }
-
-        if (exprType.equals(DataType.BODY_COUNT)
-                | exprType.equals(DataType.LENGTH)
-                | exprType.equals(DataType.BULGE)
-                | exprType.equals(DataType.SAFE_WORD)) {
-            this.currentScope.addVariableSymbol(variableName, varType);
-
-        } else {
-            this.currentScope.addArraySymbol(variableName, varType);
-        }
-        this.scopes.put(ctx, this.currentScope);
-        return null;
-    }
+    // region 1.1. Group Expression
 
     /**
      * Group Expression
@@ -351,6 +44,10 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.types.put(ctx, type);
         return type;
     }
+
+    // endregion Group Expression
+
+    // region 1.2. Negation Expression
 
     /**
      * Negation Expression
@@ -367,6 +64,10 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.types.put(ctx, dataType);
         return dataType;
     }
+
+    // endregion Negation Expression
+
+    // region 1.3. Arithmetic Expressions
 
     /**
      * Mul - Div Expression
@@ -419,8 +120,12 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return leftType;
     }
 
+    // endregion Arithmetic Expressions
+
+    // region 1.4. Relational Expression
+
     /**
-     * Logic Expression
+     * Relational Expression
      */
     @Override
     public DataType visitRelationalExpression(SexyLangParser.RelationalExpressionContext ctx) {
@@ -441,6 +146,9 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return DataType.BULGE;
     }
 
+    // endregion Relational Expression
+
+    // region 1.5. Boolean Algebra Expression
 
     /**
      * Boolean Algebra Expression
@@ -459,6 +167,20 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.types.put(ctx, DataType.BULGE);
         return DataType.BULGE;
     }
+
+    // endregion Boolean Algebra Expression
+
+    // region 1.6. User Input Expression
+
+    @Override
+    public DataType visitWhatLengthCallExpression(SexyLangParser.WhatLengthCallExpressionContext ctx) {
+        this.types.put(ctx, DataType.LENGTH);
+        return DataType.LENGTH;
+    }
+
+    // endregion User Input Expression
+
+    // region 1.7. Function Call Expression
 
     /**
      * Function Call Expression
@@ -489,6 +211,10 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.types.put(ctx, methodSymbol.getReturnType());
         return methodSymbol.getReturnType();
     }
+
+    // endregion Function Call Expression
+
+    // region 1.8. Literals
 
     /**
      * Boolean Literal Expression
@@ -527,6 +253,83 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     }
 
     /**
+     * Integer Array Literal Expression
+     */
+    @Override
+    public DataType visitBodyCountArrayLiteralExpression(SexyLangParser.BodyCountArrayLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.BODY_COUNT_ARRAY);
+        return DataType.BODY_COUNT_ARRAY;
+    }
+
+    /**
+     * Float Array Literal Expression
+     */
+    @Override
+    public DataType visitLengthArrayLiteralExpression(SexyLangParser.LengthArrayLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.LENGTH_ARRAY);
+        return DataType.LENGTH_ARRAY;
+    }
+
+    /**
+     * Boolean Array Literal Expression
+     */
+    @Override
+    public DataType visitBulgeArrayLiteralExpression(SexyLangParser.BulgeArrayLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.BULGE_ARRAY);
+        return DataType.BULGE_ARRAY;
+    }
+
+    /**
+     * String Array Literal Expression
+     */
+    @Override
+    public DataType visitSafeWordArrayLiteralExpression(SexyLangParser.SafeWordArrayLiteralExpressionContext ctx) {
+        this.types.put(ctx, DataType.SAFE_WORD_ARRAY);
+        return DataType.SAFE_WORD_ARRAY;
+    }
+
+    // endregion Literals
+
+    // region 1.9. Array Access Expression
+
+    @Override
+    public DataType visitArrayAccessExpression(SexyLangParser.ArrayAccessExpressionContext ctx) {
+        DataType type = visit(ctx.arrayAccess());
+        this.types.put(ctx, type);
+        this.scopes.put(ctx, this.currentScope);
+        return type;
+    }
+
+    @Override
+    public DataType visitArrayAccess(SexyLangParser.ArrayAccessContext ctx) {
+        String variableName = ctx.IDENTIFIER().getText();
+        Symbol arraySymbol = this.currentScope
+                .lookup(variableName);
+        DataType indexType = visit(ctx.index);
+
+        // Checks if a variable with the same name exist in the scope
+        if (arraySymbol == null) {
+            throw new CompilerException("Array '"+ variableName
+                    + "' is not defined in current scope");
+        }
+
+        if (!(arraySymbol instanceof ArraySymbol)) {
+            throw new CompilerException("Variable '" + variableName
+                    + "' is not of type array");
+        }
+
+        if (!indexType.equals(DataType.BODY_COUNT)) {
+            throw new CompilerException("Index must be of type bodyCount");
+        }
+
+        return getArrayElementType(((ArraySymbol) arraySymbol).getType());
+    }
+
+    // endregion Array Access Expression
+
+    // region 1.10. Identifier
+
+    /**
      * Identifier Expression
      */
     @Override
@@ -548,6 +351,263 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         this.types.put(ctx, type);
         this.scopes.put(ctx, this.currentScope);
         return type;
+    }
+
+    // endregion Identifier
+
+    // endregion Expressions
+    // region 2. Statements
+
+    // region 2.1. Block Statement
+
+    @Override
+    public DataType visitBlockStatement(SexyLangParser.BlockStatementContext ctx) {
+        visitChildren(ctx);
+
+        return null;
+    }
+
+    // endregion Block Statement
+
+    // region 2.2. Array Value Change Statement
+
+    @Override
+    public DataType visitArrayValueChangeStmt(SexyLangParser.ArrayValueChangeStmtContext ctx) {
+        DataType exprType = visit(ctx.expression());
+        DataType varType = visit(ctx.arrayAccess());
+
+        if (exprType != varType) {
+            throw new CompilerException("Type of variable does not match" +
+                    " the type of the given value!");
+        }
+
+        this.types.put(ctx, varType);
+        this.scopes.put(ctx, this.currentScope);
+        return null;
+    }
+
+    // end Array Value Change Statement
+
+    // endregion Statements
+
+    // region 2.3. Variable Declaration
+
+    @Override
+    public DataType visitVarDeclaration(SexyLangParser.VarDeclarationContext ctx) {
+        String variableName = ctx.IDENTIFIER().getText();
+        Symbol variableSymbol = this.currentScope.lookup(variableName);
+
+        // Checks if a variable with the same name exist in the scope
+        if (variableSymbol != null) {
+            throw new CompilerException("Variable '"+ variableName
+                    + "' is already defined in the scope");
+        }
+
+        DataType exprType = visit(ctx.expression());
+        int varTypeIndex = ctx.varType.start.getType();
+
+        DataTypeFactory dataTypeFactory = new DataTypeFactory();
+        DataType varType = dataTypeFactory.createDataType(varTypeIndex);
+        // Check if the type of the expression that is saved in the variable is
+        // the same as the declared type
+        if (exprType != varType) {
+            throw new CompilerException("Type of variable does not match" +
+                    " the type of the given value!");
+        }
+
+        if (exprType.equals(DataType.BODY_COUNT)
+                | exprType.equals(DataType.LENGTH)
+                | exprType.equals(DataType.BULGE)
+                | exprType.equals(DataType.SAFE_WORD)) {
+            this.currentScope.addVariableSymbol(variableName, varType);
+
+        } else {
+            this.currentScope.addArraySymbol(variableName, varType);
+        }
+        this.scopes.put(ctx, this.currentScope);
+        return null;
+    }
+
+    // endregion Variable Declaration
+
+    // region 2.4. Variable Assignment
+
+    @Override
+    public DataType visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
+        String variableName = ctx.IDENTIFIER().getText();
+        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope
+                .lookup(variableName);
+
+        // Checks if a variable with the same name exist in the scope
+        if (variableSymbol == null) {
+            throw new CompilerException("Variable '"+ variableName
+                    + "' is not defined in current scope");
+        }
+
+        DataType varType = variableSymbol.getType();
+        DataType exprType = visit(ctx.expression());
+
+        // Check if type is specified during the declaration
+        if (exprType != varType) {
+            throw new CompilerException("Type of variable does not match" +
+                    " the type of the given value!");
+        }
+
+        this.types.put(ctx, variableSymbol.getType());
+        this.scopes.put(ctx, this.currentScope);
+        return null;
+    }
+
+    // endregion Variable Assignment
+
+    // region 2.5. If Statement
+
+    @Override
+    public DataType visitIfStmt(SexyLangParser.IfStmtContext ctx) {
+        DataType conditionType = visit(ctx.condition);
+
+        if (conditionType != DataType.BULGE) {
+            throw new CompilerException("If statement condition must be of type boolean");
+        }
+
+        this.currentScope = this.currentScope.openScope();
+        visitChildren(ctx);
+        this.currentScope = this.currentScope.closeScope();
+
+        return null;
+    }
+
+    @Override
+    public DataType visitElseIfStmt(SexyLangParser.ElseIfStmtContext ctx) {
+        DataType conditionType = visit(ctx.condition);
+
+        if (conditionType != DataType.BULGE) {
+            throw new CompilerException("Condition must be of type boolean");
+        }
+
+        this.currentScope = this.currentScope.openScope();
+        visit(ctx.block());
+        this.currentScope = this.currentScope.closeScope();
+
+        return null;
+    }
+
+    // endregion If Statement
+
+    // region 2.6. Loop Statement
+
+    @Override
+    public DataType visitLubeStmt(SexyLangParser.LubeStmtContext ctx) {
+        DataType conditionType = visit(ctx.condition);
+
+        if (conditionType != DataType.BULGE) {
+            throw new CompilerException("Lube statement condition must be of type boolean");
+        }
+
+        this.currentScope = this.currentScope.openScope();
+        visit(ctx.block());
+        this.currentScope = this.currentScope.closeScope();
+
+        return null;
+    }
+
+    // endregion Loop Statement
+
+    // region 2.7. Function Declaration Statement
+
+    @Override
+    public DataType visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx) {
+        DataType returnType = visit(ctx.type());
+        List<DataType> argTypes = new ArrayList<>();
+
+        this.currentScope = this.currentScope.openScope();
+        // Check if there are any args and visit them
+        if(ctx.parameterList() != null) {
+            ctx.parameterList().parameterDeclaration().forEach(arg -> {
+                argTypes.add(visit(arg));
+            });
+        }
+
+        DataType ejaculateType = visit(ctx.methodBlock().ejaculateStmt());
+
+        if (ejaculateType != returnType ) {
+            throw new CompilerException("Return type does not match function type");
+        }
+
+        // Visit the parameters and the body in the new scope
+        visit(ctx.methodBlock());
+        this.currentScope = this.currentScope.closeScope();
+
+        // Store the function name in current scope
+        this.currentScope.addMethodSymbol(
+                ctx.IDENTIFIER().getText(),
+                argTypes,
+                returnType
+        );
+        this.scopes.put(ctx, this.currentScope);
+
+        return null;
+    }
+
+    // endregion Function Declaration Statement
+
+    // region 2.8. Return Statement
+
+    @Override
+    public DataType visitEjaculateStmt(SexyLangParser.EjaculateStmtContext ctx) {
+        DataType returnType = ctx.expression() != null
+                ? visit(ctx.expression())
+                : DataType.EMPTY;
+
+        this.types.put(ctx, returnType);
+        return returnType;
+    }
+
+    // endregion Return Statement
+
+    // endregion Statements
+
+    @Override
+    public DataType visitMethodBlock(SexyLangParser.MethodBlockContext ctx) {
+        visitChildren(ctx);
+
+        return null;
+    }
+
+    @Override
+    public DataType visitParameterDeclaration(SexyLangParser.ParameterDeclarationContext ctx) {
+        String name = ctx.name.getText();
+        Symbol symbol = this.currentScope.lookup(name);
+
+        if (symbol != null) {
+            throw  new CompilerException("Variable '" + name + "' is already" +
+                    " defined in the scope.");
+        }
+
+        DataType type = visit(ctx.type());
+
+        if (type.equals(DataType.BODY_COUNT)
+                | type.equals(DataType.LENGTH)
+                | type.equals(DataType.BULGE)
+                | type.equals(DataType.SAFE_WORD)) {
+            this.currentScope.addVariableSymbol(name, type);
+        } else {
+            // TODO: This should be else if, otherwise it is not safe
+            this.currentScope.addArraySymbol(name, type);
+        }
+        this.scopes.put(ctx, this.currentScope);
+
+        return type;
+    }
+
+    @Override
+    public DataType visitType(SexyLangParser.TypeContext ctx) {
+        int tokenIndex = ctx.getStart().getType();
+        DataTypeFactory dataTypeFactory = new DataTypeFactory();
+        DataType dataType = dataTypeFactory.createDataType(tokenIndex);
+
+        this.types.put(ctx, dataType);
+        return dataType;
     }
 
     private boolean isComparable(DataType dataType) {

@@ -191,7 +191,6 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     @Override
     public Void visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
         SymbolTable symbolTable = this.scopes.get(ctx);
-//        VariableSymbol variableSymbol = (VariableSymbol) symbolTable.lookup(ctx.IDENTIFIER().getText());
         Symbol symbol = symbolTable.lookup(ctx.IDENTIFIER().getText());
         visit(ctx.expression());
         if (symbol instanceof VariableSymbol) {
