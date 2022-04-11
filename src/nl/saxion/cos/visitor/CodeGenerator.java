@@ -406,38 +406,38 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitIfStmt(SexyLangParser.IfStmtContext ctx) {
-        long thisIfLabel = ++labelCounter;
-        visit(ctx.condition);
-        this.code.add("ifeq jump" + labelCounter);
-        visit(ctx.block());
-        this.code.add("goto endif" + thisIfLabel);
-        this.code.add("jump" + labelCounter + ":");
+        long ifLabel = labelCounter++;
 
-        if (ctx.elseIfStmt().size() > 0) {
-            ctx.elseIfStmt().forEach(s -> {
-                ++labelCounter;
-                visit(s.condition);
-                this.code.add("ifeq jump" + labelCounter);
-                visit(s.block());
-                this.code.add("goto endif" + thisIfLabel);
-                this.code.add("jump" + labelCounter + ":");
-            });
+        visit(ctx.condition);
+        this.code.add("ifeq jump" + ifLabel);
+        visit(ctx.block());
+        this.code.add("goto endif" + ifLabel);
+        this.code.add("jump" + ifLabel + ":");
+
+        if (ctx.elseIfStmt() != null) {
+            ctx.elseIfStmt().forEach(this::visit);
         }
 
         if (ctx.elseStmt() != null) {
             visit(ctx.elseStmt());
         }
 
-        this.code.add("endif" + thisIfLabel + ":");
+        this.code.add("endif" + ifLabel + ":");
+
 
         return null;
     }
 
     @Override
     public Void visitElseIfStmt(SexyLangParser.ElseIfStmtContext ctx) {
+        long parentIfLabel = labelCounter;
+        long thisIfLabel = labelCounter++;
         visit(ctx.condition);
+        this.code.add("ifeq jump" + thisIfLabel);
         visit(ctx.block());
-        this.code.add("jump" + labelCounter + ":");
+        this.code.add("goto endif" + parentIfLabel);
+        this.code.add("jump" + thisIfLabel + ":");
+        this.code.add("endif" + thisIfLabel + ":");
 
         return null;
     }
