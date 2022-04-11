@@ -399,8 +399,14 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     public Void visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
         //TODO: use StringBuilder
         if (this.types.get(ctx) == DataType.SAFE_WORD) {
-            this.code.add("ldc \"" + ctx.left.getText().replace("\"", "")
-                    + ctx.right.getText().replace("\"", "") + "\"");
+            performStringConcatenation(ctx.left, ctx.right);
+//            this.code.add("new java/lang/StringBuilder");
+//            this.code.add("dup");
+//            this.code.add("invokespecial java/lang/StringBuilder/<init>()V");
+//            // TODO: load left
+//            this.code.add("invokevirtual java/lang/StringBuilder/<init>()V");
+//            this.code.add("ldc \"" + ctx.left.getText().replace("\"", "")
+//                    + ctx.right.getText().replace("\"", "") + "\"");
 
             return null;
         }
@@ -509,5 +515,19 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(right);
 
         this.code.add(typeMnemonic + instruction);
+    }
+
+    private void performStringConcatenation(SexyLangParser.ExpressionContext left,
+                                            SexyLangParser.ExpressionContext right) {
+        DataType leftType = this.types.get(left);
+        DataType rightType = this.types.get(right);
+        this.code.add("new java/lang/StringBuilder");
+        this.code.add("dup");
+        this.code.add("invokespecial java/lang/StringBuilder/<init>()V");
+        visit(left);
+        this.code.add("invokevirtual java/lang/StringBuilder/append(" + leftType.getDescriptor() + ")Ljava/lang/StringBuilder;");
+        visit(right);
+        this.code.add("invokevirtual java/lang/StringBuilder/append(" + rightType.getDescriptor() + ")Ljava/lang/StringBuilder;");
+        this.code.add("invokevirtual java/lang/StringBuilder/toString()Ljava/lang/String;");
     }
 }

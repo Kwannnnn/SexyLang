@@ -82,7 +82,7 @@ public class StringConcatenationTest extends TestBase {
         // Check that output matches what we expect
         List<String> output = runCode(code);
         assertArrayEquals(new String[] {
-                BOOLEAN + STRING
+                true + STRING
         }, output.toArray());
 
         // moan "shrek" + hard
@@ -93,7 +93,7 @@ public class StringConcatenationTest extends TestBase {
         // Check that output matches what we expect
         output = runCode(code);
         assertArrayEquals(new String[] {
-                STRING + BOOLEAN
+                STRING + true
         }, output.toArray());
     }
 
@@ -150,5 +150,4 @@ public class StringConcatenationTest extends TestBase {
                 STRING + SPECIAL_CHARS
         }, output.toArray());
     }
-
 }
