@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LogicExpressionTest extends TestBase {
+public class RelationalExpressionTest extends TestBase {
     // Language specifics
     public static final String MOAN_KEYWORD = "moan";
     public static final String GT_SIGN = ">";

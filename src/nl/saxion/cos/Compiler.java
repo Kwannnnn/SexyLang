@@ -2,7 +2,8 @@ package nl.saxion.cos;
 
 import nl.saxion.cos.exception.AssembleException;
 import nl.saxion.cos.exception.CompilerException;
-import nl.saxion.cos.type.SymbolTable;
+import nl.saxion.cos.symbol.SymbolTable;
+import nl.saxion.cos.type.DataType;
 import nl.saxion.cos.visitor.CodeGenerator;
 import nl.saxion.cos.visitor.MethodVisitor;
 import nl.saxion.cos.visitor.TypeChecker;

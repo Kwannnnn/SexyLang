@@ -1,4 +1,4 @@
-package nl.saxion.cos.type;
+package nl.saxion.cos.symbol;
 
 public abstract class Symbol {
     private final String name;

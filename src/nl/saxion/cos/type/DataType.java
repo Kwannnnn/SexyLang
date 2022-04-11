@@ -1,4 +1,6 @@
-package nl.saxion.cos;
+package nl.saxion.cos.type;
+
+import nl.saxion.cos.SexyLangLexer;
 
 public enum DataType {
     EMPTY("V", "", SexyLangLexer.VOCABULARY.getDisplayName(SexyLangLexer.EMPTY)),

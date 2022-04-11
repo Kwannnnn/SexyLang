@@ -1,15 +1,16 @@
 package nl.saxion.cos.visitor;
 
-import nl.saxion.cos.DataType;
+import nl.saxion.cos.type.DataType;
 import nl.saxion.cos.SexyLangBaseVisitor;
 import nl.saxion.cos.SexyLangLexer;
 import nl.saxion.cos.SexyLangParser;
 import nl.saxion.cos.exception.CompilerException;
-import nl.saxion.cos.type.ArraySymbol;
-import nl.saxion.cos.type.MethodSymbol;
-import nl.saxion.cos.type.Symbol;
-import nl.saxion.cos.type.SymbolTable;
-import nl.saxion.cos.type.VariableSymbol;
+import nl.saxion.cos.symbol.ArraySymbol;
+import nl.saxion.cos.symbol.MethodSymbol;
+import nl.saxion.cos.symbol.Symbol;
+import nl.saxion.cos.symbol.SymbolTable;
+import nl.saxion.cos.symbol.VariableSymbol;
+import nl.saxion.cos.type.DataTypeFactory;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.util.ArrayList;
@@ -319,7 +320,8 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         DataType exprType = visit(ctx.expression());
         int varTypeIndex = ctx.varType.start.getType();
 
-        DataType varType = getDataType(varTypeIndex);
+        DataTypeFactory dataTypeFactory = new DataTypeFactory();
+        DataType varType = dataTypeFactory.createDataType(varTypeIndex);
         // Check if the type of the expression that is saved in the variable is
         // the same as the declared type
         if (exprType != varType) {
@@ -421,13 +423,13 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
      * Logic Expression
      */
     @Override
-    public DataType visitLogicExpression(SexyLangParser.LogicExpressionContext ctx) {
+    public DataType visitRelationalExpression(SexyLangParser.RelationalExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
 
         if (leftType != rightType
-            || (!isComparable(leftType) && ctx.op.getType() != SexyLangLexer.EQUAL)
-            || leftType.equals(DataType.SAFE_WORD)) {
+                || (!isComparable(leftType) && ctx.op.getType() != SexyLangLexer.EQUAL)
+                || leftType.equals(DataType.SAFE_WORD)) {
             throw new CompilerException(getIncompatibleOperandsMessage(
                     ctx.op.getText(),
                     leftType,
@@ -439,11 +441,12 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return DataType.BULGE;
     }
 
+
     /**
-     * Chained Logic Expression
+     * Boolean Algebra Expression
      */
     @Override
-    public DataType visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx) {
+    public DataType visitBooleanAlgebraExpression(SexyLangParser.BooleanAlgebraExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
 
@@ -457,21 +460,11 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return DataType.BULGE;
     }
 
-    @Override
-    public DataType visitBedActivityCallExpression(SexyLangParser.BedActivityCallExpressionContext ctx) {
-        // TODO: why visit the label if we already visited the expression
-        DataType type = visit(ctx.bedActivityCall());
-
-        this.types.put(ctx, type);
-        return type;
-    }
-
     /**
      * Function Call Expression
      */
-
     @Override
-    public DataType visitBedActivityCall(SexyLangParser.BedActivityCallContext ctx) {
+    public DataType visitBedActivityCallExpression(SexyLangParser.BedActivityCallExpressionContext ctx) {
         String name = ctx.name.getText();
         MethodSymbol methodSymbol = (MethodSymbol) this.currentScope.lookup(name);
 

@@ -1,11 +1,11 @@
 package nl.saxion.cos.visitor;
 
-import nl.saxion.cos.DataType;
+import nl.saxion.cos.type.DataType;
 import nl.saxion.cos.JasminBytecode;
 import nl.saxion.cos.SexyLangBaseVisitor;
 import nl.saxion.cos.SexyLangParser;
-import nl.saxion.cos.type.MethodSymbol;
-import nl.saxion.cos.type.SymbolTable;
+import nl.saxion.cos.symbol.MethodSymbol;
+import nl.saxion.cos.symbol.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 public class MethodVisitor extends SexyLangBaseVisitor<Void> {

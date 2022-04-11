@@ -4,30 +4,25 @@ program: (expression | statement)* EOF;
 
 // EXPRESSIONS
 expression
-    : L_PAREN expression R_PAREN                                        #GroupExpression
-    | NEG expression                                                    #NegationExpression
-    | left=expression op=(MUL | DIV) right=expression                   #MulDivExpression
-    | left=expression op=(ADD | SUB) right=expression                   #AddSubExpression
-    | left=expression op=(EQUAL | LE | GE | LT | GT) right=expression   #LogicExpression
-    | left=expression op=(AND | OR) right=expression                    #ChainedLogicExpression
-    | whatLengthCall                                                    #WhatLengthCallExpression
-    | bedActivityCall                                                   #BedActivityCallExpression
-    | bulgeLiteral                                                      #BulgeLiteralExpression
-    | bodyCountLiteral                                                  #BodyCountLiteralExpression
-    | safeWordLiteral                                                   #SafeWordLiteralExpression
-    | lengthLiteral                                                     #LengthLiteralExpression
-    | bodyCountArrayLiteral                                             #BodyCountArrayLiteralExpression
-    | lengthArrayLiteral                                                #LengthArrayLiteralExpression
-    | bulgeArrayLiteral                                                 #BulgeArrayLiteralExpression
-    | safeWordArrayLiteral                                              #SafeWordArrayLiteralExpression
-    | arrayAccess                                                       #ArrayAccessExpression
-    | IDENTIFIER                                                        #IdentifierExpression
+    : L_PAREN expression R_PAREN                                                    #GroupExpression
+    | NEG expression                                                                #NegationExpression
+    | left=expression op=(MUL | DIV) right=expression                               #MulDivExpression
+    | left=expression op=(ADD | SUB) right=expression                               #AddSubExpression
+    | left=expression op=(EQUAL | NOT_EQUAL | LE | GE | LT | GT) right=expression   #RelationalExpression
+    | left=expression op=(AND | OR) right=expression                                #BooleanAlgebraExpression
+    | WHAT_LENGTH L_PAREN R_PAREN                                                   #WhatLengthCallExpression
+    | name=IDENTIFIER L_PAREN params? R_PAREN                                       #BedActivityCallExpression
+    | bulgeLiteral                                                                  #BulgeLiteralExpression
+    | bodyCountLiteral                                                              #BodyCountLiteralExpression
+    | safeWordLiteral                                                               #SafeWordLiteralExpression
+    | lengthLiteral                                                                 #LengthLiteralExpression
+    | bodyCountArrayLiteral                                                         #BodyCountArrayLiteralExpression
+    | lengthArrayLiteral                                                            #LengthArrayLiteralExpression
+    | bulgeArrayLiteral                                                             #BulgeArrayLiteralExpression
+    | safeWordArrayLiteral                                                          #SafeWordArrayLiteralExpression
+    | arrayAccess                                                                   #ArrayAccessExpression
+    | IDENTIFIER                                                                    #IdentifierExpression
     ;
-
- whatLengthCall: WHAT_LENGTH L_PAREN R_PAREN;
-
- bedActivityCall
-     : name=IDENTIFIER L_PAREN params? R_PAREN;
 
  params
      : expression (COMMA expression)*
@@ -163,8 +158,9 @@ ADD:        '+';
 SUB:        '-';
 MUL:       '*';
 DIV:        '/';
-NEG:        '!';
+// Relational
 EQUAL:      '==';
+NOT_EQUAL:  '!=';
 GT:         '>';
 LT:         '<';
 GE:         '>=';
@@ -172,6 +168,7 @@ LE:         '<=';
 // Logic
 AND:        'and';
 OR:         'or';
+NEG:        '!';
 
 // Retrieved from https://github.com/antlr/grammars-v4/blob/master/java/java8/Java8Lexer.g4
 StringLiteral

@@ -1,6 +1,6 @@
-package nl.saxion.cos.type;
+package nl.saxion.cos.symbol;
 
-import nl.saxion.cos.DataType;
+import nl.saxion.cos.type.DataType;
 
 import java.util.List;
 import java.util.stream.Collectors;

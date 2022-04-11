@@ -1,16 +1,19 @@
 package nl.saxion.cos.visitor;
 
 import nl.saxion.cos.*;
-import nl.saxion.cos.type.ArraySymbol;
-import nl.saxion.cos.type.Symbol;
-import nl.saxion.cos.type.MethodSymbol;
-import nl.saxion.cos.type.SymbolTable;
-import nl.saxion.cos.type.VariableSymbol;
+import nl.saxion.cos.operator.ArithmeticOperator;
+import nl.saxion.cos.operator.OperatorFactory;
+import nl.saxion.cos.operator.RelationalOperator;
+import nl.saxion.cos.symbol.ArraySymbol;
+import nl.saxion.cos.symbol.Symbol;
+import nl.saxion.cos.symbol.MethodSymbol;
+import nl.saxion.cos.symbol.SymbolTable;
+import nl.saxion.cos.symbol.VariableSymbol;
+import nl.saxion.cos.type.DataType;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import static nl.saxion.cos.SexyLangUtils.getArrayElementType;
-import static nl.saxion.cos.SexyLangUtils.getOperatorInstruction;
 
 public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     private long labelCounter;
@@ -172,7 +175,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
-    public Void visitBedActivityCall(SexyLangParser.BedActivityCallContext ctx) {
+    public Void visitBedActivityCallExpression(SexyLangParser.BedActivityCallExpressionContext ctx) {
         if (ctx.params() != null) {
             ctx.params().expression().forEach(this::visit);
         }
@@ -277,65 +280,19 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
-    public Void visitLogicExpression(SexyLangParser.LogicExpressionContext ctx) {
+    public Void visitRelationalExpression(SexyLangParser.RelationalExpressionContext ctx) {
         visit(ctx.left);
         visit(ctx.right);
-        DataType dataType = this.types.get(ctx.left);
+        DataType operandType = this.types.get(ctx.left);
 
-        String ifInstruction = "";
-        if (dataType.equals(DataType.BODY_COUNT)) {
-            switch (ctx.op.getType()) {
-                case SexyLangLexer.GT:
-                    ifInstruction += "if_icmple";
-                    break;
-                case SexyLangLexer.GE:
-                    ifInstruction += "if_icmplt";
-                    break;
-                case SexyLangLexer.LT:
-                    ifInstruction += "if_icmpge";
-                    break;
-                case SexyLangLexer.LE:
-                    ifInstruction += "if_icmpgt";
-                    break;
-                case SexyLangLexer.EQUAL:
-                    ifInstruction += "if_icmpne";
-                    break;
-            }
-        } else if (dataType.equals(DataType.LENGTH)) {
-            this.code.add("fcmpg");
+        OperatorFactory operatorFactory = new OperatorFactory();
+        RelationalOperator operator = operatorFactory.createRelationalOperator(ctx.op.getType());
 
-            switch (ctx.op.getType()) {
-                case SexyLangLexer.GT:
-                    ifInstruction += "ifle";
-                    break;
-                case SexyLangLexer.GE:
-                    ifInstruction += "iflt";
-                    break;
-                case SexyLangLexer.LT:
-                    ifInstruction += "ifge";
-                    break;
-                case SexyLangLexer.LE:
-                    ifInstruction += "ifgt";
-                    break;
-                case SexyLangLexer.EQUAL:
-                    ifInstruction += "ifne";
-                    break;
-            }
-        } else if (dataType.equals(DataType.BULGE)) {
-            // only equals operator is allowed
-            // otherwise an exception would have been thrown before this
-            ifInstruction += "if_icmpne";
-        }
-
-        ifInstruction += " jump" + labelCounter;
-        code.add(ifInstruction);
-
+        code.add(getIfInstruction(operandType, operator));
         code.add("iconst_1");
         code.add("goto endLogic" + labelCounter);
-
         code.add("jump" + labelCounter + ":");
         code.add("iconst_0");
-
         code.add("endLogic" + labelCounter + ":");
 
         labelCounter++;
@@ -356,7 +313,7 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     }
 
     @Override
-    public Void visitChainedLogicExpression(SexyLangParser.ChainedLogicExpressionContext ctx) {
+    public Void visitBooleanAlgebraExpression(SexyLangParser.BooleanAlgebraExpressionContext ctx) {
         visit(ctx.left);
         visit(ctx.right);
 
@@ -397,25 +354,20 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
-        //TODO: use StringBuilder
+        // If Strings are being added, perform String concatenation
         if (this.types.get(ctx) == DataType.SAFE_WORD) {
             performStringConcatenation(ctx.left, ctx.right);
-//            this.code.add("new java/lang/StringBuilder");
-//            this.code.add("dup");
-//            this.code.add("invokespecial java/lang/StringBuilder/<init>()V");
-//            // TODO: load left
-//            this.code.add("invokevirtual java/lang/StringBuilder/<init>()V");
-//            this.code.add("ldc \"" + ctx.left.getText().replace("\"", "")
-//                    + ctx.right.getText().replace("\"", "") + "\"");
-
             return null;
         }
 
-        generateTwoOperandCode(
+        int tokenIndex = ctx.op.getType();
+        OperatorFactory operatorFactory = new OperatorFactory();
+        ArithmeticOperator operator = operatorFactory.createArithmeticOperator(tokenIndex);
+        generateArithmeticOperationCode(
                 ctx.left,
                 ctx.right,
                 this.types.get(ctx).getMnemonic(),
-                getOperatorInstruction(ctx.op.getType())
+                operator
         );
 
         return null;
@@ -423,11 +375,14 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitMulDivExpression(SexyLangParser.MulDivExpressionContext ctx) {
-        generateTwoOperandCode(
+        int tokenIndex = ctx.op.getType();
+        OperatorFactory operatorFactory = new OperatorFactory();
+        ArithmeticOperator operator = operatorFactory.createArithmeticOperator(tokenIndex);
+        generateArithmeticOperationCode(
                 ctx.left,
                 ctx.right,
                 this.types.get(ctx).getMnemonic(),
-                getOperatorInstruction(ctx.op.getType())
+                operator
         );
 
         return null;
@@ -507,14 +462,14 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         return null;
     }
 
-    private void generateTwoOperandCode(SexyLangParser.ExpressionContext left,
-                                        SexyLangParser.ExpressionContext right,
-                                        String typeMnemonic,
-                                        String instruction) {
+    private void generateArithmeticOperationCode(SexyLangParser.ExpressionContext left,
+                                                 SexyLangParser.ExpressionContext right,
+                                                 String typeMnemonic,
+                                                 ArithmeticOperator operator) {
         visit(left);
         visit(right);
 
-        this.code.add(typeMnemonic + instruction);
+        this.code.add(typeMnemonic + operator.getInstruction());
     }
 
     private void performStringConcatenation(SexyLangParser.ExpressionContext left,
@@ -529,5 +484,26 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         visit(right);
         this.code.add("invokevirtual java/lang/StringBuilder/append(" + rightType.getDescriptor() + ")Ljava/lang/StringBuilder;");
         this.code.add("invokevirtual java/lang/StringBuilder/toString()Ljava/lang/String;");
+    }
+
+    private String getIfInstruction(DataType operandType,
+                                    RelationalOperator operator) {
+        String ifInstruction = "";
+        if (operandType.equals(DataType.BODY_COUNT)) {
+            ifInstruction += "if_icmp";
+            ifInstruction += operator.getInstruction();
+        } else if (operandType.equals(DataType.LENGTH)) {
+            this.code.add("fcmpg");
+            ifInstruction += "if";
+            ifInstruction += operator.getInstruction();
+        } else if (operandType.equals(DataType.BULGE)) {
+            // only equals operator is allowed
+            // otherwise an exception would have been thrown before this
+            ifInstruction += "if_icmpne";
+        }
+
+        ifInstruction += " jump" + labelCounter;
+
+        return ifInstruction;
     }
 }

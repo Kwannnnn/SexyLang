@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ChainedLogicExpressionTest extends TestBase{
+public class BooleanAlgebraTest extends TestBase{
     // Language specifics
     public static final String MOAN_KEYWORD = "moan";
     public static final String GT_SIGN = ">";
