@@ -25,4 +25,13 @@ public class OperatorFactory {
             default: throw new CompilerException("Unsupported relational operator");
         }
     }
+
+    public LogicalOperator createLogicalOperator(int operatorIndex) {
+        switch (operatorIndex) {
+            case SexyLangLexer.AND: return LogicalOperator.AND;
+            case SexyLangLexer.OR: return LogicalOperator.OR;
+            case SexyLangLexer.NEG: return LogicalOperator.NEG;
+            default: throw new CompilerException("Unsupported logical operator");
+        }
+    }
 }

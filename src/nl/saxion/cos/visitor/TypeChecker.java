@@ -1,8 +1,11 @@
 package nl.saxion.cos.visitor;
 
+import nl.saxion.cos.SexyLangUtils;
+import nl.saxion.cos.operator.ArithmeticOperator;
+import nl.saxion.cos.operator.OperatorFactory;
+import nl.saxion.cos.operator.RelationalOperator;
 import nl.saxion.cos.type.DataType;
 import nl.saxion.cos.SexyLangBaseVisitor;
-import nl.saxion.cos.SexyLangLexer;
 import nl.saxion.cos.SexyLangParser;
 import nl.saxion.cos.exception.CompilerException;
 import nl.saxion.cos.symbol.ArraySymbol;
@@ -16,8 +19,6 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static nl.saxion.cos.SexyLangUtils.*;
 
 public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     private final ParseTreeProperty<DataType> types;
@@ -76,14 +77,18 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     public DataType visitMulDivExpression(SexyLangParser.MulDivExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
+        ArithmeticOperator op = getArithmeticOperator(ctx.op.getType());
+
         if (leftType != rightType
-                || !COMPUTABLE_DATA_TYPES.contains(leftType)
-                || !COMPUTABLE_DATA_TYPES.contains(rightType)) {
-            throw new CompilerException(getIncompatibleOperandsMessage(
-                    ctx.op.getText(),
-                    leftType,
-                    rightType
-            ));
+                || !isComputable(leftType)
+                || !isComputable(rightType)) {
+            throw new CompilerException(
+                    SexyLangUtils.getIncompatibleOperandsMessage(
+                        op.getToken(),
+                        leftType,
+                        rightType
+                    )
+            );
         }
 
         this.types.put(ctx, leftType);
@@ -97,9 +102,10 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     public DataType visitAddSubExpression(SexyLangParser.AddSubExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
+        ArithmeticOperator op = getArithmeticOperator(ctx.op.getType());
 
         // Handle string concatenation
-        if (ctx.op.getType() == SexyLangLexer.ADD
+        if (op == ArithmeticOperator.ADD
                 && (leftType == DataType.SAFE_WORD || rightType == DataType.SAFE_WORD)) {
             this.types.put(ctx, DataType.SAFE_WORD);
             return DataType.SAFE_WORD;
@@ -107,13 +113,15 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         // Check whether operands are computable
         if (leftType != rightType
-                || !COMPUTABLE_DATA_TYPES.contains(leftType)
-                || !COMPUTABLE_DATA_TYPES.contains(rightType)) {
-            throw new CompilerException(getIncompatibleOperandsMessage(
-                    ctx.op.getText(),
-                    leftType,
-                    rightType
-            ));
+                || !isComputable(leftType)
+                || !isComputable(rightType)) {
+            throw new CompilerException(
+                    SexyLangUtils.getIncompatibleOperandsMessage(
+                        op.getToken(),
+                        leftType,
+                        rightType
+                    )
+            );
         }
 
         this.types.put(ctx, leftType);
@@ -131,15 +139,18 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     public DataType visitRelationalExpression(SexyLangParser.RelationalExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
+        RelationalOperator op = getRelationalOperator(ctx.op.getType());
 
         if (leftType != rightType
-                || (!isComparable(leftType) && ctx.op.getType() != SexyLangLexer.EQUAL)
+                || (!isComparable(leftType) && op != RelationalOperator.EQUAL)
                 || leftType.equals(DataType.SAFE_WORD)) {
-            throw new CompilerException(getIncompatibleOperandsMessage(
-                    ctx.op.getText(),
-                    leftType,
-                    rightType
-            ));
+            throw new CompilerException(
+                    SexyLangUtils.getIncompatibleOperandsMessage(
+                        op.getToken(),
+                        leftType,
+                        rightType
+                    )
+            );
         }
 
         this.types.put(ctx, DataType.BULGE);
@@ -322,7 +333,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
             throw new CompilerException("Index must be of type bodyCount");
         }
 
-        return getArrayElementType(((ArraySymbol) arraySymbol).getType());
+        return SexyLangUtils.getArrayElementType(((ArraySymbol) arraySymbol).getType());
     }
 
     // endregion Array Access Expression
@@ -586,15 +597,14 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         DataType type = visit(ctx.type());
 
-        if (type.equals(DataType.BODY_COUNT)
-                | type.equals(DataType.LENGTH)
-                | type.equals(DataType.BULGE)
-                | type.equals(DataType.SAFE_WORD)) {
+        if (isPrimitive(type)) {
             this.currentScope.addVariableSymbol(name, type);
-        } else {
-            // TODO: This should be else if, otherwise it is not safe
+        } else if(isArray(type)) {
             this.currentScope.addArraySymbol(name, type);
+        } else {
+            assert false;
         }
+
         this.scopes.put(ctx, this.currentScope);
 
         return type;
@@ -610,7 +620,29 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
         return dataType;
     }
 
+    private boolean isComputable(DataType dataType) {
+        return SexyLangUtils.COMPUTABLE_DATA_TYPES.contains(dataType);
+    }
+
     private boolean isComparable(DataType dataType) {
-        return COMPARABLE_DATA_TYPES.contains(dataType);
+        return SexyLangUtils.COMPARABLE_DATA_TYPES.contains(dataType);
+    }
+
+    private boolean isPrimitive(DataType dataType) {
+        return SexyLangUtils.PRIMITIVE_DATA_TYPES.contains(dataType);
+    }
+
+    private boolean isArray(DataType dataType) {
+        return SexyLangUtils.ARRAY_DATA_TYPES.contains(dataType);
+    }
+
+    private ArithmeticOperator getArithmeticOperator(int opTokenIndex) {
+        OperatorFactory operatorFactory = new OperatorFactory();
+        return operatorFactory.createArithmeticOperator(opTokenIndex);
+    }
+
+    private RelationalOperator getRelationalOperator(int opTokenIndex) {
+        OperatorFactory operatorFactory = new OperatorFactory();
+        return operatorFactory.createRelationalOperator(opTokenIndex);
     }
 }

@@ -7,6 +7,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class SexyLangUtils {
+    public static final Set<DataType> PRIMITIVE_DATA_TYPES = new HashSet<DataType>() {{
+        add(DataType.BODY_COUNT);
+        add(DataType.LENGTH);
+        add(DataType.BULGE);
+        add(DataType.SAFE_WORD);
+    }};
+
+    public static final Set<DataType> ARRAY_DATA_TYPES = new HashSet<DataType>() {{
+        add(DataType.BODY_COUNT_ARRAY);
+        add(DataType.LENGTH_ARRAY);
+        add(DataType.BULGE_ARRAY);
+        add(DataType.SAFE_WORD_ARRAY);
+    }};
+
     public static final Set<DataType> COMPARABLE_DATA_TYPES = new HashSet<DataType>() {{
         add(DataType.BODY_COUNT);
         add(DataType.LENGTH);

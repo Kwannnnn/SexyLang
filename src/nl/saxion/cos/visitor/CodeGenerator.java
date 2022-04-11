@@ -2,6 +2,7 @@ package nl.saxion.cos.visitor;
 
 import nl.saxion.cos.*;
 import nl.saxion.cos.operator.ArithmeticOperator;
+import nl.saxion.cos.operator.LogicalOperator;
 import nl.saxion.cos.operator.OperatorFactory;
 import nl.saxion.cos.operator.RelationalOperator;
 import nl.saxion.cos.symbol.ArraySymbol;
@@ -315,39 +316,26 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
     public Void visitBooleanAlgebraExpression(SexyLangParser.BooleanAlgebraExpressionContext ctx) {
         visit(ctx.left);
         visit(ctx.right);
+        OperatorFactory operatorFactory = new OperatorFactory();
+        LogicalOperator operator = operatorFactory.createLogicalOperator(ctx.op.getType());
 
-        String ifInstuction = "";
-        String defaultValue = "";
-        String altValue = "";
+        String instruction = operator.getInstruction();
+        String leftFalseLabel = "jumpFirst" + labelCounter;
+        String rightFalseLabel = "jumpSecond" + labelCounter;
+        String endOperationLabel = "end" + labelCounter;
 
-        switch (ctx.op.getType()) {
-            case SexyLangLexer.AND:
-                ifInstuction = "ifeq";
-                defaultValue = "iconst_1";
-                altValue = "iconst_0";
-                break;
-            case SexyLangLexer.OR:
-                ifInstuction = "ifne";
-                defaultValue = "iconst_0";
-                altValue = "iconst_1";
-                break;
-        }
+        this.code.add(instruction + " " + leftFalseLabel);
+        this.code.add(instruction + " " + rightFalseLabel);
+        this.code.add(operator.getDefaultValue());
+        this.code.add("goto end" + labelCounter);
+        this.code.add(leftFalseLabel + ":");
+        this.code.add("pop");
+        this.code.add(rightFalseLabel + ":");
+        this.code.add(operator.getAltValue());
+        this.code.add(endOperationLabel + ":");
 
-        code.add(ifInstuction + " jumpFirst" + labelCounter);
+        this.labelCounter++;
 
-        code.add(ifInstuction + " jumpSecond" + labelCounter);
-        code.add(defaultValue);
-        code.add("goto endChained" + labelCounter);
-
-        code.add("jumpFirst" + labelCounter + ":");
-        code.add("pop");
-
-        code.add("jumpSecond" + labelCounter + ":");
-        code.add(altValue);
-
-        code.add("endChained" + labelCounter + ":");
-
-        labelCounter++;
         return null;
     }
 
