@@ -267,14 +267,20 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitNegationExpression(SexyLangParser.NegationExpressionContext ctx) {
-        long negationLabel = ++labelCounter;
+        long negationLabel = labelCounter++;
         visit(ctx.expression());
-        this.code.add("ifeq jump" + ++labelCounter);
-        this.code.add("iconst_0");
-        this.code.add("goto endNeg" + negationLabel);
-        this.code.add("jump" + labelCounter + ":");
-        this.code.add("iconst_1");
-        this.code.add("endNeg" + negationLabel + ":");
+        OperatorFactory operatorFactory = new OperatorFactory();
+        LogicalOperator op = operatorFactory.createLogicalOperator(ctx.op.getType());
+        String instruction = op.getInstruction();
+
+        String jumpLabel = "jump" + negationLabel;
+        String endOperationLabel = "end" + negationLabel;
+        this.code.add(instruction + " " + jumpLabel);
+        this.code.add(op.getDefaultValue());
+        this.code.add("goto " + endOperationLabel);
+        this.code.add(jumpLabel + ":");
+        this.code.add(op.getAltValue());
+        this.code.add(endOperationLabel + ":");
 
         return null;
     }
@@ -288,14 +294,14 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
         OperatorFactory operatorFactory = new OperatorFactory();
         RelationalOperator operator = operatorFactory.createRelationalOperator(ctx.op.getType());
 
-        code.add(getIfInstruction(operandType, operator));
-        code.add("iconst_1");
-        code.add("goto endLogic" + labelCounter);
-        code.add("jump" + labelCounter + ":");
-        code.add("iconst_0");
-        code.add("endLogic" + labelCounter + ":");
+        this.code.add(getIfInstruction(operandType, operator));
+        this.code.add("iconst_1");
+        this.code.add("goto endLogic" + labelCounter);
+        this.code.add("jump" + labelCounter + ":");
+        this.code.add("iconst_0");
+        this.code.add("endLogic" + labelCounter + ":");
 
-        labelCounter++;
+        this.labelCounter++;
         return null;
     }
 

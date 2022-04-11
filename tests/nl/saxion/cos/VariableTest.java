@@ -25,6 +25,7 @@ public class VariableTest extends TestBase {
     private static final String STRING = "shrek";
     private static final int INTEGER_1 = 37;
     private static final int INTEGER_2 = 42;
+    private static final int INTEGER_3 = 256;
     private static final float FLOAT = 37.42F;
 
     private Compiler c;
@@ -58,7 +59,7 @@ public class VariableTest extends TestBase {
         // insert bodyCount 37 in var1
         // moan var1
         String srcCode =
-                INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_1 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
+                INSERT_KEYWORD + " " + BODYCOUNT_KEYWORD + " " + INTEGER_3 + " " + IN_KEYWORD + " " + VAR_IDENT1 + " " +
                 MOAN_KEYWORD + " " + VAR_IDENT1;
         JasminBytecode code = this.c.compileString(srcCode, "integerVarDeclaration");
         assertNotNull(code);
@@ -66,7 +67,7 @@ public class VariableTest extends TestBase {
         // Check that output matches what we expect
         List<String> output = runCode(code);
         assertArrayEquals(new String[] {
-                String.valueOf(INTEGER_1)
+                String.valueOf(INTEGER_3)
         }, output.toArray());
     }
 

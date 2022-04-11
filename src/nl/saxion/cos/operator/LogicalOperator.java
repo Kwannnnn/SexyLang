@@ -5,7 +5,7 @@ import nl.saxion.cos.SexyLangLexer;
 public enum LogicalOperator {
     AND(SexyLangLexer.VOCABULARY.getDisplayName(SexyLangLexer.AND), "ifeq", "iconst_1", "iconst_0"),
     OR(SexyLangLexer.VOCABULARY.getDisplayName(SexyLangLexer.OR), "ifne", "iconst_0", "iconst_1"),
-    NEG(SexyLangLexer.VOCABULARY.getDisplayName(SexyLangLexer.NEG), "ifeq", "iconst_1", "iconst_0");
+    NEG(SexyLangLexer.VOCABULARY.getDisplayName(SexyLangLexer.NEG), "ifeq", "iconst_0", "iconst_1");
 
     private final String token;
     private final String instruction;

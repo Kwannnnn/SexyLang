@@ -5,7 +5,7 @@ program: (expression | statement)* EOF;
 // EXPRESSIONS
 expression
     : L_PAREN expression R_PAREN                                                    #GroupExpression
-    | NEG expression                                                                #NegationExpression
+    | op=NEG expression                                                             #NegationExpression
     | left=expression op=(MUL | DIV) right=expression                               #MulDivExpression
     | left=expression op=(ADD | SUB) right=expression                               #AddSubExpression
     | left=expression op=(EQUAL | NOT_EQUAL | LE | GE | LT | GT) right=expression   #RelationalExpression

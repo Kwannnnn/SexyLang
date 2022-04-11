@@ -62,6 +62,32 @@ public class ArrayTest extends TestBase{
     }
 
     @Test
+    @DisplayName("Bad Weather: Undefined array")
+    void badWeather_undefined_array() throws Exception {
+        JasminBytecode code = this.c.compileString(
+                "ass[69]", "undefinedArray");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Variable is not an array")
+    void badWeather_variable_not_array() throws Exception {
+        JasminBytecode code = this.c.compileString(
+                "insert bodyCount 69 in ass " +
+                "moan ass[69]", "variableNotArray");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Index not an int")
+    void badWeather_index_not_int() throws Exception {
+        JasminBytecode code = this.c.compileString(
+                "insert bodyCounts [6, 9, 6] in ass "
+                        + "moan ass[6.9]", "bodyCountsValAcc");
+        assertNull(code);
+    }
+
+    @Test
     @DisplayName("Good Weather: Simple bodyCounts value change")
     void goodWeather_bodyCounts_valueChange() throws Exception {
         JasminBytecode code = this.c.compileString(
@@ -503,7 +529,6 @@ public class ArrayTest extends TestBase{
                 "insert SafeWords [\"shrek\", \"fiona\"] in ass "
                         + "insert [hard, soft] in ass", "SafeWordsAssInvalid");
         assertNull(code);
-
     }
 
     @Test

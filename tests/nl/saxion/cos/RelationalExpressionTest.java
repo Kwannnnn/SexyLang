@@ -17,6 +17,7 @@ public class RelationalExpressionTest extends TestBase {
     public static final String LE_SIGN = "<=";
     public static final String GE_SIGN = ">=";
     public static final String EQUALS_SIGN = "==";
+    public static final String NOT_EQUALS_SIGN = "!=";
     // Test values
     public static final String BOOLEAN = "hard";
     public static final String BOOLEAN_FALSE = "soft";
@@ -324,6 +325,22 @@ public class RelationalExpressionTest extends TestBase {
         List<String> output = runCode(code);
         assertArrayEquals(new String[] {
                 String.valueOf(INTEGER_1 == INTEGER_1)
+        }, output.toArray());
+    }
+
+    @Test
+    @DisplayName("Good Weather: Int != Int is valid")
+    void int_NOT_EQUALS_int() throws Exception {
+        // moan 37 != 42
+        String srcCode =
+                MOAN_KEYWORD + " " + INTEGER_1 + NOT_EQUALS_SIGN + INTEGER_2;
+        JasminBytecode code = this.c.compileString(srcCode, "intNOT_EQUALSint_true");
+        assertNotNull(code);
+
+        // Check that output matches what we expect
+        List<String> output = runCode(code);
+        assertArrayEquals(new String[] {
+                String.valueOf(INTEGER_1 != INTEGER_2)
         }, output.toArray());
     }
 

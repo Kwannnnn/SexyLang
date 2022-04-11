@@ -1,4 +1,4 @@
-// Generated from /Users/quan/Projects/compilers_and_operating_systems/src/SexyLang.g4 by ANTLR 4.9.2
+// Generated from /Users/kristiyan/Documents/Saxion/Y2/Q3/compilers-and-os/61/src/SexyLang.g4 by ANTLR 4.9.2
 package nl.saxion.cos;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -424,10 +424,11 @@ public class SexyLangParser extends Parser {
 		}
 	}
 	public static class NegationExpressionContext extends ExpressionContext {
-		public TerminalNode NEG() { return getToken(SexyLangParser.NEG, 0); }
+		public Token op;
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
+		public TerminalNode NEG() { return getToken(SexyLangParser.NEG, 0); }
 		public NegationExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
@@ -505,7 +506,7 @@ public class SexyLangParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(80);
-				match(NEG);
+				((NegationExpressionContext)_localctx).op = match(NEG);
 				setState(81);
 				expression(17);
 				}
