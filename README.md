@@ -7,14 +7,19 @@ SexyLang is an esoteric programming language inspired by the fountain of life, t
 ### 1.1. Arithmetic operators
 - Addition ( *+* )
 - Subtraction ( *-* )
-- Multiplication ( *\** )
+- Multiplication ( * )
 - Division ( \/ )
 
-### 1.2. Logic operators
-- Negation ( *!* )
+### 1.2. Relational operators
 - Equals ( *==* )
-- Less than ( *<* )
-- Greater than ( *>* )
+- Not Equals ( *!=* )
+- Less Than ( *<* )
+- Less Equals ( *<=* )
+- Greater Than ( *>* )
+- Greater Equals ( *>=* )
+
+### 1.3. Logic operators
+- Negation ( *!* )
 - And ( *and* )
 - Or ( *or* )
 
@@ -28,7 +33,21 @@ SexyLang is an esoteric programming language inspired by the fountain of life, t
 | `length`    | Represents the float data type that stores double-precision floating-point numbers                                                                                  |
 | `SafeWord`  | Represents a sequence of characters that together form a text                                                                                                       |
 
-## 3. Statements
+## 3. Extra features 
+### 3.1. Array Types
+
+| Type         | Description                                                                |
+|--------------|----------------------------------------------------------------------------|
+| `bulges`     | A reference data type used to store multiple <code>bulge</code> values     |
+| `bodyCounts` | A reference data type used to store multiple <code>bodyCount</code> values |
+| `lengths`    | A reference data type used to store multiple <code>length</code> values    |
+| `SafeWords`  | A reference data type used to store multiple <code>SafeWord</code> values  |
+
+### 3.2. String concatenation
+SexyLang supports a feature often found in popular programming languages: ***String concatenation***.
+This is simply done by using the '+' operator.
+
+## 4. Statements
 
 SexyLang has the following statements
 
@@ -95,13 +114,13 @@ SexyLang has the following statements
     </tr>
     <tr>
         <td>
-            <b>bedActivity</b> <i>[name]</i> <i>[return type?]</i> (<i>[parameters?]</i>)
+            <b>bedActivity</b> <i>[name]</i> <i>[return type]</i> (<i>[parameters?]</i>)
         </td>
         <td>
-            Function declaration; if no return type is specified, type void is inferred
+            Function declaration
         </td>
         <td>
-            <pre><b>bedActivity</b> stop (SafeWord safeword) {<br>    <b>moanLoud</b> safeword<br>}</pre>
+            <pre><b>bedActivity</b> stop empty (SafeWord safeword) {<br>    <b>moanLoud</b> safeword<br>}</pre>
         </td>
     </tr>
     <tr>
@@ -170,94 +189,115 @@ SexyLang has the following statements
 #### **HelloSexy.sexy** - a very basic program that prints the String *Hello Sexy!* on the console
 
 <pre>
-<b>bedActivity</b> intercourse() {
+<b>bedActivity</b> intercourse empty () {
     moanLoud "Hello Sexy!"
+    ejaculate
 }
 </pre>
 
 #### **ItsMoreComplicated.sexy** - a program that stores a number and increments it based on a condition
 
 <pre>
-<b>bedActivity</b> moreComplicated() {
+<b>bedActivity</b> moreComplicated empty () {
     <b>insert bodyCount</b> 0 <b>in</b> rounds
     <b>insert bulge soft in</b> isTired
     <b>if</b> (!isTired) {
         <b>insert</b> rounds + 1 <b>in</b> rounds
         <b>moanLoud</b> "Another round, baby!"
     }
+
+    ejaculate
 }
 </pre>
 
 #### **ItsWayMoreComplicated.sexy** - a program that prints out different Strings based on different conditions
 
 <pre>
-<b>bedActivity</b> wayMoreComplicated() {
+<b>bedActivity</b> wayMoreComplicated empty () {
     <b>insert bodyCount</b> 16 <b>in</b> p1Age
     <b>insert bodyCount</b> 21 <b>in</b> p2Age
-    <b>insert bulge soft in</b> isConsensual
+    <b>insert bulge hard in</b> isConsensual
+    <b>insert SafeWord "" in</b> message
+
     <b>if</b> (isConsensual) {
         <b>if</b> (p1Age < 16 <b>or</b> p2Age < 16) {
-            moanLoud "Hey, that's illegal!"
+            insert "Hey, that's illegal!" in message
         } <b>else</b> {
-            moanLoud "Here we go!"
+            insert "Here we go!" in message
         }
     } <b> else </b> {
-        moanLoud "I respect your boring decision"
+        insert "I respect your boring decision" in message
     }
+
+    moanLoud message
+
+    ejaculate
 }
 </pre>
 
-#### **Safeword.sexy** - a program that declares a function that accepts a parameter and returns a result
+#### **Safewords.sexy** - a program that declares a function that accepts String parameters and returns an array. A concatenated String is then formed from the array and printed out.
 
 <pre>
-<b>bedActivity</b> safeword() {
-    <b>insert Safeword</b> "shrek" <b>in</b> safeword
-    <b>insert bulge</b> checkSafeword(safeword) <b>in</b> safewordIsCorrect
+<b>bedActivity</b> getSafewords SafeWords() {
+    ejaculate ["Juice it", "or Lose it"]
+}
 
-    <b>bedActivity bulge</b> checkSafeword(Safeword safeword) {
-        <b>if</b> (safeword != "shrek") {
-            <b>return false</b>
+<b>insert</b> SafeWords getSafewords() <b>in</b> safeWordArray
+
+<b>insert</b> SafeWord "" <b>in</b> safePhrase
+
+<b>insert</b> bodyCount 0 <b>in</b> i 
+lube (i < 2) {
+    <b>insert</b> safePhrase + " " + safeWordArray[i] <b>in</b> safePhrase
+    <b>insert</b> i + 1 <b>in</b> i
+}
+
+moanLoud safePhrase
+</pre>
+
+#### **Toy.sexy** - a program that takes user input and continually runs in a loop until a certain condition is false
+<pre>
+<b>bedActivity</b> playToy empty (length toyLength) {
+    <b>insert length</b> 20.0 <b>in</b> toyBattery
+    <b>lube</b> (toyBattery > 0.0) {
+        <b>if</b> (toyLength > 20.0) {
+            moanLoud "It is hitting my deepest spot!"
         }
-        <b>return true</b>
-    }
-}
-</pre>
 
-#### **Toy.sexy** - a program that continually runs in a loop until a certain condition is false
-<pre>
-<b>bedActivity</b> playToy() {
-    <b>insert length</b> 69.6 <b>in</b> toyBattery
-    <b>lube</b> (toyBattery >= 0) {
         <b>moanLoud</b> "It's better than the real thing!"
-        <b>insert</b> toyBattery - 10 <b>in</b> toyBattery
+        <b>insert</b> toyBattery - 10.0 <b>in</b> toyBattery
     }
     <b>moanLoud</b> "The fun is over. No more battery!"
-}
 
+    ejaculate
+}
+    
+playToy(whatLength())
 </pre>
 ### 4.2. Bad weather examples
 #### **WrongLength.sexy** - a basic program that assigns a wrong value to a variable type and then tries to print it.
 
 <pre>
-<b>bedActivity</b> wrongLength() {
+<b>bedActivity</b> wrongLength empty () {
     <b>insert length</b> "long" <b>in</b> dLength
     moanLoud dLength
+
+    ejaculate
 }
 </pre>
 
-#### **NoLength.sexy** - a basic program that assigns a value to a variable that has not been declared.
+#### **FailedEjaculation.sexy** - a basic function that returns an invalid type
 
 <pre>
-<b>bedActivity</b> noLength() {
-    <b>insert</b> "long" <b>in</b> dLength
-    moanLoud dLength
+<b>bedActivity</b> failedEjaculation empty () {
+    ejaculate "I am arriving baby!"
 }
 </pre>
 
 #### **Empty.sexy** - a program that has an if statement with an empty condition
 
 <pre>
-<b>bedActivity</b> empty() {
+<b>bedActivity</b> emptiness empty () {
     <b>insert bulge soft in</b> isTired
     <b>if</b> () {
         <b>moanLoud</b> "Another round, baby!"
@@ -268,29 +308,27 @@ SexyLang has the following statements
 #### **WrongToy.sexy** - a program that performs an infinite loop.
 
 <pre>
-<b>bedActivity</b> wrongToy() {
+<b>bedActivity</b> wrongToy empty () {
     <b>insert length</b> 69.6 <b>in</b> toyBattery
     <b>lube</b> (toyBattery >= 0) {
         <b>moanLoud</b> "It's better than the real thing!"
     }
+
     <b>moanLoud</b> "The fun is over. No more battery!"
+
+    ejaculate
 }
 </pre>
 
 #### **WrongSafeword.sexy** - a program that declares a function that accepts a parameter and returns a result. However, this time the parameter is of the wrong type.
 
 <pre>
-<b>bedActivity</b> wrongSafeword() {
-    <b>insert bulge</b> false <b>in</b> safeword
-    <b>insert bulge</b> checkSafeword(safeword) <b>in</b> safewordIsCorrect
-
-    <b>bedActivity bulge</b> checkSafeword(Safeword safeword) {
-        <b>if</b> (safeword != "shrek") {
-            <b>return false</b>
-        }
-        <b>return true</b>
-    }
+<b>bedActivity</b> checkSafeword bulge (SafeWord safeword) {
+    <b>ejaculate hard</b>
 }
+
+<b>insert bulge</b> soft <b>in</b> safeWord
+<b>insert bulge</b> checkSafeword(safeWord) <b>in</b> safewordIsCorrect
 </pre>
 
 

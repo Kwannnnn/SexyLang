@@ -1,5 +1,15 @@
-insert bodyCount 3 in rounds
-lube (rounds > 0) {
-    moanLoud "Another round baby!"
-    insert rounds - 1 in rounds
+bedActivity getSafewords SafeWords() {
+    ejaculate ["Juice it", "or Lose it"]
 }
+
+insert SafeWords getSafewords() in safeWordArray
+
+insert SafeWord "" in safePhrase
+
+insert bodyCount 0 in i 
+lube (i < 2) {
+    insert safePhrase + " " + safeWordArray[i] in safePhrase
+    insert i + 1 in i
+}
+
+moanLoud safePhrase
