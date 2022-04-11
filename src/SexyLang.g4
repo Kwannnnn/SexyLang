@@ -42,6 +42,7 @@ statement
     | ifStmt
     | lubeStmt
     | bedActivityStmt
+    | COMMENT
     ;
 
 blockStatement
@@ -51,6 +52,7 @@ blockStatement
     | moanStmt
     | ifStmt
     | lubeStmt
+    | COMMENT
     ;
 
 block
@@ -70,13 +72,13 @@ ifStmt: command=IF L_PAREN condition=expression R_PAREN block elseIfStmt* elseSt
 elseIfStmt: command=ELSEIF L_PAREN condition=expression R_PAREN block;
 elseStmt: command=ELSE block;
 lubeStmt: command=LUBE condition=expression block;
-bedActivityStmt: BEDACTIVITY name=IDENTIFIER type L_PAREN args? R_PAREN methodBlock;
+bedActivityStmt: BEDACTIVITY name=IDENTIFIER type L_PAREN parameterList? R_PAREN methodBlock;
 
-args
-    : argDeclaration (COMMA argDeclaration)*
+parameterList
+    : parameterDeclaration (COMMA parameterDeclaration)*
     ;
 
-argDeclaration
+parameterDeclaration
     : type name=IDENTIFIER
     ;
 
@@ -98,7 +100,7 @@ bulgeLiteral
     : HARD
     | SOFT
     ;
-safeWordLiteral: STRING ;
+safeWordLiteral: StringLiteral;
 bodyCountLiteral: '0' | '-'? NUMBER;
 lengthLiteral: bodyCountLiteral ('.' ('0' | NUMBER))?;
 
@@ -140,6 +142,7 @@ IF:             'if';
 ELSEIF:         'else if';
 ELSE:           'else';
 LUBE:           'lube';
+WHAT_LENGTH:    'whatLength';
 // Other
 HARD:           'hard';
 SOFT:           'soft';
@@ -152,6 +155,7 @@ R_CURLY:    '}';
 L_SQUARE:   '[';
 R_SQUARE:   ']';
 COMMA:      ',';
+QUOTE:      '"';
 
 // OPERATORS
 // Arithmetic
@@ -169,13 +173,22 @@ LE:         '<=';
 AND:        'and';
 OR:         'or';
 
-WHAT_LENGTH: 'whatLength';
+// Retrieved from https://github.com/antlr/grammars-v4/blob/master/java/java8/Java8Lexer.g4
+StringLiteral
+    : QUOTE StringCharacters? QUOTE
+    ;
 
-// TODO: Copy STRING rules from java
-//STRING: '"' [a-zA-Z0-9 ]* '"';
-STRING: '"' (~["\\\r\n])* '"';
+fragment
+StringCharacters
+	:	STRING_CHARACTER+
+	;
+
+fragment
+STRING_CHARACTER
+	:	~["\\\r\n]
+	|	'\\' [btnfr"'\\]
+	;
 IDENTIFIER: [A-Za-z][A-Za-z0-9_]*;
-NUMBER : [1-9][0-9]*;
-
-WS: [\r\n\t ]+ -> skip;
-COMMENT:    '3==D';
+NUMBER:     [1-9][0-9]*;
+COMMENT:    '3==D' ~[\r\n]* -> skip;
+WS:         [\r\n\t ]+ -> skip;

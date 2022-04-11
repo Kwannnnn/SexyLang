@@ -245,17 +245,17 @@ public interface SexyLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBedActivityStmt(SexyLangParser.BedActivityStmtContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SexyLangParser#args}.
+	 * Visit a parse tree produced by {@link SexyLangParser#parameterList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArgs(SexyLangParser.ArgsContext ctx);
+	T visitParameterList(SexyLangParser.ParameterListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SexyLangParser#argDeclaration}.
+	 * Visit a parse tree produced by {@link SexyLangParser#parameterDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArgDeclaration(SexyLangParser.ArgDeclarationContext ctx);
+	T visitParameterDeclaration(SexyLangParser.ParameterDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SexyLangParser#type}.
 	 * @param ctx the parse tree

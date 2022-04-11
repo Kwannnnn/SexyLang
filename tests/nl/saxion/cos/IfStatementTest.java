@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IfStatementTest extends TestBase {
     // Language specifics
@@ -113,5 +112,37 @@ public class IfStatementTest extends TestBase {
         assertArrayEquals(new String[] {
                 STRING_1
         }, output.toArray());
+    }
+
+    @Test
+    @DisplayName("Bad Weather: if condition not a boolean")
+    void badWeather_if_condition_not_a_boolean() throws Exception {
+        // if ("shrek") {
+        //    moan "shrek"
+        // }
+        String srcCode =
+                IF_KEYWORD + "(\"" + STRING_1 + "\")" + "{" +
+                        MOAN_KEYWORD + " \"" + STRING_1 + "\"" +
+                        "}" + ELSE_KEYWORD + "{" +
+                        MOAN_KEYWORD + " \"" + STRING_2 + "\"" +
+                        "}";
+        JasminBytecode code = this.c.compileString(srcCode, "ifConditionNotABoolean");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: else if condition not a boolean")
+    void badWeather_else_if_condition_not_a_boolean() throws Exception {
+        // if ("shrek") {
+        //    moan "shrek"
+        // }
+        String srcCode =
+                IF_KEYWORD + "(\"" + STRING_1 + "\")" + "{" +
+                        MOAN_KEYWORD + " \"" + STRING_1 + "\"" +
+                        "}" + ELSE_KEYWORD + "{" +
+                        MOAN_KEYWORD + " \"" + STRING_2 + "\"" +
+                        "}";
+        JasminBytecode code = this.c.compileString(srcCode, "elseIfConditionNotABoolean");
+        assertNull(code);
     }
 }

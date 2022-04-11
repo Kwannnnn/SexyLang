@@ -627,4 +627,24 @@ public class BedActivityStatementTest extends TestBase {
                         "}", "bulges_wrong_ejaculate");
         assertNull(code);
     }
+
+    @Test
+    @DisplayName("Bad Weather: Arg already defined in scope (same types)")
+    void badWeather_arg_already_in_scope_same_types() throws Exception {
+        JasminBytecode code = this.c.compileString(
+                "bedActivity intercourse bulges (bulge b1, bulge b1) {" +
+                        "ejaculate hard" +
+                        "}", "badWeather_arg_already_in_scope_same_types");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Bad Weather: Arg already defined in scope (different types)")
+    void badWeather_arg_already_in_scope_different_types() throws Exception {
+        JasminBytecode code = this.c.compileString(
+                "bedActivity intercourse bulges (bulge b1, bodyCount b1) {" +
+                        "ejaculate hard" +
+                        "}", "badWeather_arg_already_in_scope_different_types");
+        assertNull(code);
+    }
 }

@@ -129,8 +129,8 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         this.currentScope = this.currentScope.openScope();
         // Check if there are any args and visit them
-        if(ctx.args() != null) {
-            ctx.args().argDeclaration().forEach(arg -> {
+        if(ctx.parameterList() != null) {
+            ctx.parameterList().parameterDeclaration().forEach(arg -> {
                 argTypes.add(visit(arg));
             });
         }
@@ -157,7 +157,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     }
 
     @Override
-    public DataType visitArgDeclaration(SexyLangParser.ArgDeclarationContext ctx) {
+    public DataType visitParameterDeclaration(SexyLangParser.ParameterDeclarationContext ctx) {
         String name = ctx.name.getText();
         Symbol symbol = this.currentScope.lookup(name);
 
@@ -174,6 +174,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                 | type.equals(DataType.SAFE_WORD)) {
             this.currentScope.addVariableSymbol(name, type);
         } else {
+            // TODO: This should be else if, otherwise it is not safe
             this.currentScope.addArraySymbol(name, type);
         }
         this.scopes.put(ctx, this.currentScope);
