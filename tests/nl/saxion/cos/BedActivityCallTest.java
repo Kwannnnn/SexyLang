@@ -224,4 +224,21 @@ public class BedActivityCallTest extends TestBase {
                         " moanLoud unknown(37)", "badWeather_unknown_method");
         assertNull(code);
     }
+
+    @Test
+    @DisplayName("Good Weather: Simple bodyCount Function with one bodyCounts arg ")
+    void void_bodyCounts_arg() throws Exception {
+        JasminBytecode code = this.c.compileString(
+                "bedActivity intercourse bodyCount (bodyCounts numbers) {" +
+                        " ejaculate numbers[0]" +
+                        " }" +
+                        " moanLoud intercourse([1, 2, 3])", "void_bodyCounts_arg");
+        assertNotNull(code);
+
+        // Check that output matches what we expect
+        List<String> output = runCode(code);
+        assertArrayEquals(new String[] {
+                "1"
+        }, output.toArray());
+    }
 }

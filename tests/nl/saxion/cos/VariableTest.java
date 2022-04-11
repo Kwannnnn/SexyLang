@@ -209,4 +209,31 @@ public class VariableTest extends TestBase {
         JasminBytecode code = this.c.compileString(srcCode, "varIdNotFound");
         assertNull(code);
     }
+
+    @Test
+    @DisplayName("Bad Weather: method identifier used as variable")
+    void badWeather_method_identifier_as_variable() throws Exception {
+        String srcCode = "bedActivity intercourse empty() {" +
+                "ejaculate" +
+                "} " +
+                "intercourse";
+        JasminBytecode code = this.c.compileString(srcCode, "methodIdAsVar");
+        assertNull(code);
+    }
+
+    @Test
+    @DisplayName("Good Weather: storing array value in a variable")
+    void goodWeather_SafeWords_valueChange() throws Exception {
+        JasminBytecode code = this.c.compileString(
+                "insert SafeWords [\"shrek\", \"fiona\"] in ass "
+                        + "insert SafeWord ass[0] in b "
+                        + "moan b", "SafeWordsValChange");
+        assertNotNull(code);
+
+        // Check that output matches what we expect
+        List<String> output = runCode(code);
+        assertArrayEquals(new String[]{
+                "shrek"
+        }, output.toArray());
+    }
 }

@@ -33,10 +33,6 @@ public class MethodSymbol extends Symbol {
     }
 
     public DataType getDataTypeAtIndex(int index) {
-        // TODO: Use an optional
-        if (index < 0 || index >= this.args.size()) {
-            return null;
-        }
 
         return this.args.get(index);
     }

@@ -16,16 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserInputTest extends TestBase{
     // Language specifics
     public static final String MOAN_KEYWORD = "moan";
-    public static final String ADD_SIGN = "+";
-    public static final String SUB_SIGN = "-";
-    public static final String MUL_SIGN = "*";
-    public static final String DIV_SIGN = "/";
     public static final String WHAT_LENGTH_CALL = "whatLength()";
-    // Test values
-    public static final String STRING = "shrek";
-    public static final int INTEGER = 37;
-    public static final float FLOAT = 42.37F;
-    public static final String BOOLEAN = "hard";
 
     private Compiler c = new Compiler();
     private final InputStream oldIn = System.in;
