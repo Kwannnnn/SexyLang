@@ -2,7 +2,7 @@ package nl.saxion.cos.symbol;
 
 import nl.saxion.cos.type.DataType;
 
-public class ArraySymbol extends Symbol{
+public class ArraySymbol extends Symbol {
     private final int index;
     private final DataType type;
 

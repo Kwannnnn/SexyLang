@@ -43,7 +43,8 @@ public class UserInputTest extends TestBase{
     @Test
     @DisplayName("Good weather whatLength() call")
     void goodWeather_whatLengthCall() throws Exception {
-        String input = "6,9";
+        String input = String.valueOf(6.9F);
+
         ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 

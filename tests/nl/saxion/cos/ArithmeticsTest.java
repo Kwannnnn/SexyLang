@@ -24,7 +24,6 @@ public class ArithmeticsTest extends TestBase {
     private Compiler c;
 
     @BeforeEach
-
     void setUp() {
         this.c = new Compiler();
     }

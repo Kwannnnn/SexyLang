@@ -101,7 +101,6 @@ lengthLiteral: bodyCountLiteral ('.' ('0' | NUMBER))?;
 
 bodyCountElements: bodyCountLiteral (COMMA bodyCountLiteral)*;
 bodyCountArrayLiteral: L_SQUARE bodyCountElements? R_SQUARE;
-// insert bodyCountArray [6, 9] in ass
 
 lengthArrayElements: lengthLiteral (COMMA lengthLiteral)*;
 lengthArrayLiteral: L_SQUARE lengthArrayElements? R_SQUARE;

@@ -445,17 +445,20 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
     @Override
     public DataType visitVarAssignment(SexyLangParser.VarAssignmentContext ctx) {
-        String variableName = ctx.IDENTIFIER().getText();
-        VariableSymbol variableSymbol = (VariableSymbol) this.currentScope
-                .lookup(variableName);
+        String name = ctx.IDENTIFIER().getText();
+        Symbol symbol = this.currentScope
+                .lookup(name);
 
         // Checks if a variable with the same name exist in the scope
-        if (variableSymbol == null) {
-            throw new CompilerException("Variable '"+ variableName
+        if (symbol == null) {
+            throw new CompilerException("Variable '"+ name
                     + "' is not defined in current scope");
         }
 
-        DataType varType = variableSymbol.getType();
+        DataType varType = symbol instanceof VariableSymbol ?
+                ((VariableSymbol) symbol).getType()
+                : ((ArraySymbol) symbol).getType();
+
         DataType exprType = visit(ctx.expression());
 
         // Check if type is specified during the declaration
@@ -464,7 +467,15 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                     " the type of the given value!");
         }
 
-        this.types.put(ctx, variableSymbol.getType());
+        if (isPrimitive(varType)) {
+            this.currentScope.addVariableSymbol(name, varType);
+        } else if(isArray(varType)) {
+            this.currentScope.addArraySymbol(name, varType);
+        } else {
+            assert false;
+        }
+
+        this.types.put(ctx, varType);
         this.scopes.put(ctx, this.currentScope);
         return null;
     }
