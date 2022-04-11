@@ -2,6 +2,7 @@ package nl.saxion.cos.visitor;
 
 import nl.saxion.cos.SexyLangUtils;
 import nl.saxion.cos.operator.ArithmeticOperator;
+import nl.saxion.cos.operator.LogicalOperator;
 import nl.saxion.cos.operator.OperatorFactory;
 import nl.saxion.cos.operator.RelationalOperator;
 import nl.saxion.cos.type.DataType;
@@ -168,11 +169,18 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
     public DataType visitBooleanAlgebraExpression(SexyLangParser.BooleanAlgebraExpressionContext ctx) {
         DataType leftType = visit(ctx.left);
         DataType rightType = visit(ctx.right);
+        OperatorFactory operatorFactory = new OperatorFactory();
+        LogicalOperator op = operatorFactory.createLogicalOperator(ctx.op.getType());
 
-        if (leftType != rightType) {
-            throw new CompilerException("Logic operations on operands with different types is not allowed");
-        } else if (!leftType.equals(DataType.BULGE)) {
-            throw new CompilerException("Incomparable type for chained logic operations. Only bulge allowed.");
+        if (leftType != rightType
+                || leftType != DataType.BULGE) {
+            throw new CompilerException(
+                    SexyLangUtils.getIncompatibleOperandsMessage(
+                            op.getToken(),
+                            leftType,
+                            rightType
+                    )
+            );
         }
 
         this.types.put(ctx, DataType.BULGE);
@@ -426,14 +434,12 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                     " the type of the given value!");
         }
 
-        if (exprType.equals(DataType.BODY_COUNT)
-                | exprType.equals(DataType.LENGTH)
-                | exprType.equals(DataType.BULGE)
-                | exprType.equals(DataType.SAFE_WORD)) {
+        if (isPrimitive(exprType)) {
             this.currentScope.addVariableSymbol(variableName, varType);
-
-        } else {
+        } else if (isArray(exprType)) {
             this.currentScope.addArraySymbol(variableName, varType);
+        } else {
+            assert false;
         }
         this.scopes.put(ctx, this.currentScope);
         return null;
@@ -536,7 +542,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         this.currentScope = this.currentScope.openScope();
         // Check if there are any args and visit them
-        if(ctx.parameterList() != null) {
+        if (ctx.parameterList() != null) {
             ctx.parameterList().parameterDeclaration().forEach(arg -> {
                 argTypes.add(visit(arg));
             });
@@ -602,7 +608,7 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
 
         if (isPrimitive(type)) {
             this.currentScope.addVariableSymbol(name, type);
-        } else if(isArray(type)) {
+        } else if (isArray(type)) {
             this.currentScope.addArraySymbol(name, type);
         } else {
             assert false;

@@ -44,7 +44,7 @@ public final class SexyLangUtils {
     public static String getIncompatibleOperandsMessage(String operator,
                                                  DataType leftOperandType,
                                                  DataType rightOperandType) {
-        return "ArithmeticOperator '" + operator + "'" + " cannot be applied to " +
+        return "Operator '" + operator + "'" + " cannot be applied to " +
                 leftOperandType.getName() + " and " +
                 rightOperandType.getName() + " operands.";
     }
