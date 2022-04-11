@@ -467,14 +467,6 @@ public class TypeChecker extends SexyLangBaseVisitor<DataType> {
                     " the type of the given value!");
         }
 
-        if (isPrimitive(varType)) {
-            this.currentScope.addVariableSymbol(name, varType);
-        } else if(isArray(varType)) {
-            this.currentScope.addArraySymbol(name, varType);
-        } else {
-            assert false;
-        }
-
         this.types.put(ctx, varType);
         this.scopes.put(ctx, this.currentScope);
         return null;
