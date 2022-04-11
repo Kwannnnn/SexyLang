@@ -233,13 +233,13 @@ public class CodeGenerator extends SexyLangBaseVisitor<Void> {
 
     @Override
     public Void visitLubeStmt(SexyLangParser.LubeStmtContext ctx) {
-        long lubeCount = ++labelCounter;
+        long lubeCount = labelCounter++;
         this.code.add("goto begin" + lubeCount);
-        this.code.add("do" + ++labelCounter + ":");
+        this.code.add("do" + lubeCount + ":");
         visit(ctx.block());
         this.code.add("begin" + lubeCount + ":");
         visit(ctx.condition);
-        this.code.add("ifne do" + labelCounter);
+        this.code.add("ifne do" + lubeCount);
 
         return null;
     }
